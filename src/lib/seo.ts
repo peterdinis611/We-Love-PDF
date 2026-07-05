@@ -1,12 +1,16 @@
-import { PUBLIC_SITE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { tools } from '$lib/tools';
+
+const DEFAULT_SITE_URL = 'https://welovepdf.app';
 
 export const site = {
 	name: 'WeLovePDF',
 	tagline: 'Every PDF tool you need',
 	description:
 		'Free online PDF tools — merge, split, compress, rotate, watermark, sign, encrypt and more. 100% private, runs entirely in your browser.',
-	url: PUBLIC_SITE_URL || 'https://welovepdf.app',
+	get url() {
+		return env.PUBLIC_SITE_URL || DEFAULT_SITE_URL;
+	},
 	locale: 'en_US',
 	twitter: '@welovepdf'
 } as const;
