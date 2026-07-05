@@ -7,8 +7,9 @@
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { downloadBlob, formatFileSize, getPageCount, parsePageRanges } from '$lib/pdf/operations';
+	import { downloadBlob, formatFileSize, getPageCount, parsePageIndexes } from '$lib/pdf/operations';
 	import { blobToJpeg } from '$lib/pdf/convert';
+	import { downloadZip } from '$lib/pdf/zip';
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -18,6 +19,7 @@
 	let pageRange = $state('');
 	let imageFormat = $state<'png' | 'jpeg'>('png');
 	let jpegQuality = $state(0.92);
+	let downloadMode = $state<'zip' | 'separate'>('zip');
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
@@ -35,10 +37,7 @@
 	}
 
 	function getPageIndexes(): number[] {
-		if (!pageRange.trim()) {
-			return Array.from({ length: pageCount }, (_, i) => i);
-		}
-		return [...new Set(parsePageRanges(pageRange, pageCount).flat())].sort((a, b) => a - b);
+		return parsePageIndexes(pageRange, pageCount);
 	}
 
 	async function handleConvert() {
@@ -57,24 +56,30 @@
 				.openDocumentBuffer({ id: 'convert', content: buffer })
 				.toPromise();
 
+			const ext = imageFormat === 'jpeg' ? 'jpg' : 'png';
+			const entries: { name: string; data: Blob }[] = [];
 			let totalSize = 0;
+
 			for (const i of indexes) {
 				const page = doc.pages[i];
 				if (!page) continue;
-				let blob = await pdfEngine.engine
-					.renderPage(doc, page, { scaleFactor })
-					.toPromise();
-
+				let blob = await pdfEngine.engine.renderPage(doc, page, { scaleFactor }).toPromise();
 				if (imageFormat === 'jpeg') {
 					blob = await blobToJpeg(blob, jpegQuality);
 				}
-
 				totalSize += blob.size;
-				const ext = imageFormat === 'jpeg' ? 'jpg' : 'png';
-				downloadBlob(blob, `page-${i + 1}.${ext}`, blob.type || `image/${imageFormat}`);
+				entries.push({ name: `page-${i + 1}.${ext}`, data: blob });
 			}
-			const extLabel = imageFormat === 'jpeg' ? 'JPEG' : 'PNG';
-			success = `Downloaded ${indexes.length} ${extLabel} image${indexes.length === 1 ? '' : 's'} (${formatFileSize(totalSize)})`;
+
+			const baseName = file.name.replace(/\.pdf$/i, '');
+			if (downloadMode === 'zip' || entries.length > 1) {
+				const zipSize = await downloadZip(entries, `${baseName}-pages.zip`);
+				const extLabel = imageFormat === 'jpeg' ? 'JPEG' : 'PNG';
+				success = `Downloaded ${baseName}-pages.zip — ${entries.length} ${extLabel} image${entries.length === 1 ? '' : 's'} (${formatFileSize(zipSize)})`;
+			} else {
+				downloadBlob(entries[0].data, entries[0].name, entries[0].data.type);
+				success = `Downloaded ${entries[0].name} (${formatFileSize(totalSize)})`;
+			}
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to convert PDF to images.';
 		} finally {
@@ -103,6 +108,25 @@
 									? 'bg-primary text-primary-foreground'
 									: 'bg-secondary text-secondary-foreground hover:bg-secondary/80'}"
 								onclick={() => (imageFormat = value as typeof imageFormat)}
+							>
+								{label}
+							</button>
+						{/each}
+					</div>
+				</div>
+				<div>
+					<p class="mb-2 text-sm font-medium">Download as</p>
+					<div class="flex flex-wrap gap-2">
+						{#each [
+							['zip', 'ZIP archive'],
+							['separate', 'Separate files']
+						] as [value, label]}
+							<button
+								type="button"
+								class="rounded-full px-3 py-1.5 text-xs font-medium transition {downloadMode === value
+									? 'bg-primary text-primary-foreground'
+									: 'bg-secondary text-secondary-foreground hover:bg-secondary/80'}"
+								onclick={() => (downloadMode = value as typeof downloadMode)}
 							>
 								{label}
 							</button>

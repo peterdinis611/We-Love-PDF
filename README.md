@@ -6,7 +6,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 
 ## Features
 
-**26 tools** across five categories:
+**31 tools** across five categories:
 
 ### Organize PDF
 | Tool | Route |
@@ -17,6 +17,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | Delete Pages | `/tools/delete-pages` |
 | Organize PDF | `/tools/organize-pdf` |
 | Duplicate Pages | `/tools/duplicate-pages` |
+| Batch PDF | `/tools/batch-pdf` |
 | View PDF | `/tools/view-pdf` |
 
 ### Optimize PDF
@@ -25,6 +26,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | Compress PDF | `/tools/compress-pdf` |
 | PDF Info | `/tools/pdf-info` |
 | Edit Metadata | `/tools/edit-metadata` |
+| Remove Metadata | `/tools/remove-metadata` |
 
 ### Convert PDF
 | Tool | Route |
@@ -45,6 +47,9 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | Page Numbers | `/tools/page-numbers` |
 | Sign PDF | `/tools/sign-pdf` |
 | Flatten PDF | `/tools/flatten-pdf` |
+| Crop PDF | `/tools/crop-pdf` |
+| Redact PDF | `/tools/redact-pdf` |
+| Fill PDF Form | `/tools/fill-pdf-form` |
 
 ### PDF Security
 | Tool | Route |
@@ -60,7 +65,14 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 - **[Tailwind CSS v4](https://tailwindcss.com/)** + [shadcn-svelte](https://www.shadcn-svelte.com/) UI
 - **[pdf-lib](https://pdf-lib.js.org/)** — merge, split, rotate, metadata, images, text layout
 - **[EmbedPDF](https://www.embedpdf.com/)** — WASM PDF engine for viewing, rendering, text extraction, encryption
+- **[fflate](https://github.com/101arrowz/fflate)** — ZIP downloads for batch and image export
 - **[Vitest](https://vitest.dev/)** + **[Playwright](https://playwright.dev/)** for tests
+
+## Recent features
+
+- **ZIP export** for multi-page PDF → image conversion
+- **Batch PDF** — process multiple files into one ZIP
+- **Crop PDF**, **Redact PDF**, **Remove Metadata**, **Fill PDF Form**
 
 ## Getting started
 

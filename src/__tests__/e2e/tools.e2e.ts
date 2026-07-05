@@ -25,7 +25,7 @@ test.describe('Homepage', () => {
 		await expect(page.locator('h1')).toContainText('Every PDF tool');
 		const toolsSection = page.locator('#tools');
 		for (const tool of tools.filter((t) => t.available)) {
-			await expect(toolsSection.getByRole('link', { name: tool.name })).toBeVisible();
+			await expect(toolsSection.locator(`a[href="/tools/${tool.slug}"]`)).toBeVisible();
 		}
 	});
 
@@ -278,6 +278,40 @@ test.describe('Engine-dependent tools', () => {
 			page.getByRole('button', { name: 'Convert to PDF' }).click()
 		]);
 		expect(download.suggestedFilename()).toBe('document.pdf');
+	});
+
+	test('remove metadata downloads cleaned file', async ({ page }) => {
+		await page.goto('/tools/remove-metadata');
+		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-1pg.pdf'));
+		await expect(page.getByText('Single Page')).toBeVisible({ timeout: 5000 });
+		const [download] = await Promise.all([
+			page.waitForEvent('download'),
+			page.getByRole('button', { name: 'Remove metadata' }).click()
+		]);
+		expect(download.suggestedFilename()).toBe('metadata-removed.pdf');
+	});
+
+	test('crop pdf downloads cropped file', async ({ page }) => {
+		await page.goto('/tools/crop-pdf');
+		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-1pg.pdf'));
+		const [download] = await Promise.all([
+			page.waitForEvent('download'),
+			page.getByRole('button', { name: 'Crop PDF' }).click()
+		]);
+		expect(download.suggestedFilename()).toBe('cropped.pdf');
+	});
+
+	test('batch pdf downloads zip archive', async ({ page }) => {
+		await page.goto('/tools/batch-pdf');
+		await page.locator('input[type="file"]').setInputFiles([
+			fixturePath('sample-1pg.pdf'),
+			fixturePath('sample-b.pdf')
+		]);
+		const [download] = await Promise.all([
+			page.waitForEvent('download'),
+			page.getByRole('button', { name: /run batch/i }).click()
+		]);
+		expect(download.suggestedFilename()).toBe('batch-compress.zip');
 	});
 
 	test('view PDF accepts file and shows viewer shell', async ({ page }) => {

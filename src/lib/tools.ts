@@ -86,6 +86,16 @@ export const tools: PdfTool[] = [
 		available: true
 	},
 	{
+		slug: 'batch-pdf',
+		name: 'Batch PDF',
+		description: 'Process multiple PDFs at once — compress, rotate, flatten, or remove metadata — and download as ZIP.',
+		category: 'organize',
+		icon: 'batch',
+		color: 'bg-rose-600',
+		available: true,
+		multiple: true
+	},
+	{
 		slug: 'compress-pdf',
 		name: 'Compress PDF',
 		description: 'Reduce file size by optimizing and stripping unnecessary metadata.',
@@ -110,6 +120,15 @@ export const tools: PdfTool[] = [
 		category: 'optimize',
 		icon: 'metadata',
 		color: 'bg-cyan-500',
+		available: true
+	},
+	{
+		slug: 'remove-metadata',
+		name: 'Remove Metadata',
+		description: 'Strip title, author, subject, and other document properties for privacy.',
+		category: 'optimize',
+		icon: 'scrub',
+		color: 'bg-teal-600',
 		available: true
 	},
 	{
@@ -223,6 +242,33 @@ export const tools: PdfTool[] = [
 		category: 'edit',
 		icon: 'flatten',
 		color: 'bg-stone-500',
+		available: true
+	},
+	{
+		slug: 'crop-pdf',
+		name: 'Crop PDF',
+		description: 'Trim page margins by adjusting the crop box on selected pages.',
+		category: 'edit',
+		icon: 'crop',
+		color: 'bg-stone-600',
+		available: true
+	},
+	{
+		slug: 'redact-pdf',
+		name: 'Redact PDF',
+		description: 'Permanently remove sensitive words and phrases from your PDF.',
+		category: 'edit',
+		icon: 'redact',
+		color: 'bg-stone-700',
+		available: true
+	},
+	{
+		slug: 'fill-pdf-form',
+		name: 'Fill PDF Form',
+		description: 'Fill interactive PDF form fields and download the completed document.',
+		category: 'edit',
+		icon: 'form',
+		color: 'bg-stone-800',
 		available: true
 	},
 	{

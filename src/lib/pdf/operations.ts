@@ -400,6 +400,62 @@ export async function duplicatePages(file: File, pageIndices: number[]): Promise
 	return doc.save();
 }
 
+export async function cropPdf(
+	file: File,
+	margins: { top: number; right: number; bottom: number; left: number },
+	pageIndices?: number[]
+): Promise<Uint8Array> {
+	const doc = await loadPdf(file);
+	const pages = doc.getPages();
+	const targets = pageIndices?.length
+		? pageIndices
+		: pages.map((_, index) => index);
+
+	for (const index of targets) {
+		const page = pages[index];
+		if (!page) continue;
+
+		const box = page.getCropBox();
+		const x = box.x;
+		const y = box.y;
+		const width = box.width;
+		const height = box.height;
+		const cropW = width - margins.left - margins.right;
+		const cropH = height - margins.top - margins.bottom;
+
+		if (cropW <= 0 || cropH <= 0) {
+			throw new Error('Crop margins are too large for the page size.');
+		}
+
+		page.setCropBox(x + margins.left, y + margins.bottom, cropW, cropH);
+	}
+
+	return doc.save();
+}
+
+export async function removeAllMetadata(file: File): Promise<Uint8Array> {
+	const doc = await loadPdf(file);
+	doc.setTitle('');
+	doc.setAuthor('');
+	doc.setSubject('');
+	doc.setKeywords([]);
+	doc.setCreator('');
+	doc.setProducer('');
+	return doc.save({ useObjectStreams: true });
+}
+
+export function parsePageIndexes(input: string, total: number): number[] {
+	if (!input.trim()) {
+		return Array.from({ length: total }, (_, i) => i);
+	}
+	return [...new Set(parsePageRanges(input, total).flat())].sort((a, b) => a - b);
+}
+
+export function outputNameFromInput(name: string, suffix: string): string {
+	const base = name.replace(/\.pdf$/i, '');
+	return `${base}${suffix}.pdf`;
+}
+
 export function createFileId(): string {
 	return crypto.randomUUID();
 }

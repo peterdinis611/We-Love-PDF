@@ -15,14 +15,19 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'extract-pages': () => import('$lib/components/tools/ExtractPagesTool.svelte'),
 	'delete-pages': () => import('$lib/components/tools/DeletePagesTool.svelte'),
 	'duplicate-pages': () => import('$lib/components/tools/DuplicatePagesTool.svelte'),
+	'batch-pdf': () => import('$lib/components/tools/BatchTool.svelte'),
 	'images-to-pdf': () => import('$lib/components/tools/ImagesToPdfTool.svelte'),
 	'watermark-pdf': () => import('$lib/components/tools/WatermarkTool.svelte'),
 	'compress-pdf': () => import('$lib/components/tools/CompressTool.svelte'),
 	'pdf-info': () => import('$lib/components/tools/PdfInfoTool.svelte'),
 	'edit-metadata': () => import('$lib/components/tools/EditMetadataTool.svelte'),
+	'remove-metadata': () => import('$lib/components/tools/RemoveMetadataTool.svelte'),
 	'page-numbers': () => import('$lib/components/tools/PageNumbersTool.svelte'),
 	'sign-pdf': () => import('$lib/components/tools/SignTool.svelte'),
 	'flatten-pdf': () => import('$lib/components/tools/FlattenTool.svelte'),
+	'crop-pdf': () => import('$lib/components/tools/CropTool.svelte'),
+	'redact-pdf': () => import('$lib/components/tools/RedactTool.svelte'),
+	'fill-pdf-form': () => import('$lib/components/tools/FillFormTool.svelte'),
 	'protect-pdf': () => import('$lib/components/tools/ProtectTool.svelte'),
 	'unlock-pdf': () => import('$lib/components/tools/UnlockTool.svelte'),
 	'change-pdf-password': () => import('$lib/components/tools/ChangePasswordTool.svelte'),
@@ -37,7 +42,10 @@ export const engineTools = new Set([
 	'unlock-pdf',
 	'change-pdf-password',
 	'pdf-security-check',
-	'flatten-pdf'
+	'flatten-pdf',
+	'batch-pdf',
+	'redact-pdf',
+	'fill-pdf-form'
 ]);
 
 export async function loadToolComponent(slug: string): Promise<Component | null> {
