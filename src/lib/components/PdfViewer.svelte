@@ -11,17 +11,11 @@
 
 	let PDFViewer: typeof import('@embedpdf/svelte-pdf-viewer').PDFViewer | null = $state(null);
 	let loading = $state(true);
-	let viewerKey = $state(0);
 
 	onMount(async () => {
 		const mod = await import('@embedpdf/svelte-pdf-viewer');
 		PDFViewer = mod.PDFViewer;
 		loading = false;
-	});
-
-	$effect(() => {
-		theme.resolved;
-		viewerKey++;
 	});
 </script>
 
@@ -34,7 +28,7 @@
 			</div>
 		</div>
 	{:else}
-		{#key viewerKey}
+		{#key theme.resolved}
 			<PDFViewer
 				config={{
 					src,

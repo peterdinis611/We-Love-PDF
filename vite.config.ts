@@ -20,6 +20,17 @@ export default defineConfig({
 			adapter: adapter()
 		})
 	],
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					if (id.includes('pdf-lib')) return 'pdf-lib';
+					if (id.includes('@embedpdf')) return 'embedpdf';
+					if (id.includes('@lucide/svelte')) return 'icons';
+				}
+			}
+		}
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

@@ -3,19 +3,24 @@
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
+	import OutputFilename from '$lib/components/OutputFilename.svelte';
+	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { downloadBlob, getPageCount, organizePdf } from '$lib/pdf/operations';
-	import { ChevronDown, ChevronUp, X } from '@lucide/svelte';
+	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, organizePdf } from '$lib/pdf/operations';
+	import { ChevronDown, ChevronUp, X, RotateCcw } from '@lucide/svelte';
 
 	let file = $state<File | null>(null);
 	let pageOrder = $state<number[]>([]);
+	let outputName = $state('organized.pdf');
 	let processing = $state(false);
 	let error = $state('');
+	let success = $state('');
 
 	async function setFile(f: File) {
 		file = f;
 		error = '';
+		success = '';
 		try {
 			const count = await getPageCount(f);
 			pageOrder = Array.from({ length: count }, (_, i) => i);
@@ -38,13 +43,20 @@
 		pageOrder = pageOrder.filter((_, i) => i !== idx);
 	}
 
+	function reverseOrder() {
+		pageOrder = [...pageOrder].reverse();
+	}
+
 	async function handleOrganize() {
 		if (!file || !pageOrder.length) return;
 		processing = true;
 		error = '';
+		success = '';
 		try {
 			const result = await organizePdf(file, pageOrder);
-			downloadBlob(result, 'organized.pdf');
+			const name = ensurePdfFilename(outputName);
+			downloadBlob(result, name);
+			success = `Downloaded ${name} — ${pageOrder.length} pages, ${formatFileSize(result.length)}`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to organize PDF.';
 		} finally {
@@ -59,7 +71,13 @@
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>
-			<p class="mb-3 text-sm text-muted-foreground">Reorder or remove pages, then download.</p>
+			<div class="mb-3 flex items-center justify-between">
+				<p class="text-sm text-muted-foreground">Reorder or remove pages, then download.</p>
+				<Button variant="outline" size="sm" onclick={reverseOrder}>
+					<RotateCcw class="size-3.5" />
+					Reverse
+				</Button>
+			</div>
 			<div class="space-y-2">
 				{#each pageOrder as pageIndex, i (i)}
 					<div class="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2">
@@ -77,10 +95,14 @@
 					</div>
 				{/each}
 			</div>
+			<div class="mt-4">
+				<OutputFilename bind:value={outputName} />
+			</div>
 		</ToolPanel>
 		<ToolAction disabled={processing || pageOrder.length === 0} loading={processing} loadingText="Saving…" onclick={handleOrganize}>
 			Download organized PDF
 		</ToolAction>
+		<ToolSuccess message={success} />
 	{/if}
 	<Alert message={error} />
 </div>

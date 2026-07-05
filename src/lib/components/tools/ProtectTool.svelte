@@ -4,17 +4,31 @@
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
+	import OutputFilename from '$lib/components/OutputFilename.svelte';
+	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { downloadBlob } from '$lib/pdf/operations';
+	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 
 	const pdfEngine = usePdfEngineContext();
 
 	let file = $state<File | null>(null);
 	let password = $state('');
 	let confirm = $state('');
+	let outputName = $state('protected.pdf');
 	let processing = $state(false);
 	let error = $state('');
+	let success = $state('');
+
+	const strength = $derived(
+		password.length === 0
+			? ''
+			: password.length < 6
+				? 'weak'
+				: password.length < 10
+					? 'medium'
+					: 'strong'
+	);
 
 	async function handleProtect() {
 		if (!file || !pdfEngine.engine) return;
@@ -28,6 +42,7 @@
 		}
 		processing = true;
 		error = '';
+		success = '';
 		try {
 			const buffer = await file.arrayBuffer();
 			const doc = await pdfEngine.engine
@@ -35,7 +50,9 @@
 				.toPromise();
 			await pdfEngine.engine.setDocumentEncryption(doc, password, password, 3900).toPromise();
 			const result = await pdfEngine.engine.saveAsCopy(doc).toPromise();
-			downloadBlob(new Uint8Array(result), 'protected.pdf');
+			const name = ensurePdfFilename(outputName);
+			downloadBlob(new Uint8Array(result), name);
+			success = `Downloaded ${name} — AES-256 encrypted, ${formatFileSize(result.byteLength)}`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to protect PDF.';
 		} finally {
@@ -54,11 +71,20 @@
 				<div>
 					<label for="password" class="mb-1 block text-sm font-medium">Password</label>
 					<Input id="password" type="password" bind:value={password} />
+					{#if strength}
+						<p class="mt-1 text-xs capitalize text-muted-foreground">
+							Strength:
+							<span class={strength === 'strong' ? 'text-green-600' : strength === 'medium' ? 'text-amber-600' : 'text-red-600'}>
+								{strength}
+							</span>
+						</p>
+					{/if}
 				</div>
 				<div>
 					<label for="confirm" class="mb-1 block text-sm font-medium">Confirm password</label>
 					<Input id="confirm" type="password" bind:value={confirm} />
 				</div>
+				<OutputFilename bind:value={outputName} />
 			</div>
 		</ToolPanel>
 		<ToolAction
@@ -69,6 +95,7 @@
 		>
 			Protect PDF
 		</ToolAction>
+		<ToolSuccess message={success} />
 	{/if}
 	{#if pdfEngine.error}
 		<Alert message="Failed to load PDF engine. Please refresh the page." />

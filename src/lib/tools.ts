@@ -77,6 +77,15 @@ export const tools: PdfTool[] = [
 		available: true
 	},
 	{
+		slug: 'duplicate-pages',
+		name: 'Duplicate Pages',
+		description: 'Copy selected pages and append them to the end of your PDF document.',
+		category: 'organize',
+		icon: 'duplicate',
+		color: 'bg-pink-500',
+		available: true
+	},
+	{
 		slug: 'compress-pdf',
 		name: 'Compress PDF',
 		description: 'Reduce file size by optimizing and stripping unnecessary metadata.',
@@ -92,6 +101,15 @@ export const tools: PdfTool[] = [
 		category: 'optimize',
 		icon: 'info',
 		color: 'bg-emerald-500',
+		available: true
+	},
+	{
+		slug: 'edit-metadata',
+		name: 'Edit Metadata',
+		description: 'Update title, author, subject, and keywords in your PDF document properties.',
+		category: 'optimize',
+		icon: 'metadata',
+		color: 'bg-cyan-500',
 		available: true
 	},
 	{
@@ -112,6 +130,15 @@ export const tools: PdfTool[] = [
 		category: 'convert',
 		icon: 'image',
 		color: 'bg-violet-500',
+		available: true
+	},
+	{
+		slug: 'pdf-to-text',
+		name: 'PDF to Text',
+		description: 'Extract readable text content from your PDF document.',
+		category: 'convert',
+		icon: 'text',
+		color: 'bg-fuchsia-500',
 		available: true
 	},
 	{
@@ -139,6 +166,24 @@ export const tools: PdfTool[] = [
 		category: 'edit',
 		icon: 'numbers',
 		color: 'bg-purple-500',
+		available: true
+	},
+	{
+		slug: 'sign-pdf',
+		name: 'Sign PDF',
+		description: 'Add a text signature to the last page or every page of your PDF.',
+		category: 'edit',
+		icon: 'sign',
+		color: 'bg-sky-500',
+		available: true
+	},
+	{
+		slug: 'flatten-pdf',
+		name: 'Flatten PDF',
+		description: 'Flatten form fields and annotations into the page content for sharing.',
+		category: 'edit',
+		icon: 'flatten',
+		color: 'bg-stone-500',
 		available: true
 	},
 	{

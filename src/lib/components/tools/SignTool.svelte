@@ -8,35 +8,35 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import {
-		addWatermark,
 		downloadBlob,
 		ensurePdfFilename,
 		formatFileSize,
-		type WatermarkPosition
+		signPdf,
+		type SignPosition
 	} from '$lib/pdf/operations';
 
 	let file = $state<File | null>(null);
-	let text = $state('CONFIDENTIAL');
-	let opacity = $state(0.25);
-	let fontSize = $state(48);
-	let position = $state<WatermarkPosition>('diagonal');
-	let outputName = $state('watermarked.pdf');
+	let signature = $state('');
+	let includeDate = $state(true);
+	let allPages = $state(false);
+	let position = $state<SignPosition>('bottom-left');
+	let outputName = $state('signed.pdf');
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
 
-	async function handleWatermark() {
-		if (!file || !text.trim()) return;
+	async function handleSign() {
+		if (!file || !signature.trim()) return;
 		processing = true;
 		error = '';
 		success = '';
 		try {
-			const result = await addWatermark(file, text.trim(), { opacity, fontSize, position });
+			const result = await signPdf(file, signature.trim(), { includeDate, allPages, position });
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(result, name);
 			success = `Downloaded ${name} (${formatFileSize(result.length)})`;
 		} catch (e) {
-			error = e instanceof Error ? e.message : 'Failed to add watermark.';
+			error = e instanceof Error ? e.message : 'Failed to sign PDF.';
 		} finally {
 			processing = false;
 		}
@@ -51,43 +51,47 @@
 		<ToolPanel>
 			<div class="space-y-4">
 				<div>
-					<label for="watermark-text" class="mb-1 block text-sm font-medium">Watermark text</label>
-					<Input id="watermark-text" bind:value={text} placeholder="CONFIDENTIAL" />
+					<label for="signature" class="mb-1 block text-sm font-medium">Signature text</label>
+					<Input id="signature" bind:value={signature} placeholder="Your name" />
 				</div>
 				<div>
 					<p class="mb-2 text-sm font-medium">Position</p>
 					<div class="flex flex-wrap gap-2">
 						{#each [
-							['diagonal', 'Diagonal'],
-							['center', 'Center'],
-							['top', 'Top'],
-							['bottom', 'Bottom']
+							['bottom-left', 'Bottom left'],
+							['bottom-center', 'Bottom center'],
+							['bottom-right', 'Bottom right']
 						] as [value, label]}
 							<button
 								type="button"
 								class="rounded-full px-3 py-1.5 text-xs font-medium transition {position === value
 									? 'bg-primary text-primary-foreground'
 									: 'bg-secondary text-secondary-foreground'}"
-								onclick={() => (position = value as WatermarkPosition)}
+								onclick={() => (position = value as SignPosition)}
 							>
 								{label}
 							</button>
 						{/each}
 					</div>
 				</div>
-				<div>
-					<label for="opacity" class="mb-1 block text-sm font-medium">Opacity: {Math.round(opacity * 100)}%</label>
-					<input id="opacity" type="range" min="0.1" max="0.8" step="0.05" bind:value={opacity} class="w-full accent-primary" />
-				</div>
-				<div>
-					<label for="fontSize" class="mb-1 block text-sm font-medium">Font size: {fontSize}px</label>
-					<input id="fontSize" type="range" min="24" max="96" step="4" bind:value={fontSize} class="w-full accent-primary" />
-				</div>
+				<label class="flex items-center gap-2 text-sm">
+					<input type="checkbox" bind:checked={includeDate} class="rounded border-border accent-primary" />
+					Include date
+				</label>
+				<label class="flex items-center gap-2 text-sm">
+					<input type="checkbox" bind:checked={allPages} class="rounded border-border accent-primary" />
+					Sign all pages (default: last page only)
+				</label>
 				<OutputFilename bind:value={outputName} />
 			</div>
 		</ToolPanel>
-		<ToolAction disabled={processing || !text.trim()} loading={processing} loadingText="Adding watermark…" onclick={handleWatermark}>
-			Add watermark
+		<ToolAction
+			disabled={processing || !signature.trim()}
+			loading={processing}
+			loadingText="Signing…"
+			onclick={handleSign}
+		>
+			Sign PDF
 		</ToolAction>
 		<ToolSuccess message={success} />
 	{/if}

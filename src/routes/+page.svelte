@@ -1,17 +1,33 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { fly, fade } from 'svelte/transition';
 	import ToolCard from '$lib/components/ToolCard.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { tools, categoryLabels, type ToolCategory } from '$lib/tools';
+	import { site, websiteJsonLd } from '$lib/seo';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { Search, Shield, Zap, Sparkles, FileText, Eye, Minimize2 } from '@lucide/svelte';
+	import {
+		Search,
+		Shield,
+		Zap,
+		Sparkles,
+		FileText,
+		Eye,
+		Minimize2,
+		X,
+		Command
+	} from '@lucide/svelte';
 
 	const categories = Object.keys(categoryLabels) as ToolCategory[];
 
 	let query = $state('');
 	let activeCategory = $state<ToolCategory | 'all'>('all');
+	let searchInput = $state<HTMLInputElement | null>(null);
+	let filterKey = $state(0);
 
 	const filtered = $derived(
 		tools.filter((t) => {
@@ -33,45 +49,80 @@
 			}))
 			.filter((g) => g.tools.length > 0)
 	);
+
+	function setCategory(cat: ToolCategory | 'all') {
+		activeCategory = cat;
+		filterKey++;
+	}
+
+	function clearSearch() {
+		query = '';
+		searchInput?.focus();
+	}
+
+	onMount(() => {
+		function onKeydown(e: KeyboardEvent) {
+			if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+				e.preventDefault();
+				searchInput?.focus();
+			}
+			if (e.key === 'Escape' && document.activeElement === searchInput) {
+				query = '';
+				searchInput?.blur();
+			}
+		}
+		window.addEventListener('keydown', onKeydown);
+		return () => window.removeEventListener('keydown', onKeydown);
+	});
 </script>
 
-<svelte:head>
-	<title>WeLovePDF — Every tool you need to work with PDFs</title>
-	<meta
-		name="description"
-		content="Merge, split, rotate, organize, watermark, encrypt and view PDF files online for free."
-	/>
-</svelte:head>
+<SeoHead
+	meta={{ title: site.tagline, description: site.description, path: '/' }}
+	jsonLd={websiteJsonLd()}
+/>
 
 <!-- Hero -->
 <section class="relative overflow-hidden border-b border-border/60">
 	<div class="pointer-events-none absolute inset-0">
-		<div class="absolute -left-32 -top-32 size-96 rounded-full bg-primary/10 blur-3xl"></div>
-		<div class="absolute -bottom-20 right-0 size-72 rounded-full bg-primary/5 blur-3xl"></div>
+		<div class="hero-blob absolute -left-32 -top-32 size-96 rounded-full bg-primary/10 blur-3xl"></div>
+		<div
+			class="hero-blob hero-blob-delay absolute -bottom-20 right-0 size-72 rounded-full bg-primary/5 blur-3xl"
+		></div>
 	</div>
 	<div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
 		<div class="mx-auto max-w-2xl text-center">
-			<Badge variant="secondary" class="mb-4 gap-1.5 px-3 py-1">
-				<Sparkles class="size-3" />
-				{tools.length} free tools · 100% in-browser
-			</Badge>
-			<h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
+			<div in:fade={{ duration: 400, delay: 0 }}>
+				<Badge variant="secondary" class="mb-4 gap-1.5 px-3 py-1">
+					<Sparkles class="size-3 animate-pulse" />
+					{tools.length} free tools · 100% in-browser
+				</Badge>
+			</div>
+			<h1
+				class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl"
+				in:fly={{ y: 20, duration: 500, delay: 80 }}
+			>
 				Every PDF tool you need
 			</h1>
-			<p class="mb-8 text-base text-muted-foreground sm:text-lg">
-				Merge, split, compress, watermark, encrypt — fast, private, and completely free. Your
+			<p
+				class="mb-8 text-base text-muted-foreground sm:text-lg"
+				in:fly={{ y: 20, duration: 500, delay: 160 }}
+			>
+				Merge, split, compress, sign, watermark, encrypt — fast, private, and completely free. Your
 				files never leave your device.
 			</p>
-			<div class="flex flex-wrap justify-center gap-2">
-				<Button href="/tools/merge-pdf" size="lg">
+			<div
+				class="flex flex-wrap justify-center gap-2"
+				in:fly={{ y: 20, duration: 500, delay: 240 }}
+			>
+				<Button href="/tools/merge-pdf" size="lg" class="transition-transform hover:scale-105">
 					<FileText class="size-4" />
 					Merge PDF
 				</Button>
-				<Button href="/tools/view-pdf" variant="outline" size="lg">
+				<Button href="/tools/view-pdf" variant="outline" size="lg" class="transition-transform hover:scale-105">
 					<Eye class="size-4" />
 					View PDF
 				</Button>
-				<Button href="/tools/compress-pdf" variant="outline" size="lg">
+				<Button href="/tools/compress-pdf" variant="outline" size="lg" class="transition-transform hover:scale-105">
 					<Minimize2 class="size-4" />
 					Compress
 				</Button>
@@ -81,63 +132,104 @@
 </section>
 
 <!-- Tools section -->
-<section id="tools" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-	<!-- Search + filter -->
-	<div class="mb-8 space-y-4">
-		<div class="relative max-w-md">
-			<Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-			<Input bind:value={query} placeholder="Search tools…" class="pl-9" />
-		</div>
-		<div class="flex flex-wrap gap-2">
-			<button
-				type="button"
-				class="rounded-full px-3.5 py-1.5 text-xs font-medium transition {activeCategory === 'all'
-					? 'bg-primary text-primary-foreground shadow-sm'
-					: 'bg-secondary text-secondary-foreground hover:bg-secondary/80'}"
-				onclick={() => (activeCategory = 'all')}
-			>
-				All ({tools.length})
-			</button>
-			{#each categories as cat}
-				<button
-					type="button"
-					class="rounded-full px-3.5 py-1.5 text-xs font-medium transition {activeCategory === cat
-						? 'bg-primary text-primary-foreground shadow-sm'
-						: 'bg-secondary text-secondary-foreground hover:bg-secondary/80'}"
-					onclick={() => (activeCategory = cat)}
-				>
-					{categoryLabels[cat]} ({tools.filter((t) => t.category === cat).length})
-				</button>
-			{/each}
+<section id="tools" class="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-14">
+	<!-- Sticky search + filter -->
+	<div
+		class="sticky top-14 z-40 -mx-4 mb-8 border-b border-border/40 bg-background/85 px-4 py-4 backdrop-blur-xl sm:-mx-6 sm:px-6"
+	>
+		<div class="space-y-4">
+			<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<div class="relative max-w-md flex-1">
+					<Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+					<Input
+						bind:ref={searchInput}
+						bind:value={query}
+						placeholder="Search tools…"
+						class="pr-20 pl-9 transition-shadow focus:shadow-md focus:shadow-primary/5"
+					/>
+					<div class="absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-1">
+						{#if query}
+							<button
+								type="button"
+								class="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+								onclick={clearSearch}
+								aria-label="Clear search"
+							>
+								<X class="size-3.5" />
+							</button>
+						{:else}
+							<kbd
+								class="hidden items-center gap-0.5 rounded border border-border bg-muted/60 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground sm:inline-flex"
+							>
+								<Command class="size-2.5" />/
+							</kbd>
+						{/if}
+					</div>
+				</div>
+				<p class="text-sm text-muted-foreground tabular-nums">
+					{#key filtered.length}
+						<span in:fade={{ duration: 200 }}>
+							{filtered.length} tool{filtered.length === 1 ? '' : 's'}
+						</span>
+					{/key}
+				</p>
+			</div>
+
+			<div class="flex flex-wrap gap-2">
+				{#each [{ id: 'all', label: `All (${tools.length})` }, ...categories.map((c) => ({ id: c, label: `${categoryLabels[c]} (${tools.filter((t) => t.category === c).length})` }))] as pill}
+					<button
+						type="button"
+						class="category-pill rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-200 {activeCategory === pill.id
+							? 'bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105'
+							: 'bg-secondary/80 text-secondary-foreground hover:bg-secondary'}"
+						onclick={() => setCategory(pill.id as ToolCategory | 'all')}
+					>
+						{pill.label}
+					</button>
+				{/each}
+			</div>
 		</div>
 	</div>
 
 	{#if filtered.length === 0}
-		<div class="py-16 text-center">
-			<p class="text-muted-foreground">No tools match your search.</p>
-			<Button variant="link" class="mt-2" onclick={() => (query = '')}>Clear search</Button>
+		<div class="py-16 text-center" in:fade={{ duration: 300 }}>
+			<p class="text-lg font-medium text-muted-foreground">No tools match your search</p>
+			<p class="mt-1 text-sm text-muted-foreground">Try a different keyword or category</p>
+			<Button variant="link" class="mt-3" onclick={() => { query = ''; activeCategory = 'all'; filterKey++; }}>
+				Reset filters
+			</Button>
 		</div>
 	{:else if activeCategory === 'all'}
-		{#each grouped as group (group.category)}
-			<div id={group.category} class="mb-10 scroll-mt-24">
-				<div class="mb-4 flex items-center gap-3">
-					<h2 class="text-lg font-semibold">{group.label}</h2>
-					<Separator class="flex-1" />
-					<span class="text-xs text-muted-foreground">{group.tools.length} tools</span>
+		{#key filterKey}
+			{#each grouped as group, gi (group.category)}
+				<div
+					id={group.category}
+					class="mb-12 scroll-mt-32 last:mb-0"
+					in:fly={{ y: 16, duration: 350, delay: gi * 60 }}
+				>
+					<div class="mb-5 flex items-center gap-3">
+						<h2 class="text-lg font-semibold">{group.label}</h2>
+						<Separator class="flex-1" />
+						<span class="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+							{group.tools.length}
+						</span>
+					</div>
+					<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+						{#each group.tools as tool, i (tool.slug)}
+							<ToolCard {tool} index={i + gi * 3} />
+						{/each}
+					</div>
 				</div>
-				<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-					{#each group.tools as tool (tool.slug)}
-						<ToolCard {tool} />
-					{/each}
-				</div>
-			</div>
-		{/each}
-	{:else}
-		<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-			{#each filtered as tool (tool.slug)}
-				<ToolCard {tool} />
 			{/each}
-		</div>
+		{/key}
+	{:else}
+		{#key filterKey}
+			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" in:fade={{ duration: 250 }}>
+				{#each filtered as tool, i (tool.slug)}
+					<ToolCard {tool} index={i} />
+				{/each}
+			</div>
+		{/key}
 	{/if}
 </section>
 
@@ -148,13 +240,16 @@
 		<div class="grid gap-4 sm:grid-cols-3">
 			{#each [
 				{ icon: Shield, title: '100% Private', desc: 'All processing happens locally. No uploads, no servers.' },
-				{ icon: Zap, title: 'Lightning Fast', desc: 'Powered by EmbedPDF PDFium engine for instant results.' },
+				{ icon: Zap, title: 'Lightning Fast', desc: 'Instant results powered by modern browser PDF engines.' },
 				{ icon: Sparkles, title: 'Dark Mode', desc: 'Comfortable viewing day or night with theme switching.' }
-			] as feature}
-				<Card.Root class="border-border/60 bg-card/80">
+			] as feature, i}
+				<Card.Root
+					class="border-border/60 bg-card/80 transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 animate-fade-in-up"
+					style="animation-delay: {i * 100}ms"
+				>
 					<Card.Content class="p-5 text-center">
 						<div
-							class="mx-auto mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary"
+							class="mx-auto mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110"
 						>
 							<feature.icon class="size-5" />
 						</div>
@@ -166,3 +261,19 @@
 		</div>
 	</div>
 </section>
+
+<style>
+	.hero-blob {
+		animation: blob-drift 8s ease-in-out infinite;
+	}
+
+	.hero-blob-delay {
+		animation-delay: -4s;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-blob {
+			animation: none;
+		}
+	}
+</style>

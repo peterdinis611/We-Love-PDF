@@ -3,21 +3,26 @@
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
+	import OutputFilename from '$lib/components/OutputFilename.svelte';
+	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { downloadBlob, getPageCount, parsePageRanges, splitPdf } from '$lib/pdf/operations';
+	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, parsePageRanges, splitPdf } from '$lib/pdf/operations';
 
 	let file = $state<File | null>(null);
 	let pageCount = $state(0);
 	let mode = $state<'all' | 'range' | 'every'>('all');
 	let rangeInput = $state('1-3, 5');
 	let everyN = $state(1);
+	let filePrefix = $state('split');
 	let processing = $state(false);
 	let error = $state('');
+	let success = $state('');
 
 	async function setFile(f: File) {
 		file = f;
 		error = '';
+		success = '';
 		try {
 			pageCount = await getPageCount(f);
 		} catch {
@@ -30,6 +35,7 @@
 		if (!file) return;
 		processing = true;
 		error = '';
+		success = '';
 
 		try {
 			let ranges: number[][];
@@ -55,9 +61,12 @@
 				error = 'No pages matched your selection.';
 				return;
 			}
+			let totalSize = 0;
 			results.forEach((bytes, i) => {
-				downloadBlob(bytes, `split-${i + 1}.pdf`);
+				totalSize += bytes.length;
+				downloadBlob(bytes, ensurePdfFilename(`${filePrefix}-${i + 1}`));
 			});
+			success = `Downloaded ${results.length} file${results.length === 1 ? '' : 's'} (${formatFileSize(totalSize)} total)`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to split PDF.';
 		} finally {
@@ -95,11 +104,15 @@
 					</div>
 				</label>
 			</div>
+			<div class="mt-4">
+				<OutputFilename bind:value={filePrefix} label="Output file prefix" placeholder="split" />
+			</div>
 		</ToolPanel>
 
 		<ToolAction disabled={processing} loading={processing} loadingText="Splitting…" onclick={handleSplit}>
 			Split PDF
 		</ToolAction>
+		<ToolSuccess message={success} />
 	{/if}
 	<Alert message={error} />
 </div>

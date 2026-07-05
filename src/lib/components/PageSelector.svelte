@@ -18,7 +18,7 @@
 </script>
 
 <div class="space-y-3">
-	<div class="flex gap-2">
+	<div class="flex flex-wrap gap-2">
 		<Button
 			variant="outline"
 			size="sm"
@@ -27,6 +27,20 @@
 			Select all
 		</Button>
 		<Button variant="outline" size="sm" onclick={() => onchange(new Set())}>Clear</Button>
+		<Button
+			variant="outline"
+			size="sm"
+			onclick={() => onchange(new Set(Array.from({ length: pageCount }, (_, i) => i).filter((i) => i % 2 === 0)))}
+		>
+			Odd pages
+		</Button>
+		<Button
+			variant="outline"
+			size="sm"
+			onclick={() => onchange(new Set(Array.from({ length: pageCount }, (_, i) => i).filter((i) => i % 2 === 1)))}
+		>
+			Even pages
+		</Button>
 	</div>
 	<div class="flex flex-wrap gap-1.5">
 		{#each Array.from({ length: pageCount }, (_, i) => i) as page}
