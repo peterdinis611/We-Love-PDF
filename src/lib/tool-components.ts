@@ -8,6 +8,10 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'organize-pdf': () => import('$lib/components/tools/OrganizeTool.svelte'),
 	'pdf-to-jpg': () => import('$lib/components/tools/PdfToJpgTool.svelte'),
 	'pdf-to-text': () => import('$lib/components/tools/PdfToTextTool.svelte'),
+	'pdf-to-html': () => import('$lib/components/tools/PdfToHtmlTool.svelte'),
+	'txt-to-pdf': () => import('$lib/components/tools/TxtToPdfTool.svelte'),
+	'html-to-pdf': () => import('$lib/components/tools/HtmlToPdfTool.svelte'),
+	'markdown-to-pdf': () => import('$lib/components/tools/MarkdownToPdfTool.svelte'),
 	'extract-pages': () => import('$lib/components/tools/ExtractPagesTool.svelte'),
 	'delete-pages': () => import('$lib/components/tools/DeletePagesTool.svelte'),
 	'duplicate-pages': () => import('$lib/components/tools/DuplicatePagesTool.svelte'),
@@ -20,10 +24,21 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'sign-pdf': () => import('$lib/components/tools/SignTool.svelte'),
 	'flatten-pdf': () => import('$lib/components/tools/FlattenTool.svelte'),
 	'protect-pdf': () => import('$lib/components/tools/ProtectTool.svelte'),
-	'unlock-pdf': () => import('$lib/components/tools/UnlockTool.svelte')
+	'unlock-pdf': () => import('$lib/components/tools/UnlockTool.svelte'),
+	'change-pdf-password': () => import('$lib/components/tools/ChangePasswordTool.svelte'),
+	'pdf-security-check': () => import('$lib/components/tools/CheckSecurityTool.svelte')
 };
 
-export const engineTools = new Set(['pdf-to-jpg', 'pdf-to-text', 'protect-pdf', 'unlock-pdf', 'flatten-pdf']);
+export const engineTools = new Set([
+	'pdf-to-jpg',
+	'pdf-to-text',
+	'pdf-to-html',
+	'protect-pdf',
+	'unlock-pdf',
+	'change-pdf-password',
+	'pdf-security-check',
+	'flatten-pdf'
+]);
 
 export async function loadToolComponent(slug: string): Promise<Component | null> {
 	const loader = toolLoaders[slug];

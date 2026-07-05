@@ -7,7 +7,7 @@
 	import OutputFilename from '$lib/components/OutputFilename.svelte';
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
-	import { Input } from '$lib/components/ui/input/index.js';
+	import PasswordInput from '$lib/components/PasswordInput.svelte';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 
 	const pdfEngine = usePdfEngineContext();
@@ -16,8 +16,34 @@
 	let password = $state('');
 	let outputName = $state('unlocked.pdf');
 	let processing = $state(false);
+	let scanning = $state(false);
+	let encrypted = $state<boolean | null>(null);
 	let error = $state('');
 	let success = $state('');
+
+	async function inspectFile(f: File) {
+		file = f;
+		password = '';
+		encrypted = null;
+		error = '';
+		success = '';
+		if (!pdfEngine.engine) return;
+
+		scanning = true;
+		try {
+			const buffer = await f.arrayBuffer();
+			try {
+				const doc = await pdfEngine.engine
+					.openDocumentBuffer({ id: `unlock-scan-${Date.now()}`, content: buffer })
+					.toPromise();
+				encrypted = await pdfEngine.engine.isEncrypted(doc).toPromise();
+			} catch {
+				encrypted = true;
+			}
+		} finally {
+			scanning = false;
+		}
+	}
 
 	async function handleUnlock() {
 		if (!file || !pdfEngine.engine || !password) return;
@@ -44,15 +70,23 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select protected PDF" hint="or drop a PDF here" onfiles={(f) => (file = f[0])} />
+		<FileDropzone label="Select protected PDF" hint="or drop a PDF here" onfiles={(f) => inspectFile(f[0])} />
 	{:else}
-		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
+		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; encrypted = null; error = ''; }} />
+
+		{#if scanning}
+			<ToolPanel>
+				<p class="text-center text-sm text-muted-foreground">Checking encryption status…</p>
+			</ToolPanel>
+		{:else if encrypted === false}
+			<p class="text-sm text-muted-foreground">This PDF does not appear to be password protected.</p>
+		{:else if encrypted === true}
+			<p class="text-sm text-amber-600 dark:text-amber-400">Password required to unlock this PDF.</p>
+		{/if}
+
 		<ToolPanel>
 			<div class="space-y-3">
-				<div>
-					<label for="unlock-password" class="mb-1 block text-sm font-medium">Current password</label>
-					<Input id="unlock-password" type="password" bind:value={password} />
-				</div>
+				<PasswordInput id="unlock-password" label="Current password" bind:value={password} />
 				<OutputFilename bind:value={outputName} />
 			</div>
 		</ToolPanel>
@@ -62,7 +96,7 @@
 			loadingText="Unlocking…"
 			onclick={handleUnlock}
 		>
-			Unlock PDF
+			Remove password protection
 		</ToolAction>
 		<ToolSuccess message={success} />
 	{/if}

@@ -1,8 +1,9 @@
 import { tools } from '$lib/tools';
 import { expect, test } from '@playwright/test';
-import { ensureFixtures, fixturePath } from '../../tests/helpers/create-pdf';
+import { ensureFixtures, fixturePath } from '../helpers/create-pdf';
 
 const slugs = tools.filter((t) => t.available).map((t) => t.slug);
+const securityTools = tools.filter((t) => t.available && t.category === 'security');
 
 test.beforeAll(async () => {
 	await ensureFixtures();
@@ -38,11 +39,12 @@ test.describe('Homepage', () => {
 
 	test('category filter shows only matching tools', async ({ page }) => {
 		await page.goto('/');
-		await page.getByRole('button', { name: 'PDF Security (2)' }).click();
+		await page.getByRole('button', { name: `PDF Security (${securityTools.length})` }).click();
 		const toolsSection = page.locator('#tools');
-		await expect.poll(async () => toolsSection.getByRole('link').count()).toBe(2);
-		await expect(toolsSection.getByRole('link', { name: 'Protect PDF' })).toBeVisible();
-		await expect(toolsSection.getByRole('link', { name: 'Unlock PDF' })).toBeVisible();
+		await expect.poll(async () => toolsSection.getByRole('link').count()).toBe(securityTools.length);
+		for (const tool of securityTools) {
+			await expect(toolsSection.getByRole('link', { name: tool.name })).toBeVisible();
+		}
 	});
 
 	test('scroll to top button appears and works', async ({ page }) => {
@@ -225,6 +227,57 @@ test.describe('Engine-dependent tools', () => {
 		await page.locator('#password').fill('test1234');
 		await page.locator('#confirm').fill('test1234');
 		await expect(page.getByRole('button', { name: /protect/i })).toBeEnabled({ timeout: 15000 });
+	});
+
+	test('change PDF password loads engine and accepts file', async ({ page }) => {
+		await page.goto('/tools/change-pdf-password');
+		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-1pg.pdf'));
+		await page.locator('#current-password').fill('oldpass');
+		await page.locator('#new-password').fill('newpass1234');
+		await page.locator('#confirm-new-password').fill('newpass1234');
+		await expect(page.getByRole('button', { name: /change password/i })).toBeEnabled({ timeout: 15000 });
+	});
+
+	test('pdf security check loads engine and analyzes file', async ({ page }) => {
+		await page.goto('/tools/pdf-security-check');
+		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-1pg.pdf'));
+		await expect(page.getByText(/not encrypted|password protected/i)).toBeVisible({ timeout: 15000 });
+	});
+
+	test('pdf to html loads engine and accepts file', async ({ page }) => {
+		await page.goto('/tools/pdf-to-html');
+		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-1pg.pdf'));
+		await expect(page.getByRole('button', { name: /convert to html/i })).toBeEnabled({ timeout: 15000 });
+	});
+
+	test('text to pdf creates downloadable file', async ({ page }) => {
+		await page.goto('/tools/txt-to-pdf');
+		await page.locator('#txt-content').fill('Hello from text to PDF');
+		const [download] = await Promise.all([
+			page.waitForEvent('download'),
+			page.getByRole('button', { name: 'Create PDF' }).click()
+		]);
+		expect(download.suggestedFilename()).toBe('document.pdf');
+	});
+
+	test('html to pdf creates downloadable file', async ({ page }) => {
+		await page.goto('/tools/html-to-pdf');
+		await page.locator('#html-content').fill('<h1>Hello</h1><p>HTML to PDF</p>');
+		const [download] = await Promise.all([
+			page.waitForEvent('download'),
+			page.getByRole('button', { name: 'Convert to PDF' }).click()
+		]);
+		expect(download.suggestedFilename()).toBe('document.pdf');
+	});
+
+	test('markdown to pdf creates downloadable file', async ({ page }) => {
+		await page.goto('/tools/markdown-to-pdf');
+		await page.locator('#md-content').fill('# Hello\n\nMarkdown **works**.');
+		const [download] = await Promise.all([
+			page.waitForEvent('download'),
+			page.getByRole('button', { name: 'Convert to PDF' }).click()
+		]);
+		expect(download.suggestedFilename()).toBe('document.pdf');
 	});
 
 	test('view PDF accepts file and shows viewer shell', async ({ page }) => {

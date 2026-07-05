@@ -22,8 +22,9 @@
 	const pdfEngine = usePdfEngineContext();
 
 	let file = $state<File | null>(null);
-	let password = $state('');
-	let confirm = $state('');
+	let currentPassword = $state('');
+	let newPassword = $state('');
+	let confirmPassword = $state('');
 	let separateOwner = $state(false);
 	let ownerPassword = $state('');
 	let preset = $state<PermissionPreset>('full');
@@ -34,54 +35,24 @@
 		annotate: true,
 		forms: true
 	});
-	let outputName = $state('protected.pdf');
+	let outputName = $state('password-changed.pdf');
 	let processing = $state(false);
-	let scanning = $state(false);
-	let encrypted = $state<boolean | null>(null);
 	let error = $state('');
 	let success = $state('');
 
-	const strength = $derived(scorePasswordStrength(password));
+	const strength = $derived(scorePasswordStrength(newPassword));
 	const allowedFlags = $derived(resolveAllowedFlags(preset, toggles));
 
-	async function inspectFile(f: File) {
-		file = f;
-		encrypted = null;
-		error = '';
-		success = '';
-		if (!pdfEngine.engine) return;
+	async function handleChangePassword() {
+		if (!file || !pdfEngine.engine || !currentPassword) return;
 
-		scanning = true;
-		try {
-			const buffer = await f.arrayBuffer();
-			const doc = await pdfEngine.engine
-				.openDocumentBuffer({ id: `protect-scan-${Date.now()}`, content: buffer })
-				.toPromise();
-			encrypted = await pdfEngine.engine.isEncrypted(doc).toPromise();
-			if (encrypted) {
-				error = 'This PDF is already encrypted. Unlock it first or use Change PDF Password.';
-			}
-		} catch {
-			encrypted = null;
-		} finally {
-			scanning = false;
-		}
-	}
-
-	async function handleProtect() {
-		if (!file || !pdfEngine.engine) return;
-
-		const validationError = validatePasswordPair(password, confirm);
+		const validationError = validatePasswordPair(newPassword, confirmPassword);
 		if (validationError) {
 			error = validationError;
 			return;
 		}
 		if (separateOwner && ownerPassword.length < 4) {
 			error = 'Owner password must be at least 4 characters.';
-			return;
-		}
-		if (encrypted) {
-			error = 'This PDF is already encrypted.';
 			return;
 		}
 
@@ -91,25 +62,21 @@
 		try {
 			const buffer = await file.arrayBuffer();
 			const doc = await pdfEngine.engine
-				.openDocumentBuffer({ id: 'protect', content: buffer })
+				.openDocumentBuffer({ id: 'change-pwd', content: buffer }, { password: currentPassword })
 				.toPromise();
 
-			const isAlreadyEncrypted = await pdfEngine.engine.isEncrypted(doc).toPromise();
-			if (isAlreadyEncrypted) {
-				error = 'This PDF is already encrypted.';
-				return;
-			}
-
-			const owner = separateOwner ? ownerPassword : password;
+			await pdfEngine.engine.removeEncryption(doc).toPromise();
+			const owner = separateOwner ? ownerPassword : newPassword;
 			await pdfEngine.engine
-				.setDocumentEncryption(doc, password, owner, allowedFlags)
+				.setDocumentEncryption(doc, newPassword, owner, allowedFlags)
 				.toPromise();
+
 			const result = await pdfEngine.engine.saveAsCopy(doc).toPromise();
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(new Uint8Array(result), name);
-			success = `Downloaded ${name} — AES-256 encrypted, ${formatFileSize(result.byteLength)}`;
-		} catch (e) {
-			error = e instanceof Error ? e.message : 'Failed to protect PDF.';
+			success = `Downloaded ${name} — password updated, ${formatFileSize(result.byteLength)}`;
+		} catch {
+			error = 'Wrong current password or unable to change password for this PDF.';
 		} finally {
 			processing = false;
 		}
@@ -118,35 +85,31 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF to encrypt" onfiles={(f) => inspectFile(f[0])} />
+		<FileDropzone
+			label="Select protected PDF"
+			hint="or drop an encrypted PDF here"
+			onfiles={(f) => { file = f[0]; error = ''; success = ''; }}
+		/>
 	{:else}
-		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; encrypted = null; error = ''; }} />
-
-		{#if scanning}
-			<ToolPanel>
-				<p class="text-center text-sm text-muted-foreground">Checking encryption status…</p>
-			</ToolPanel>
-		{:else if encrypted === false}
-			<p class="text-sm text-green-600 dark:text-green-400">This PDF is not encrypted — ready to protect.</p>
-		{/if}
-
+		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>
 			<div class="space-y-4">
-				<PasswordInput id="password" label="Password" bind:value={password} />
+				<PasswordInput id="current-password" label="Current password" bind:value={currentPassword} />
+				<PasswordInput id="new-password" label="New password" bind:value={newPassword} />
 				{#if strength}
 					<p class="-mt-2 text-xs capitalize text-muted-foreground">
 						Strength:
 						<span class={strengthColor(strength)}>{strength}</span>
 					</p>
 				{/if}
-				<PasswordInput id="confirm" label="Confirm password" bind:value={confirm} />
+				<PasswordInput id="confirm-new-password" label="Confirm new password" bind:value={confirmPassword} />
 
 				<label class="flex cursor-pointer items-center gap-2 text-sm">
 					<input type="checkbox" class="size-4 rounded border-input accent-primary" bind:checked={separateOwner} />
-					Use separate owner password (for changing permissions later)
+					Use separate owner password
 				</label>
 				{#if separateOwner}
-					<PasswordInput id="owner-password" label="Owner password" bind:value={ownerPassword} />
+					<PasswordInput id="change-owner-password" label="Owner password" bind:value={ownerPassword} />
 				{/if}
 
 				<PermissionControls bind:preset bind:toggles />
@@ -154,12 +117,12 @@
 			</div>
 		</ToolPanel>
 		<ToolAction
-			disabled={processing || !password || encrypted === true || pdfEngine.isLoading || !pdfEngine.engine}
+			disabled={processing || !currentPassword || !newPassword || pdfEngine.isLoading || !pdfEngine.engine}
 			loading={processing}
-			loadingText="Encrypting…"
-			onclick={handleProtect}
+			loadingText="Updating password…"
+			onclick={handleChangePassword}
 		>
-			Protect PDF
+			Change password
 		</ToolAction>
 		<ToolSuccess message={success} />
 	{/if}

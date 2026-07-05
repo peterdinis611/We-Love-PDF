@@ -20,7 +20,7 @@ import {
 	rotatePdf,
 	signPdf,
 	splitPdf
-} from './operations';
+} from '$lib/pdf/operations';
 
 async function createPdf(pages = 1, meta?: { title?: string; author?: string }): Promise<File> {
 	const doc = await PDFDocument.create();

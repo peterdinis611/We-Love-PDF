@@ -126,7 +126,7 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'pdf-to-jpg',
 		name: 'PDF to JPG',
-		description: 'Convert each PDF page into a PNG image using EmbedPDF rendering.',
+		description: 'Convert PDF pages to PNG or JPEG images with adjustable quality.',
 		category: 'convert',
 		icon: 'image',
 		color: 'bg-violet-500',
@@ -140,6 +140,45 @@ export const tools: PdfTool[] = [
 		icon: 'text',
 		color: 'bg-fuchsia-500',
 		available: true
+	},
+	{
+		slug: 'pdf-to-html',
+		name: 'PDF to HTML',
+		description: 'Convert PDF text content into a clean HTML or Markdown document.',
+		category: 'convert',
+		icon: 'html',
+		color: 'bg-orange-500',
+		available: true
+	},
+	{
+		slug: 'txt-to-pdf',
+		name: 'Text to PDF',
+		description: 'Turn plain text into a formatted PDF document.',
+		category: 'convert',
+		icon: 'txt',
+		color: 'bg-lime-500',
+		available: true,
+		accept: '.txt,text/plain'
+	},
+	{
+		slug: 'html-to-pdf',
+		name: 'HTML to PDF',
+		description: 'Convert HTML pages into a PDF with headings, lists, and paragraphs.',
+		category: 'convert',
+		icon: 'html',
+		color: 'bg-amber-500',
+		available: true,
+		accept: '.html,text/html'
+	},
+	{
+		slug: 'markdown-to-pdf',
+		name: 'Markdown to PDF',
+		description: 'Convert Markdown files into a styled PDF document.',
+		category: 'convert',
+		icon: 'markdown',
+		color: 'bg-yellow-500',
+		available: true,
+		accept: '.md,.markdown,text/markdown'
 	},
 	{
 		slug: 'rotate-pdf',
@@ -202,6 +241,24 @@ export const tools: PdfTool[] = [
 		category: 'security',
 		icon: 'unlock',
 		color: 'bg-slate-500',
+		available: true
+	},
+	{
+		slug: 'change-pdf-password',
+		name: 'Change PDF Password',
+		description: 'Replace the password on an encrypted PDF and update permission settings.',
+		category: 'security',
+		icon: 'key',
+		color: 'bg-slate-700',
+		available: true
+	},
+	{
+		slug: 'pdf-security-check',
+		name: 'PDF Security Check',
+		description: 'Inspect whether a PDF is encrypted and what actions are allowed.',
+		category: 'security',
+		icon: 'shield',
+		color: 'bg-slate-800',
 		available: true
 	}
 ];
