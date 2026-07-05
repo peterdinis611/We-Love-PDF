@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PdfTool } from '$lib/tools';
 	import ToolIcon from './ToolIcon.svelte';
+	import ShareLink from './ShareLink.svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 
 	let {
@@ -23,6 +24,9 @@
 			<Badge variant="secondary" class="mb-3">{tool.category}</Badge>
 			<h1 class="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">{tool.name}</h1>
 			<p class="mx-auto max-w-md text-sm text-muted-foreground">{tool.description}</p>
+			<div class="mt-4">
+				<ShareLink />
+			</div>
 		</div>
 
 		{@render children()}

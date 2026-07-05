@@ -6,7 +6,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 
 ## Features
 
-**31 tools** across five categories:
+**34 tools** across five categories:
 
 ### Organize PDF
 | Tool | Route |
@@ -33,6 +33,8 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 |------|-------|
 | Images to PDF | `/tools/images-to-pdf` |
 | PDF to JPG | `/tools/pdf-to-jpg` |
+| PDF to PNG | `/tools/pdf-to-png` |
+| CSV to PDF | `/tools/csv-to-pdf` |
 | PDF to Text | `/tools/pdf-to-text` |
 | PDF to HTML | `/tools/pdf-to-html` |
 | Text to PDF | `/tools/txt-to-pdf` |
@@ -58,6 +60,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | Unlock PDF | `/tools/unlock-pdf` |
 | Change PDF Password | `/tools/change-pdf-password` |
 | PDF Security Check | `/tools/pdf-security-check` |
+| PDF Signature Check | `/tools/pdf-signature-check` |
 
 ## Tech stack
 
@@ -70,6 +73,14 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 
 ## Recent features
 
+- **PDF to PNG** — lossless multi-page export as ZIP
+- **CSV to PDF** — spreadsheet tables as formatted PDFs
+- **PDF Signature Check** — inspect digital signature metadata
+- **Share link** — copy tool URL from any tool page
+- **Recent tools** — session history on the homepage (localStorage)
+- **Organize PDF** — drag-and-drop page reordering
+- **View PDF** — keyboard shortcuts (F, ?, arrow keys)
+- **PWA** — installable app with offline shell caching
 - **ZIP export** for multi-page PDF → image conversion
 - **Batch PDF** — process multiple files into one ZIP
 - **Crop PDF**, **Redact PDF**, **Remove Metadata**, **Fill PDF Form**

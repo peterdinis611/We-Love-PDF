@@ -2,6 +2,7 @@ import { PDFDocument } from 'pdf-lib';
 import { describe, expect, it } from 'vitest';
 import { cropPdf, removeAllMetadata } from '$lib/pdf/operations';
 import { buildZip, uniqueZipName } from '$lib/pdf/zip';
+import { parseCsv, csvToPdf } from '$lib/pdf/csv';
 
 async function createPdf(): Promise<File> {
 	const doc = await PDFDocument.create();
@@ -46,5 +47,22 @@ describe('zip helpers', () => {
 		const used = new Set<string>();
 		expect(uniqueZipName('file.pdf', used)).toBe('file.pdf');
 		expect(uniqueZipName('file.pdf', used)).toBe('file-2.pdf');
+	});
+});
+
+describe('csvToPdf', () => {
+	it('parses quoted CSV fields', () => {
+		const rows = parseCsv('Name,Note\nJane,"Hello, world"');
+		expect(rows).toEqual([
+			['Name', 'Note'],
+			['Jane', 'Hello, world']
+		]);
+	});
+
+	it('creates a PDF from CSV data', async () => {
+		const csv = 'Name,Score\nAlice,10\nBob,20';
+		const bytes = await csvToPdf(csv, { title: 'Scores' });
+		const doc = await PDFDocument.load(bytes);
+		expect(doc.getPageCount()).toBeGreaterThan(0);
 	});
 });

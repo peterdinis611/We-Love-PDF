@@ -3,7 +3,8 @@
 	import { fly, fade } from 'svelte/transition';
 	import ToolCard from '$lib/components/ToolCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { tools, categoryLabels, type ToolCategory } from '$lib/tools';
+	import { tools, categoryLabels, getTool, type ToolCategory, type PdfTool } from '$lib/tools';
+	import { getRecentToolSlugs } from '$lib/recent-tools';
 	import { site, websiteJsonLd } from '$lib/seo';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
@@ -28,6 +29,11 @@
 	let activeCategory = $state<ToolCategory | 'all'>('all');
 	let searchInput = $state<HTMLInputElement | null>(null);
 	let filterKey = $state(0);
+	let recentSlugs = $state<string[]>([]);
+
+	const recentTools = $derived(
+		recentSlugs.map((slug) => getTool(slug)).filter((t): t is PdfTool => !!t)
+	);
 
 	const filtered = $derived(
 		tools.filter((t) => {
@@ -61,6 +67,8 @@
 	}
 
 	onMount(() => {
+		recentSlugs = getRecentToolSlugs();
+
 		function onKeydown(e: KeyboardEvent) {
 			if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
 				e.preventDefault();
@@ -133,6 +141,17 @@
 
 <!-- Tools section -->
 <section id="tools" class="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-14">
+	{#if recentTools.length}
+		<div class="mb-10">
+			<h2 class="mb-4 text-lg font-semibold">Recently used</h2>
+			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{#each recentTools as tool, i (tool.slug)}
+					<ToolCard {tool} index={i} />
+				{/each}
+			</div>
+		</div>
+	{/if}
+
 	<!-- Sticky search + filter -->
 	<div
 		class="sticky top-14 z-40 -mx-4 mb-8 border-b border-border/40 bg-background/85 px-4 py-4 backdrop-blur-xl sm:-mx-6 sm:px-6"

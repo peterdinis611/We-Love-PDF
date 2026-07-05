@@ -9,7 +9,12 @@
 
 	let { children } = $props();
 
-	onMount(() => theme.init());
+	onMount(() => {
+		theme.init();
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/sw.js').catch(() => {});
+		}
+	});
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>

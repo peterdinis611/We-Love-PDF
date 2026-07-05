@@ -8,10 +8,11 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, organizePdf } from '$lib/pdf/operations';
-	import { ChevronDown, ChevronUp, X, RotateCcw } from '@lucide/svelte';
+	import { ChevronDown, ChevronUp, X, RotateCcw, GripVertical } from '@lucide/svelte';
 
 	let file = $state<File | null>(null);
 	let pageOrder = $state<number[]>([]);
+	let dragIdx = $state<number | null>(null);
 	let outputName = $state('organized.pdf');
 	let processing = $state(false);
 	let error = $state('');
@@ -47,6 +48,27 @@
 		pageOrder = [...pageOrder].reverse();
 	}
 
+	function onDragStart(idx: number) {
+		dragIdx = idx;
+	}
+
+	function onDragOver(e: DragEvent) {
+		e.preventDefault();
+	}
+
+	function onDrop(targetIdx: number) {
+		if (dragIdx === null || dragIdx === targetIdx) return;
+		const updated = [...pageOrder];
+		const [moved] = updated.splice(dragIdx, 1);
+		updated.splice(targetIdx, 0, moved);
+		pageOrder = updated;
+		dragIdx = null;
+	}
+
+	function onDragEnd() {
+		dragIdx = null;
+	}
+
 	async function handleOrganize() {
 		if (!file || !pageOrder.length) return;
 		processing = true;
@@ -72,7 +94,7 @@
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>
 			<div class="mb-3 flex items-center justify-between">
-				<p class="text-sm text-muted-foreground">Reorder or remove pages, then download.</p>
+				<p class="text-sm text-muted-foreground">Drag to reorder, or use arrows. Remove pages as needed.</p>
 				<Button variant="outline" size="sm" onclick={reverseOrder}>
 					<RotateCcw class="size-3.5" />
 					Reverse
@@ -80,7 +102,18 @@
 			</div>
 			<div class="space-y-2">
 				{#each pageOrder as pageIndex, i (i)}
-					<div class="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2">
+					<div
+						role="listitem"
+						draggable="true"
+						ondragstart={() => onDragStart(i)}
+						ondragover={onDragOver}
+						ondrop={() => onDrop(i)}
+						ondragend={onDragEnd}
+						class="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2 transition {dragIdx === i
+							? 'opacity-50'
+							: ''}"
+					>
+						<GripVertical class="size-4 shrink-0 cursor-grab text-muted-foreground active:cursor-grabbing" />
 						<span class="w-8 text-xs font-medium text-muted-foreground">#{i + 1}</span>
 						<span class="flex-1 text-sm">Page {pageIndex + 1}</span>
 						<Button variant="ghost" size="icon-sm" disabled={i === 0} onclick={() => movePage(i, -1)} aria-label="Move up">

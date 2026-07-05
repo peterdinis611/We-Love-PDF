@@ -7,6 +7,8 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'rotate-pdf': () => import('$lib/components/tools/RotateTool.svelte'),
 	'organize-pdf': () => import('$lib/components/tools/OrganizeTool.svelte'),
 	'pdf-to-jpg': () => import('$lib/components/tools/PdfToJpgTool.svelte'),
+	'pdf-to-png': () => import('$lib/components/tools/PdfToPngTool.svelte'),
+	'csv-to-pdf': () => import('$lib/components/tools/CsvToPdfTool.svelte'),
 	'pdf-to-text': () => import('$lib/components/tools/PdfToTextTool.svelte'),
 	'pdf-to-html': () => import('$lib/components/tools/PdfToHtmlTool.svelte'),
 	'txt-to-pdf': () => import('$lib/components/tools/TxtToPdfTool.svelte'),
@@ -31,11 +33,13 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'protect-pdf': () => import('$lib/components/tools/ProtectTool.svelte'),
 	'unlock-pdf': () => import('$lib/components/tools/UnlockTool.svelte'),
 	'change-pdf-password': () => import('$lib/components/tools/ChangePasswordTool.svelte'),
-	'pdf-security-check': () => import('$lib/components/tools/CheckSecurityTool.svelte')
+	'pdf-security-check': () => import('$lib/components/tools/CheckSecurityTool.svelte'),
+	'pdf-signature-check': () => import('$lib/components/tools/SignatureCheckTool.svelte')
 };
 
 export const engineTools = new Set([
 	'pdf-to-jpg',
+	'pdf-to-png',
 	'pdf-to-text',
 	'pdf-to-html',
 	'protect-pdf',
@@ -45,7 +49,8 @@ export const engineTools = new Set([
 	'flatten-pdf',
 	'batch-pdf',
 	'redact-pdf',
-	'fill-pdf-form'
+	'fill-pdf-form',
+	'pdf-signature-check'
 ]);
 
 export async function loadToolComponent(slug: string): Promise<Component | null> {

@@ -152,6 +152,25 @@ export const tools: PdfTool[] = [
 		available: true
 	},
 	{
+		slug: 'pdf-to-png',
+		name: 'PDF to PNG',
+		description: 'Convert every PDF page to lossless PNG images and download as a ZIP archive.',
+		category: 'convert',
+		icon: 'png',
+		color: 'bg-purple-500',
+		available: true
+	},
+	{
+		slug: 'csv-to-pdf',
+		name: 'CSV to PDF',
+		description: 'Turn CSV spreadsheet data into a formatted PDF table.',
+		category: 'convert',
+		icon: 'csv',
+		color: 'bg-indigo-500',
+		available: true,
+		accept: '.csv,text/csv'
+	},
+	{
 		slug: 'pdf-to-text',
 		name: 'PDF to Text',
 		description: 'Extract readable text content from your PDF document.',
@@ -305,6 +324,15 @@ export const tools: PdfTool[] = [
 		category: 'security',
 		icon: 'shield',
 		color: 'bg-slate-800',
+		available: true
+	},
+	{
+		slug: 'pdf-signature-check',
+		name: 'PDF Signature Check',
+		description: 'See if a PDF is digitally signed and inspect signature details.',
+		category: 'security',
+		icon: 'signature',
+		color: 'bg-slate-900',
 		available: true
 	}
 ];

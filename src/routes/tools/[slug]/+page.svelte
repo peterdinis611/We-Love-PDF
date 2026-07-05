@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
+	import { browser } from '$app/environment';
 	import ToolLayout from '$lib/components/ToolLayout.svelte';
 	import PdfEngineProvider from '$lib/components/PdfEngineProvider.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { loadToolComponent, engineTools } from '$lib/tool-components';
+	import { recordToolVisit } from '$lib/recent-tools';
 	import { toolJsonLd } from '$lib/seo';
 	import type { PageData } from './$types';
 
@@ -14,6 +16,10 @@
 	let loading = $state(true);
 
 	const needsEngine = $derived(engineTools.has(data.tool.slug));
+
+	$effect(() => {
+		if (browser) recordToolVisit(data.tool.slug);
+	});
 
 	$effect(() => {
 		const slug = data.tool.slug;
