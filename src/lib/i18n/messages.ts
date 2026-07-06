@@ -8,6 +8,7 @@ export type Messages = {
 		view: string;
 		merge: string;
 		backToTools: string;
+		whatsNew: string;
 	};
 	hero: {
 		badge: string;
@@ -60,7 +61,8 @@ const en: Messages = {
 		allTools: 'All Tools',
 		view: 'View',
 		merge: 'Merge',
-		backToTools: '← Tools'
+		backToTools: '← Tools',
+		whatsNew: "What's new"
 	},
 	hero: {
 		badge: 'free tools · 100% in-browser',
@@ -120,7 +122,8 @@ const sk: Messages = {
 		allTools: 'Všetky nástroje',
 		view: 'Zobraziť',
 		merge: 'Spojiť',
-		backToTools: '← Nástroje'
+		backToTools: '← Nástroje',
+		whatsNew: 'Čo je nové'
 	},
 	hero: {
 		badge: 'nástrojov zadarmo · 100 % v prehliadači',

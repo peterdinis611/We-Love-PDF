@@ -1,0 +1,35 @@
+import { type EmbedPdfContainer, type PDFViewerConfig, type PluginRegistry } from '@embedpdf/snippet';
+interface Props {
+    /** Full configuration for the PDF viewer */
+    config?: PDFViewerConfig;
+    /** CSS class for the container element */
+    class?: string;
+    /** Inline styles for the container element */
+    style?: string;
+    /** Callback when the viewer container is initialized */
+    oninit?: (container: EmbedPdfContainer) => void;
+    /** Callback when the plugin registry is ready */
+    onready?: (registry: PluginRegistry) => void;
+}
+interface $$__sveltets_2_IsomorphicComponent<Props extends Record<string, any> = any, Events extends Record<string, any> = any, Slots extends Record<string, any> = any, Exports = {}, Bindings = string> {
+    new (options: import('svelte').ComponentConstructorOptions<Props>): import('svelte').SvelteComponent<Props, Events, Slots> & {
+        $$bindings?: Bindings;
+    } & Exports;
+    (internal: unknown, props: Props & {
+        $$events?: Events;
+        $$slots?: Slots;
+    }): Exports & {
+        $set?: any;
+        $on?: any;
+    };
+    z_$$bindings?: Bindings;
+}
+declare const PDFViewer: $$__sveltets_2_IsomorphicComponent<Props, {
+    init: CustomEvent<EmbedPdfContainer>;
+    ready: CustomEvent<PluginRegistry>;
+} & {
+    [evt: string]: CustomEvent<any>;
+}, {}, {}, "">;
+type PDFViewer = InstanceType<typeof PDFViewer>;
+export default PDFViewer;
+//# sourceMappingURL=PDFViewer.svelte.d.ts.map

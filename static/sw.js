@@ -1,5 +1,5 @@
-const CACHE = 'welovepdf-v2';
-const SHELL = ['/', '/sk', '/manifest.webmanifest'];
+const CACHE = 'welovepdf-v3';
+const SHELL = ['/', '/sk', '/changelog', '/sk/changelog', '/manifest.webmanifest'];
 
 const IMMUTABLE = /\.(wasm|woff2?|png|jpg|svg|ico)$/i;
 const APP_ASSET = /\/_app\//;

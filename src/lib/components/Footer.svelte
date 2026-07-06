@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { tools } from '$lib/tools';
-	import { toolPath } from '$lib/i18n/locale';
+	import { toolPath, localizedPath } from '$lib/i18n/locale';
 	import { msg, localizeTool } from '$lib/i18n';
 
 	const locale = $derived($page.data.locale ?? 'en');
@@ -40,6 +40,12 @@
 			</div>
 
 			<nav class="flex flex-wrap justify-center gap-2">
+				<a
+					href={localizedPath('/changelog', locale)}
+					class="rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary transition-all duration-200 hover:border-primary/40 hover:bg-primary/10"
+				>
+					{m.nav.whatsNew}
+				</a>
 				{#each popular as link}
 					<a
 						href={toolPath(link.slug, locale)}

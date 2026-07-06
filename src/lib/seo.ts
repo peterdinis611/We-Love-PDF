@@ -68,6 +68,8 @@ export function sitemapEntries() {
 	const paths = [
 		{ path: '', changefreq: 'weekly' as const, priority: 1 },
 		{ path: '/sk', changefreq: 'weekly' as const, priority: 0.9 },
+		{ path: '/changelog', changefreq: 'monthly' as const, priority: 0.6 },
+		{ path: '/sk/changelog', changefreq: 'monthly' as const, priority: 0.55 },
 		...tools
 			.filter((t) => t.available)
 			.flatMap((t) => [
