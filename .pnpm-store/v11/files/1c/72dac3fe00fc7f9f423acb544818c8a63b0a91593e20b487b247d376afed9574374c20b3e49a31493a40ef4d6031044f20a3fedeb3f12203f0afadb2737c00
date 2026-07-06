@@ -1,3 +1,0 @@
-export { default as PDFViewer } from './PDFViewer.svelte';
-export * from '@embedpdf/snippet';
-//# sourceMappingURL=index.d.ts.map
