@@ -47,30 +47,38 @@ export function websiteJsonLd() {
 	};
 }
 
-export function toolJsonLd(name: string, description: string, slug: string) {
+export function toolJsonLd(name: string, description: string, slug: string, locale: 'en' | 'sk' = 'en') {
+	const path = locale === 'sk' ? `/sk/tools/${slug}` : `/tools/${slug}`;
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'WebApplication',
 		name,
 		description,
-		url: canonicalUrl(`/tools/${slug}`),
+		url: canonicalUrl(path),
 		applicationCategory: 'UtilitiesApplication',
 		operatingSystem: 'Any',
 		browserRequirements: 'Requires JavaScript',
 		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-		isPartOf: { '@type': 'WebSite', name: site.name, url: site.url }
+		isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
+		inLanguage: locale === 'sk' ? 'sk' : 'en'
 	};
 }
 
 export function sitemapEntries() {
-	return [
-		{ loc: site.url, changefreq: 'weekly' as const, priority: 1 },
+	const paths = [
+		{ path: '', changefreq: 'weekly' as const, priority: 1 },
+		{ path: '/sk', changefreq: 'weekly' as const, priority: 0.9 },
 		...tools
 			.filter((t) => t.available)
-			.map((t) => ({
-				loc: canonicalUrl(`/tools/${t.slug}`),
-				changefreq: 'monthly' as const,
-				priority: 0.8
-			}))
+			.flatMap((t) => [
+				{ path: `/tools/${t.slug}`, changefreq: 'monthly' as const, priority: 0.8 },
+				{ path: `/sk/tools/${t.slug}`, changefreq: 'monthly' as const, priority: 0.75 }
+			])
 	];
+
+	return paths.map((entry) => ({
+		loc: canonicalUrl(entry.path),
+		changefreq: entry.changefreq,
+		priority: entry.priority
+	}));
 }

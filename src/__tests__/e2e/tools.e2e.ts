@@ -22,11 +22,16 @@ test.describe('All tool pages load', () => {
 test.describe('Homepage', () => {
 	test('loads all tool cards', async ({ page }) => {
 		await page.goto('/');
-		await expect(page.locator('h1')).toContainText('Every PDF tool');
+		await expect(page.locator('h1')).toContainText(/Every PDF tool|Všetky PDF nástroje/);
 		const toolsSection = page.locator('#tools');
 		for (const tool of tools.filter((t) => t.available)) {
 			await expect(toolsSection.locator(`a[href="/tools/${tool.slug}"]`)).toBeVisible();
 		}
+	});
+
+	test('Slovak homepage loads', async ({ page }) => {
+		await page.goto('/sk');
+		await expect(page.locator('h1')).toContainText('Všetky PDF nástroje');
 	});
 
 	test('search filters tools', async ({ page }) => {

@@ -1,15 +1,34 @@
 <script lang="ts">
 	import type { PdfTool } from '$lib/tools';
-	import { categoryLabels } from '$lib/tools';
+	import { isFavoriteTool, toggleFavoriteTool } from '$lib/favorite-tools';
+	import { isNewTool } from '$lib/changelog';
+	import { categoryLabel } from '$lib/i18n/messages';
+	import { toolPath } from '$lib/i18n/locale';
+	import type { Locale } from '$lib/i18n/locale';
 	import ToolIcon from './ToolIcon.svelte';
+	import NewBadge from './NewBadge.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { ArrowUpRight } from '@lucide/svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { ArrowUpRight, Star } from '@lucide/svelte';
 
-	let { tool, index = 0 }: { tool: PdfTool; index?: number } = $props();
+	let { tool, locale = 'en', index = 0 }: { tool: PdfTool; locale?: Locale; index?: number } = $props();
+
+	let favorited = $state(false);
+
+	$effect(() => {
+		favorited = isFavoriteTool(tool.slug);
+	});
+
+	function toggleFavorite(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+		toggleFavoriteTool(tool.slug);
+		favorited = isFavoriteTool(tool.slug);
+	}
 </script>
 
 <a
-	href="/tools/{tool.slug}"
+	href={toolPath(tool.slug, locale)}
 	class="animate-fade-in-up group block h-full"
 	style="animation-delay: var(--stagger, 0ms); --stagger: {index * 55}ms"
 >
@@ -30,17 +49,33 @@
 					></div>
 					<ToolIcon icon={tool.icon} />
 				</div>
-				<span
-					class="flex size-8 items-center justify-center rounded-full bg-muted/80 text-muted-foreground opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:bg-primary/10 group-hover:text-primary"
-				>
-					<ArrowUpRight class="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-				</span>
+				<div class="flex gap-1">
+					<Button
+						variant="ghost"
+						size="icon-sm"
+						class={favorited ? 'text-amber-500' : 'text-muted-foreground'}
+						onclick={toggleFavorite}
+						aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
+					>
+						<Star class="size-4 {favorited ? 'fill-current' : ''}" />
+					</Button>
+					<span
+						class="flex size-8 items-center justify-center rounded-full bg-muted/80 text-muted-foreground opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:bg-primary/10 group-hover:text-primary"
+					>
+						<ArrowUpRight class="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+					</span>
+				</div>
 			</div>
 
 			<div class="min-w-0 flex-1">
-				<span class="mb-1.5 inline-block rounded-full bg-muted/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-					{categoryLabels[tool.category].replace(' PDF', '')}
-				</span>
+				<div class="mb-1.5 flex flex-wrap items-center gap-1.5">
+					<span class="inline-block rounded-full bg-muted/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+						{categoryLabel(tool.category, locale).replace(' PDF', '')}
+					</span>
+					{#if isNewTool(tool.slug)}
+						<NewBadge {locale} />
+					{/if}
+				</div>
 				<Card.Title class="mb-1 text-base font-semibold leading-snug transition-colors duration-200 group-hover:text-primary">
 					{tool.name}
 				</Card.Title>

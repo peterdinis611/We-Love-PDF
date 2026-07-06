@@ -2,11 +2,9 @@
 // for information about these interfaces
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface PageState {}
-		// interface Platform {}
+		interface PageData {
+			locale: import('$lib/i18n/locale').Locale;
+		}
 	}
 }
 

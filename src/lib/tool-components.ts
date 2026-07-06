@@ -6,9 +6,16 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'view-pdf': () => import('$lib/components/tools/ViewTool.svelte'),
 	'rotate-pdf': () => import('$lib/components/tools/RotateTool.svelte'),
 	'organize-pdf': () => import('$lib/components/tools/OrganizeTool.svelte'),
+	'compare-pdf': () => import('$lib/components/tools/ComparePdfTool.svelte'),
 	'pdf-to-jpg': () => import('$lib/components/tools/PdfToJpgTool.svelte'),
 	'pdf-to-png': () => import('$lib/components/tools/PdfToPngTool.svelte'),
 	'csv-to-pdf': () => import('$lib/components/tools/CsvToPdfTool.svelte'),
+	'json-to-pdf': () => import('$lib/components/tools/JsonToPdfTool.svelte'),
+	'xml-to-pdf': () => import('$lib/components/tools/XmlToPdfTool.svelte'),
+	'excel-to-pdf': () => import('$lib/components/tools/ExcelToPdfTool.svelte'),
+	'word-to-pdf': () => import('$lib/components/tools/WordToPdfTool.svelte'),
+	'powerpoint-to-pdf': () => import('$lib/components/tools/PowerPointToPdfTool.svelte'),
+	'pdf-to-docx': () => import('$lib/components/tools/PdfToDocxTool.svelte'),
 	'pdf-to-text': () => import('$lib/components/tools/PdfToTextTool.svelte'),
 	'pdf-to-html': () => import('$lib/components/tools/PdfToHtmlTool.svelte'),
 	'txt-to-pdf': () => import('$lib/components/tools/TxtToPdfTool.svelte'),
@@ -34,12 +41,17 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'unlock-pdf': () => import('$lib/components/tools/UnlockTool.svelte'),
 	'change-pdf-password': () => import('$lib/components/tools/ChangePasswordTool.svelte'),
 	'pdf-security-check': () => import('$lib/components/tools/CheckSecurityTool.svelte'),
-	'pdf-signature-check': () => import('$lib/components/tools/SignatureCheckTool.svelte')
+	'pdf-signature-check': () => import('$lib/components/tools/SignatureCheckTool.svelte'),
+	'digital-sign-pdf': () => import('$lib/components/tools/DigitalSignTool.svelte')
 };
 
 export const engineTools = new Set([
+	'merge-pdf',
+	'organize-pdf',
+	'compare-pdf',
 	'pdf-to-jpg',
 	'pdf-to-png',
+	'pdf-to-docx',
 	'pdf-to-text',
 	'pdf-to-html',
 	'protect-pdf',

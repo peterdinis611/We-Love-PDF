@@ -6,6 +6,7 @@
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import {
 		compressPdf,
 		createFileId,
@@ -16,17 +17,22 @@
 		type PdfFile
 	} from '$lib/pdf/operations';
 	import { downloadZip, uniqueZipName } from '$lib/pdf/zip';
+	import { readStringParam, syncToolParams } from '$lib/tool-params';
 
 	const pdfEngine = usePdfEngineContext();
 
 	type BatchOperation = 'compress' | 'rotate-90' | 'remove-metadata' | 'flatten';
 
 	let files = $state<PdfFile[]>([]);
-	let operation = $state<BatchOperation>('compress');
+	let operation = $state<BatchOperation>((readStringParam('op', 'compress') as BatchOperation) || 'compress');
 	let processing = $state(false);
-	let progress = $state('');
+	let progressCurrent = $state(0);
 	let error = $state('');
 	let success = $state('');
+
+	$effect(() => {
+		syncToolParams({ op: operation });
+	});
 
 	function addFiles(newFiles: File[]) {
 		const pdfs = newFiles.filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
@@ -89,15 +95,15 @@
 		processing = true;
 		error = '';
 		success = '';
-		progress = '';
+		progressCurrent = 0;
 
 		try {
 			const used = new Set<string>();
 			const entries: { name: string; data: Uint8Array }[] = [];
 
 			for (let i = 0; i < files.length; i++) {
+				progressCurrent = i + 1;
 				const item = files[i];
-				progress = `Processing ${i + 1} of ${files.length}: ${item.name}`;
 				const result = await processFile(item.file, operation);
 				const outName = uniqueZipName(outputNameFromInput(item.name, suffixFor(operation)), used);
 				entries.push({ name: outName, data: result });
@@ -109,7 +115,7 @@
 			error = e instanceof Error ? e.message : 'Batch processing failed.';
 		} finally {
 			processing = false;
-			progress = '';
+			progressCurrent = 0;
 		}
 	}
 </script>
@@ -157,8 +163,8 @@
 			</div>
 		</ToolPanel>
 
-		{#if progress}
-			<p class="text-sm text-muted-foreground">{progress}</p>
+		{#if processing && files.length > 1}
+			<ProgressBar value={progressCurrent} max={files.length} label="Processing {progressCurrent} of {files.length}…" />
 		{/if}
 
 		<ToolAction

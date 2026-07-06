@@ -3,9 +3,14 @@
 	import { fly, fade } from 'svelte/transition';
 	import ToolCard from '$lib/components/ToolCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { tools, categoryLabels, getTool, type ToolCategory, type PdfTool } from '$lib/tools';
+	import { tools, type ToolCategory, type PdfTool } from '$lib/tools';
 	import { getRecentToolSlugs } from '$lib/recent-tools';
+	import { getFavoriteToolSlugs } from '$lib/favorite-tools';
 	import { site, websiteJsonLd } from '$lib/seo';
+	import { msg, localizeTools } from '$lib/i18n';
+	import { categoryLabel } from '$lib/i18n/messages';
+	import { toolPath } from '$lib/i18n/locale';
+	import type { PageData } from './$types';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
@@ -23,20 +28,36 @@
 		Command
 	} from '@lucide/svelte';
 
-	const categories = Object.keys(categoryLabels) as ToolCategory[];
+	let { data }: { data: PageData } = $props();
+
+	const locale = $derived(data.locale);
+	const m = $derived(msg(locale));
+	const localizedTools = $derived(localizeTools(tools, locale));
+	const categories = $derived(
+		Object.keys(m.categories) as ToolCategory[]
+	);
 
 	let query = $state('');
 	let activeCategory = $state<ToolCategory | 'all'>('all');
 	let searchInput = $state<HTMLInputElement | null>(null);
 	let filterKey = $state(0);
 	let recentSlugs = $state<string[]>([]);
+	let favoriteSlugs = $state<string[]>([]);
 
 	const recentTools = $derived(
-		recentSlugs.map((slug) => getTool(slug)).filter((t): t is PdfTool => !!t)
+		recentSlugs
+			.map((slug) => localizedTools.find((t) => t.slug === slug))
+			.filter((t): t is PdfTool => !!t)
+	);
+
+	const favoriteTools = $derived(
+		favoriteSlugs
+			.map((slug) => localizedTools.find((t) => t.slug === slug))
+			.filter((t): t is PdfTool => !!t)
 	);
 
 	const filtered = $derived(
-		tools.filter((t) => {
+		localizedTools.filter((t) => {
 			const matchesQuery =
 				!query ||
 				t.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -50,7 +71,7 @@
 		categories
 			.map((cat) => ({
 				category: cat,
-				label: categoryLabels[cat],
+				label: categoryLabel(cat, locale),
 				tools: filtered.filter((t) => t.category === cat)
 			}))
 			.filter((g) => g.tools.length > 0)
@@ -68,6 +89,7 @@
 
 	onMount(() => {
 		recentSlugs = getRecentToolSlugs();
+		favoriteSlugs = getFavoriteToolSlugs();
 
 		function onKeydown(e: KeyboardEvent) {
 			if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
@@ -85,8 +107,13 @@
 </script>
 
 <SeoHead
-	meta={{ title: site.tagline, description: site.description, path: '/' }}
+	meta={{
+		title: locale === 'sk' ? 'Všetky PDF nástroje, ktoré potrebujete' : site.tagline,
+		description: locale === 'sk' ? m.hero.subtitle : site.description,
+		path: locale === 'sk' ? '/sk' : '/'
+	}}
 	jsonLd={websiteJsonLd()}
+	{locale}
 />
 
 <!-- Hero -->
@@ -102,37 +129,36 @@
 			<div in:fade={{ duration: 400, delay: 0 }}>
 				<Badge variant="secondary" class="mb-4 gap-1.5 px-3 py-1">
 					<Sparkles class="size-3 animate-pulse" />
-					{tools.length} free tools · 100% in-browser
+					{localizedTools.length} {m.hero.badge}
 				</Badge>
 			</div>
 			<h1
 				class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl"
 				in:fly={{ y: 20, duration: 500, delay: 80 }}
 			>
-				Every PDF tool you need
+				{m.hero.title}
 			</h1>
 			<p
 				class="mb-8 text-base text-muted-foreground sm:text-lg"
 				in:fly={{ y: 20, duration: 500, delay: 160 }}
 			>
-				Merge, split, compress, sign, watermark, encrypt — fast, private, and completely free. Your
-				files never leave your device.
+				{m.hero.subtitle}
 			</p>
 			<div
 				class="flex flex-wrap justify-center gap-2"
 				in:fly={{ y: 20, duration: 500, delay: 240 }}
 			>
-				<Button href="/tools/merge-pdf" size="lg" class="transition-transform hover:scale-105">
+				<Button href={toolPath('merge-pdf', locale)} size="lg" class="transition-transform hover:scale-105">
 					<FileText class="size-4" />
-					Merge PDF
+					{m.hero.ctaMerge}
 				</Button>
-				<Button href="/tools/view-pdf" variant="outline" size="lg" class="transition-transform hover:scale-105">
+				<Button href={toolPath('view-pdf', locale)} variant="outline" size="lg" class="transition-transform hover:scale-105">
 					<Eye class="size-4" />
-					View PDF
+					{m.hero.ctaView}
 				</Button>
-				<Button href="/tools/compress-pdf" variant="outline" size="lg" class="transition-transform hover:scale-105">
+				<Button href={toolPath('compress-pdf', locale)} variant="outline" size="lg" class="transition-transform hover:scale-105">
 					<Minimize2 class="size-4" />
-					Compress
+					{m.hero.ctaCompress}
 				</Button>
 			</div>
 		</div>
@@ -141,12 +167,23 @@
 
 <!-- Tools section -->
 <section id="tools" class="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-14">
+	{#if favoriteTools.length}
+		<div class="mb-10">
+			<h2 class="mb-4 text-lg font-semibold">{m.home.favorites}</h2>
+			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{#each favoriteTools as tool, i (tool.slug)}
+					<ToolCard {tool} {locale} index={i} />
+				{/each}
+			</div>
+		</div>
+	{/if}
+
 	{#if recentTools.length}
 		<div class="mb-10">
-			<h2 class="mb-4 text-lg font-semibold">Recently used</h2>
+			<h2 class="mb-4 text-lg font-semibold">{m.home.recent}</h2>
 			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{#each recentTools as tool, i (tool.slug)}
-					<ToolCard {tool} index={i} />
+					<ToolCard {tool} {locale} index={i} />
 				{/each}
 			</div>
 		</div>
@@ -163,7 +200,7 @@
 					<Input
 						bind:ref={searchInput}
 						bind:value={query}
-						placeholder="Search tools…"
+						placeholder={m.home.searchPlaceholder}
 						class="pr-20 pl-9 transition-shadow focus:shadow-md focus:shadow-primary/5"
 					/>
 					<div class="absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-1">
@@ -172,7 +209,7 @@
 								type="button"
 								class="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
 								onclick={clearSearch}
-								aria-label="Clear search"
+								aria-label={m.home.clearSearch}
 							>
 								<X class="size-3.5" />
 							</button>
@@ -188,14 +225,14 @@
 				<p class="text-sm text-muted-foreground tabular-nums">
 					{#key filtered.length}
 						<span in:fade={{ duration: 200 }}>
-							{filtered.length} tool{filtered.length === 1 ? '' : 's'}
+							{filtered.length} {filtered.length === 1 ? m.home.toolsCountOne : m.home.toolsCount}
 						</span>
 					{/key}
 				</p>
 			</div>
 
 			<div class="flex flex-wrap gap-2">
-				{#each [{ id: 'all', label: `All (${tools.length})` }, ...categories.map((c) => ({ id: c, label: `${categoryLabels[c]} (${tools.filter((t) => t.category === c).length})` }))] as pill}
+				{#each [{ id: 'all', label: `${m.home.all} (${localizedTools.length})` }, ...categories.map((c) => ({ id: c, label: `${categoryLabel(c, locale)} (${localizedTools.filter((t) => t.category === c).length})` }))] as pill}
 					<button
 						type="button"
 						class="category-pill rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-200 {activeCategory === pill.id
@@ -212,10 +249,10 @@
 
 	{#if filtered.length === 0}
 		<div class="py-16 text-center" in:fade={{ duration: 300 }}>
-			<p class="text-lg font-medium text-muted-foreground">No tools match your search</p>
-			<p class="mt-1 text-sm text-muted-foreground">Try a different keyword or category</p>
+			<p class="text-lg font-medium text-muted-foreground">{m.home.noResults}</p>
+			<p class="mt-1 text-sm text-muted-foreground">{m.home.noResultsHint}</p>
 			<Button variant="link" class="mt-3" onclick={() => { query = ''; activeCategory = 'all'; filterKey++; }}>
-				Reset filters
+				{m.home.resetFilters}
 			</Button>
 		</div>
 	{:else if activeCategory === 'all'}
@@ -235,7 +272,7 @@
 					</div>
 					<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 						{#each group.tools as tool, i (tool.slug)}
-							<ToolCard {tool} index={i + gi * 3} />
+							<ToolCard {tool} {locale} index={i + gi * 3} />
 						{/each}
 					</div>
 				</div>
@@ -245,7 +282,7 @@
 		{#key filterKey}
 			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" in:fade={{ duration: 250 }}>
 				{#each filtered as tool, i (tool.slug)}
-					<ToolCard {tool} index={i} />
+					<ToolCard {tool} {locale} index={i} />
 				{/each}
 			</div>
 		{/key}
@@ -255,12 +292,12 @@
 <!-- Features -->
 <section class="border-t border-border/60 bg-muted/30">
 	<div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-		<h2 class="mb-8 text-center text-2xl font-bold">Why WeLovePDF?</h2>
+		<h2 class="mb-8 text-center text-2xl font-bold">{m.home.whyTitle}</h2>
 		<div class="grid gap-4 sm:grid-cols-3">
 			{#each [
-				{ icon: Shield, title: '100% Private', desc: 'All processing happens locally. No uploads, no servers.' },
-				{ icon: Zap, title: 'Lightning Fast', desc: 'Instant results powered by modern browser PDF engines.' },
-				{ icon: Sparkles, title: 'Dark Mode', desc: 'Comfortable viewing day or night with theme switching.' }
+				{ icon: Shield, title: m.home.featurePrivateTitle, desc: m.home.featurePrivateDesc },
+				{ icon: Zap, title: m.home.featureFastTitle, desc: m.home.featureFastDesc },
+				{ icon: Sparkles, title: m.home.featureDarkTitle, desc: m.home.featureDarkDesc }
 			] as feature, i}
 				<Card.Root
 					class="border-border/60 bg-card/80 transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 animate-fade-in-up"

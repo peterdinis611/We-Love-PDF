@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { usePdfEngineContext } from '$lib/pdf/engine-context';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
+	import PageThumbnail from '$lib/components/PageThumbnail.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
 	import OutputFilename from '$lib/components/OutputFilename.svelte';
@@ -8,13 +10,16 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, organizePdf } from '$lib/pdf/operations';
-	import { ChevronDown, ChevronUp, X, RotateCcw, GripVertical } from '@lucide/svelte';
+	import { ChevronDown, ChevronUp, X, RotateCcw, GripVertical, ArrowDownAZ, Eraser } from '@lucide/svelte';
+
+	const pdfEngine = usePdfEngineContext();
 
 	let file = $state<File | null>(null);
 	let pageOrder = $state<number[]>([]);
 	let dragIdx = $state<number | null>(null);
 	let outputName = $state('organized.pdf');
 	let processing = $state(false);
+	let removingBlanks = $state(false);
 	let error = $state('');
 	let success = $state('');
 
@@ -46,6 +51,38 @@
 
 	function reverseOrder() {
 		pageOrder = [...pageOrder].reverse();
+	}
+
+	function sortByPageNumber() {
+		pageOrder = [...pageOrder].sort((a, b) => a - b);
+	}
+
+	async function removeBlankPages() {
+		if (!file || !pdfEngine.engine) return;
+		removingBlanks = true;
+		error = '';
+		try {
+			const buffer = await file.arrayBuffer();
+			const doc = await pdfEngine.engine
+				.openDocumentBuffer({ id: 'organize-blanks', content: buffer })
+				.toPromise();
+
+			const kept: number[] = [];
+			for (const pageIdx of pageOrder) {
+				const text = await pdfEngine.engine.extractText(doc, [pageIdx]).toPromise();
+				if (text.trim().length > 8) kept.push(pageIdx);
+			}
+
+			if (!kept.length) {
+				error = 'All pages appear blank.';
+				return;
+			}
+			pageOrder = kept;
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Could not detect blank pages.';
+		} finally {
+			removingBlanks = false;
+		}
 	}
 
 	function onDragStart(idx: number) {
@@ -93,12 +130,27 @@
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>
-			<div class="mb-3 flex items-center justify-between">
-				<p class="text-sm text-muted-foreground">Drag to reorder, or use arrows. Remove pages as needed.</p>
-				<Button variant="outline" size="sm" onclick={reverseOrder}>
-					<RotateCcw class="size-3.5" />
-					Reverse
-				</Button>
+			<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+				<p class="text-sm text-muted-foreground">Drag to reorder pages. Use actions to sort or clean up.</p>
+				<div class="flex flex-wrap gap-2">
+					<Button variant="outline" size="sm" onclick={sortByPageNumber}>
+						<ArrowDownAZ class="size-3.5" />
+						Sort 1…n
+					</Button>
+					<Button variant="outline" size="sm" onclick={reverseOrder}>
+						<RotateCcw class="size-3.5" />
+						Reverse
+					</Button>
+					<Button
+						variant="outline"
+						size="sm"
+						disabled={removingBlanks || pdfEngine.isLoading || !pdfEngine.engine}
+						onclick={removeBlankPages}
+					>
+						<Eraser class="size-3.5" />
+						{removingBlanks ? 'Checking…' : 'Remove blanks'}
+					</Button>
+				</div>
 			</div>
 			<div class="space-y-2">
 				{#each pageOrder as pageIndex, i (i)}
@@ -114,6 +166,9 @@
 							: ''}"
 					>
 						<GripVertical class="size-4 shrink-0 cursor-grab text-muted-foreground active:cursor-grabbing" />
+						{#if pdfEngine.engine}
+							<PageThumbnail {file} pageIndex={pageIndex} class="h-14 w-10 shrink-0" />
+						{/if}
 						<span class="w-8 text-xs font-medium text-muted-foreground">#{i + 1}</span>
 						<span class="flex-1 text-sm">Page {pageIndex + 1}</span>
 						<Button variant="ghost" size="icon-sm" disabled={i === 0} onclick={() => movePage(i, -1)} aria-label="Move up">
@@ -136,6 +191,9 @@
 			Download organized PDF
 		</ToolAction>
 		<ToolSuccess message={success} />
+	{/if}
+	{#if pdfEngine.error}
+		<Alert message="Failed to load PDF engine. Thumbnails and blank detection may be unavailable." variant="info" />
 	{/if}
 	<Alert message={error} />
 </div>

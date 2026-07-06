@@ -6,19 +6,26 @@
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { formatFileSize, getPageCount, parsePageIndexes } from '$lib/pdf/operations';
 	import { downloadZip } from '$lib/pdf/zip';
+	import { readNumberParam, readStringParam, syncToolParams } from '$lib/tool-params';
 
 	const pdfEngine = usePdfEngineContext();
 
 	let file = $state<File | null>(null);
 	let pageCount = $state(0);
-	let scaleFactor = $state(2);
-	let pageRange = $state('');
+	let scaleFactor = $state(readNumberParam('scale', 2));
+	let pageRange = $state(readStringParam('pages'));
 	let processing = $state(false);
+	let progressCurrent = $state(0);
 	let error = $state('');
 	let success = $state('');
+
+	$effect(() => {
+		syncToolParams({ scale: scaleFactor, pages: pageRange || undefined });
+	});
 
 	async function setFile(f: File) {
 		file = f;
@@ -43,6 +50,7 @@
 		processing = true;
 		error = '';
 		success = '';
+		progressCurrent = 0;
 		try {
 			const buffer = await file.arrayBuffer();
 			const doc = await pdfEngine.engine
@@ -50,7 +58,9 @@
 				.toPromise();
 
 			const entries: { name: string; data: Blob }[] = [];
-			for (const i of indexes) {
+			for (let n = 0; n < indexes.length; n++) {
+				progressCurrent = n + 1;
+				const i = indexes[n];
 				const page = doc.pages[i];
 				if (!page) continue;
 				const blob = await pdfEngine.engine.renderPage(doc, page, { scaleFactor }).toPromise();
@@ -64,6 +74,7 @@
 			error = e instanceof Error ? e.message : 'Failed to convert PDF to PNG.';
 		} finally {
 			processing = false;
+			progressCurrent = 0;
 		}
 	}
 </script>
@@ -88,6 +99,9 @@
 				</div>
 			</div>
 		</ToolPanel>
+		{#if processing && progressCurrent > 0}
+			<ProgressBar value={progressCurrent} max={parsePageIndexes(pageRange, pageCount).length || pageCount} label="Rendering page {progressCurrent}…" />
+		{/if}
 		<ToolAction
 			disabled={processing || pdfEngine.isLoading || !pdfEngine.engine}
 			loading={processing || pdfEngine.isLoading}

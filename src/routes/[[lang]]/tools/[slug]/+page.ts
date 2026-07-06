@@ -9,7 +9,8 @@ export const load: PageLoad = ({ params }) => {
 };
 
 export function entries() {
-	return tools.filter((t) => t.available).map((t) => ({ slug: t.slug }));
+	const slugs = tools.filter((t) => t.available).map((t) => t.slug);
+	return [...slugs.map((slug) => ({ slug })), ...slugs.map((slug) => ({ lang: 'sk', slug }))];
 }
 
 export const prerender = true;

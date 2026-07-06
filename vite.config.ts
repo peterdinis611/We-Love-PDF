@@ -20,12 +20,19 @@ export default defineConfig({
 			adapter: adapter()
 		})
 	],
+	resolve: {
+		alias: {
+			buffer: 'buffer/'
+		}
+	},
 	build: {
 		rollupOptions: {
 			output: {
 				manualChunks(id) {
 					if (id.includes('pdf-lib')) return 'pdf-lib';
 					if (id.includes('@embedpdf')) return 'embedpdf';
+					if (id.includes('@signpdf') || id.includes('node-forge')) return 'signpdf';
+					if (id.includes('mammoth')) return 'mammoth';
 					if (id.includes('@lucide/svelte')) return 'icons';
 				}
 			}

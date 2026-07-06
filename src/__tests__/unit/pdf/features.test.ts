@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { cropPdf, removeAllMetadata } from '$lib/pdf/operations';
 import { buildZip, uniqueZipName } from '$lib/pdf/zip';
 import { parseCsv, csvToPdf } from '$lib/pdf/csv';
+import { jsonToRows } from '$lib/pdf/data-to-pdf';
+import { comparePageTexts, diffText } from '$lib/pdf/compare';
 
 async function createPdf(): Promise<File> {
 	const doc = await PDFDocument.create();
@@ -64,5 +66,26 @@ describe('csvToPdf', () => {
 		const bytes = await csvToPdf(csv, { title: 'Scores' });
 		const doc = await PDFDocument.load(bytes);
 		expect(doc.getPageCount()).toBeGreaterThan(0);
+	});
+});
+
+describe('jsonToRows', () => {
+	it('converts object array to table rows', () => {
+		const rows = jsonToRows([{ name: 'Jane', score: 10 }]);
+		expect(rows[0]).toContain('name');
+		expect(rows[1]).toContain('Jane');
+	});
+});
+
+describe('comparePageTexts', () => {
+	it('detects line differences', () => {
+		const lines = diffText('hello\nworld', 'hello\nthere');
+		expect(lines.some((line) => line.type === 'remove' && line.text === 'world')).toBe(true);
+		expect(lines.some((line) => line.type === 'add' && line.text === 'there')).toBe(true);
+	});
+
+	it('compares pages from two documents', () => {
+		const result = comparePageTexts(['same'], ['different']);
+		expect(result[0].equal).toBe(false);
 	});
 });

@@ -10,6 +10,7 @@ export interface PdfTool {
 	available: boolean;
 	multiple?: boolean;
 	accept?: string;
+	howItWorks?: string[];
 }
 
 export const categoryLabels: Record<ToolCategory, string> = {
@@ -66,6 +67,16 @@ export const tools: PdfTool[] = [
 		icon: 'organize',
 		color: 'bg-lime-500',
 		available: true
+	},
+	{
+		slug: 'compare-pdf',
+		name: 'Compare PDF',
+		description: 'Compare two PDFs and highlight text differences page by page.',
+		category: 'organize',
+		icon: 'compare',
+		color: 'bg-lime-600',
+		available: true,
+		multiple: true
 	},
 	{
 		slug: 'view-pdf',
@@ -171,6 +182,65 @@ export const tools: PdfTool[] = [
 		accept: '.csv,text/csv'
 	},
 	{
+		slug: 'json-to-pdf',
+		name: 'JSON to PDF',
+		description: 'Convert JSON arrays or objects into a readable PDF table.',
+		category: 'convert',
+		icon: 'json',
+		color: 'bg-blue-500',
+		available: true,
+		accept: '.json,application/json'
+	},
+	{
+		slug: 'xml-to-pdf',
+		name: 'XML to PDF',
+		description: 'Turn structured XML data into a formatted PDF table.',
+		category: 'convert',
+		icon: 'xml',
+		color: 'bg-sky-500',
+		available: true,
+		accept: '.xml,text/xml,application/xml'
+	},
+	{
+		slug: 'excel-to-pdf',
+		name: 'Excel to PDF',
+		description: 'Convert the first Excel worksheet into a PDF table.',
+		category: 'convert',
+		icon: 'excel',
+		color: 'bg-cyan-500',
+		available: true,
+		accept: '.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+	},
+	{
+		slug: 'word-to-pdf',
+		name: 'Word to PDF',
+		description: 'Convert .docx Word documents to PDF via HTML (basic formatting preserved).',
+		category: 'convert',
+		icon: 'word',
+		color: 'bg-blue-600',
+		available: true,
+		accept: '.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+	},
+	{
+		slug: 'powerpoint-to-pdf',
+		name: 'PowerPoint to PDF',
+		description: 'Convert .pptx slide text into a readable PDF document.',
+		category: 'convert',
+		icon: 'powerpoint',
+		color: 'bg-orange-600',
+		available: true,
+		accept: '.pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation'
+	},
+	{
+		slug: 'pdf-to-docx',
+		name: 'PDF to Word',
+		description: 'Extract PDF text into an editable Word (.docx) document.',
+		category: 'convert',
+		icon: 'docx',
+		color: 'bg-violet-600',
+		available: true
+	},
+	{
 		slug: 'pdf-to-text',
 		name: 'PDF to Text',
 		description: 'Extract readable text content from your PDF document.',
@@ -248,7 +318,7 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'sign-pdf',
 		name: 'Sign PDF',
-		description: 'Add a text signature to the last page or every page of your PDF.',
+		description: 'Add a visible text signature to the last page or every page (not a digital certificate).',
 		category: 'edit',
 		icon: 'sign',
 		color: 'bg-sky-500',
@@ -333,6 +403,15 @@ export const tools: PdfTool[] = [
 		category: 'security',
 		icon: 'signature',
 		color: 'bg-slate-900',
+		available: true
+	},
+	{
+		slug: 'digital-sign-pdf',
+		name: 'Digital Sign PDF',
+		description: 'Apply a PKCS#7 digital signature using your .p12 or .pfx certificate.',
+		category: 'security',
+		icon: 'cert',
+		color: 'bg-slate-950',
 		available: true
 	}
 ];

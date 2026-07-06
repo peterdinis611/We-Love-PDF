@@ -2,13 +2,20 @@
 	import type { PdfTool } from '$lib/tools';
 	import ToolIcon from './ToolIcon.svelte';
 	import ShareLink from './ShareLink.svelte';
+	import HowItWorks from './HowItWorks.svelte';
+	import NewBadge from './NewBadge.svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';
+	import { categoryLabel } from '$lib/i18n/messages';
+	import { isNewTool } from '$lib/changelog';
+	import type { Locale } from '$lib/i18n/locale';
 
 	let {
 		tool,
+		locale = 'en',
 		children
 	}: {
 		tool: PdfTool;
+		locale?: Locale;
 		children: import('svelte').Snippet;
 	} = $props();
 </script>
@@ -21,12 +28,21 @@
 			>
 				<ToolIcon icon={tool.icon} />
 			</div>
-			<Badge variant="secondary" class="mb-3">{tool.category}</Badge>
+			<div class="mb-3 flex items-center justify-center gap-2">
+				<Badge variant="secondary">{categoryLabel(tool.category, locale)}</Badge>
+				{#if isNewTool(tool.slug)}
+					<NewBadge {locale} />
+				{/if}
+			</div>
 			<h1 class="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">{tool.name}</h1>
 			<p class="mx-auto max-w-md text-sm text-muted-foreground">{tool.description}</p>
 			<div class="mt-4">
-				<ShareLink />
+				<ShareLink {locale} />
 			</div>
+		</div>
+
+		<div class="mb-6">
+			<HowItWorks {tool} {locale} />
 		</div>
 
 		{@render children()}

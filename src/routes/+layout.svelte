@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Plausible from '$lib/components/Plausible.svelte';
 	import { onMount } from 'svelte';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -17,7 +18,11 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
+
+<Plausible />
 
 <div class="flex min-h-screen flex-col bg-background">
 	<Header />

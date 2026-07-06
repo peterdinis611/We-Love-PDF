@@ -6,7 +6,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 
 ## Features
 
-**34 tools** across five categories:
+**42 tools** across five categories:
 
 ### Organize PDF
 | Tool | Route |
@@ -16,6 +16,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | Extract Pages | `/tools/extract-pages` |
 | Delete Pages | `/tools/delete-pages` |
 | Organize PDF | `/tools/organize-pdf` |
+| Compare PDF | `/tools/compare-pdf` |
 | Duplicate Pages | `/tools/duplicate-pages` |
 | Batch PDF | `/tools/batch-pdf` |
 | View PDF | `/tools/view-pdf` |
@@ -35,6 +36,12 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | PDF to JPG | `/tools/pdf-to-jpg` |
 | PDF to PNG | `/tools/pdf-to-png` |
 | CSV to PDF | `/tools/csv-to-pdf` |
+| JSON to PDF | `/tools/json-to-pdf` |
+| XML to PDF | `/tools/xml-to-pdf` |
+| Excel to PDF | `/tools/excel-to-pdf` |
+| Word to PDF | `/tools/word-to-pdf` |
+| PowerPoint to PDF | `/tools/powerpoint-to-pdf` |
+| PDF to Word | `/tools/pdf-to-docx` |
 | PDF to Text | `/tools/pdf-to-text` |
 | PDF to HTML | `/tools/pdf-to-html` |
 | Text to PDF | `/tools/txt-to-pdf` |
@@ -61,6 +68,7 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 | Change PDF Password | `/tools/change-pdf-password` |
 | PDF Security Check | `/tools/pdf-security-check` |
 | PDF Signature Check | `/tools/pdf-signature-check` |
+| Digital Sign PDF | `/tools/digital-sign-pdf` |
 
 ## Tech stack
 
@@ -73,6 +81,19 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 
 ## Recent features
 
+- **Word / PowerPoint to PDF** — mammoth (.docx) and PPTX text extraction
+- **Digital Sign PDF** — PKCS#7 signing with .p12 / .pfx certificates in-browser
+- **i18n (EN/SK)** — `/sk` routes with Slovak translations
+- **SEO landing pages** — per-tool titles, FAQ schema, benefits sections
+- **What's new badges** — highlight recently added tools
+- **Plausible analytics** — optional page-view tracking (`PUBLIC_PLAUSIBLE_DOMAIN`)
+- **Offline PWA** — caches WASM, JS, and app shell in service worker
+- **PDF to Word**, **JSON/XML/Excel to PDF**, **Compare PDF**
+- **Page thumbnails** on merge and organize tools
+- **Favorites** and **How it works** panels on tool pages
+- **URL options** in share links (`?scale=2&pages=1-3`)
+- **Progress bars** for batch and multi-page ZIP exports
+- **Organize PDF** — sort pages, remove blank pages, drag-and-drop
 - **PDF to PNG** — lossless multi-page export as ZIP
 - **CSV to PDF** — spreadsheet tables as formatted PDFs
 - **PDF Signature Check** — inspect digital signature metadata
@@ -104,6 +125,7 @@ cp .env.example .env
 | Variable | Description |
 |----------|-------------|
 | `PUBLIC_SITE_URL` | Public site URL for canonical links, Open Graph, and sitemap (e.g. `https://welovepdf.app`) |
+| `PUBLIC_PLAUSIBLE_DOMAIN` | Optional Plausible domain for page-view analytics only (no file/upload tracking) |
 
 ### Development
 
@@ -180,11 +202,14 @@ pnpm test:e2e
 
 Test fixtures are generated on demand in `src/__tests__/fixtures/` (gitignored).
 
-## SEO
+## SEO & growth
 
-- Per-tool meta tags, Open Graph, and JSON-LD
-- `/sitemap.xml` and `/robots.txt`
+- Per-tool landing sections (benefits, FAQ) with JSON-LD FAQ schema
+- Custom SEO copy for high-intent tools (`merge pdf free`, `pdf to png`, etc.) in `src/lib/tool-seo.ts`
+- **i18n** — English at `/`, Slovak at `/sk` with `hreflang` alternates
+- `/sitemap.xml` includes both locales
 - Prerendered static pages
+- **What's new** badges on recently added tools (`src/lib/changelog.ts`)
 
 Set `PUBLIC_SITE_URL` in `.env` before deploying so canonical URLs resolve correctly.
 
