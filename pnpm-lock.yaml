@@ -11,6 +11,9 @@ importers:
       '@embedpdf/engines':
         specifier: ^2.14.4
         version: 2.14.4(preact@10.29.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vue@3.5.39(typescript@6.0.3))
+      '@embedpdf/models':
+        specifier: ^2.14.4
+        version: 2.14.4
       '@embedpdf/pdfium':
         specifier: ^2.14.4
         version: 2.14.4

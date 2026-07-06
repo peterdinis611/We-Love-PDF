@@ -47,6 +47,7 @@
 	},
 	"dependencies": {
 		"@embedpdf/engines": "^2.14.4",
+		"@embedpdf/models": "^2.14.4",
 		"@embedpdf/pdfium": "^2.14.4",
 		"@embedpdf/svelte-pdf-viewer": "^2.14.4",
 		"@lucide/svelte": "^1.23.0",
