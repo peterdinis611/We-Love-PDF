@@ -2,6 +2,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Link, Check } from '@lucide/svelte';
 	import { msg } from '$lib/i18n';
+	import { flushToolParams } from '$lib/tool-params';
 	import type { Locale } from '$lib/i18n/locale';
 
 	let { locale = 'en' }: { locale?: Locale } = $props();
@@ -10,6 +11,7 @@
 	const m = $derived(msg(locale));
 
 	async function copyLink() {
+		flushToolParams();
 		await navigator.clipboard.writeText(window.location.href);
 		copied = true;
 		setTimeout(() => (copied = false), 2000);

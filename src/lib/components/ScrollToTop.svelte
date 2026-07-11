@@ -2,17 +2,24 @@
 	import { onMount } from 'svelte';
 	import { ArrowUp } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { PACER, useThrottler } from '$lib/pacer/svelte';
 
 	const SHOW_AFTER = 400;
 
 	let visible = $state(false);
 
-	onMount(() => {
-		function onScroll() {
+	const scrollThrottler = useThrottler(
+		() => {
 			visible = window.scrollY > SHOW_AFTER;
-		}
+		},
+		{ wait: PACER.scrollWait, leading: true, trailing: true, key: 'scroll-top' }
+	);
 
-		onScroll();
+	onMount(() => {
+		scrollThrottler.maybeExecute();
+		function onScroll() {
+			scrollThrottler.maybeExecute();
+		}
 		window.addEventListener('scroll', onScroll, { passive: true });
 		return () => window.removeEventListener('scroll', onScroll);
 	});

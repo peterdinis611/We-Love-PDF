@@ -16,6 +16,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
+	import { PACER, useDebouncer } from '$lib/pacer/svelte';
 	import {
 		Search,
 		Shield,
@@ -38,11 +39,20 @@
 	);
 
 	let query = $state('');
+	let debouncedQuery = $state('');
 	let activeCategory = $state<ToolCategory | 'all'>('all');
 	let searchInput = $state<HTMLInputElement | null>(null);
 	let filterKey = $state(0);
 	let recentSlugs = $state<string[]>([]);
 	let favoriteSlugs = $state<string[]>([]);
+
+	const searchDebouncer = useDebouncer((q: string) => {
+		debouncedQuery = q;
+	}, { wait: PACER.searchWait, trailing: true, leading: false, key: 'home-search' });
+
+	$effect(() => {
+		searchDebouncer.maybeExecute(query);
+	});
 
 	const recentTools = $derived(
 		recentSlugs
@@ -59,9 +69,9 @@
 	const filtered = $derived(
 		localizedTools.filter((t) => {
 			const matchesQuery =
-				!query ||
-				t.name.toLowerCase().includes(query.toLowerCase()) ||
-				t.description.toLowerCase().includes(query.toLowerCase());
+				!debouncedQuery ||
+				t.name.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+				t.description.toLowerCase().includes(debouncedQuery.toLowerCase());
 			const matchesCategory = activeCategory === 'all' || t.category === activeCategory;
 			return matchesQuery && matchesCategory;
 		})
@@ -84,6 +94,8 @@
 
 	function clearSearch() {
 		query = '';
+		debouncedQuery = '';
+		searchDebouncer.cancel();
 		searchInput?.focus();
 	}
 
@@ -97,7 +109,7 @@
 				searchInput?.focus();
 			}
 			if (e.key === 'Escape' && document.activeElement === searchInput) {
-				query = '';
+				clearSearch();
 				searchInput?.blur();
 			}
 		}
@@ -257,7 +269,7 @@
 		<div class="py-16 text-center" in:fade={{ duration: 300 }}>
 			<p class="text-lg font-medium text-muted-foreground">{m.home.noResults}</p>
 			<p class="mt-1 text-sm text-muted-foreground">{m.home.noResultsHint}</p>
-			<Button variant="link" class="mt-3" onclick={() => { query = ''; activeCategory = 'all'; filterKey++; }}>
+			<Button variant="link" class="mt-3" onclick={() => { query = ''; debouncedQuery = ''; activeCategory = 'all'; searchDebouncer.cancel(); filterKey++; }}>
 				{m.home.resetFilters}
 			</Button>
 		</div>
