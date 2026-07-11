@@ -9,7 +9,7 @@
 	import { site, websiteJsonLd } from '$lib/seo';
 	import { msg, localizeTools } from '$lib/i18n';
 	import { categoryLabel } from '$lib/i18n/messages';
-	import { toolPath } from '$lib/i18n/locale';
+	import { toolPath, localizedPath } from '$lib/i18n/locale';
 	import type { PageData } from './$types';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
@@ -127,10 +127,12 @@
 	<div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
 		<div class="mx-auto max-w-2xl text-center">
 			<div in:fade={{ duration: 400, delay: 0 }}>
-				<Badge variant="secondary" class="mb-4 gap-1.5 px-3 py-1">
-					<Sparkles class="size-3 animate-pulse" />
-					{localizedTools.length} {m.hero.badge}
-				</Badge>
+				<a href={localizedPath('/changelog', locale)}>
+					<Badge variant="secondary" class="mb-4 gap-1.5 px-3 py-1 transition-colors hover:bg-primary/10 hover:text-primary">
+						<Sparkles class="size-3 animate-pulse" />
+						{localizedTools.length} {m.hero.badge}
+					</Badge>
+				</a>
 			</div>
 			<h1
 				class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl"
@@ -159,6 +161,10 @@
 				<Button href={toolPath('compress-pdf', locale)} variant="outline" size="lg" class="transition-transform hover:scale-105">
 					<Minimize2 class="size-4" />
 					{m.hero.ctaCompress}
+				</Button>
+				<Button href={localizedPath('/changelog', locale)} variant="outline" size="lg" class="transition-transform hover:scale-105">
+					<Sparkles class="size-4" />
+					{m.hero.ctaWhatsNew}
 				</Button>
 			</div>
 		</div>

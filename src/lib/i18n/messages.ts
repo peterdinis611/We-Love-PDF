@@ -17,6 +17,7 @@ export type Messages = {
 		ctaMerge: string;
 		ctaView: string;
 		ctaCompress: string;
+		ctaWhatsNew: string;
 	};
 	home: {
 		favorites: string;
@@ -52,6 +53,22 @@ export type Messages = {
 		benefitsTitle: string;
 		faqTitle: string;
 	};
+	changelog: {
+		title: string;
+		subtitle: string;
+		updated: string;
+		statsSuffix: string;
+		jumpTo: string;
+		newToolsTitle: string;
+		newToolsSubtitle: string;
+		newToolsBadge: string;
+		exploreAll: string;
+		openTool: string;
+		showAll: string;
+		showLess: string;
+		sections: Record<string, { title: string; subtitle?: string }>;
+		items: Record<string, { title: string; description: string }>;
+	};
 	categories: Record<string, string>;
 	tools: Record<string, ToolTranslation>;
 };
@@ -71,7 +88,8 @@ const en: Messages = {
 			'Merge, split, compress, sign, watermark, encrypt — fast, private, and completely free. Your files never leave your device.',
 		ctaMerge: 'Merge PDF',
 		ctaView: 'View PDF',
-		ctaCompress: 'Compress'
+		ctaCompress: 'Compress',
+		ctaWhatsNew: "What's new"
 	},
 	home: {
 		favorites: 'Favorites',
@@ -107,6 +125,105 @@ const en: Messages = {
 		benefitsTitle: 'Why use WeLovePDF?',
 		faqTitle: 'Frequently asked questions'
 	},
+	changelog: {
+		title: "What's new",
+		subtitle: 'Recent product updates, tools, and UX improvements in WeLovePDF.',
+		updated: 'Updated July 2026',
+		statsSuffix: 'free tools · 100% in-browser · no uploads',
+		jumpTo: 'Jump to',
+		newToolsTitle: 'New tools',
+		newToolsSubtitle: 'Recently added — try them in one click.',
+		newToolsBadge: 'new tools',
+		exploreAll: 'Browse all tools',
+		openTool: 'Try it',
+		showAll: 'Show all',
+		showLess: 'Show less',
+		sections: {
+			product: {
+				title: 'Product & growth',
+				subtitle: 'SEO, localization, analytics, and offline support'
+			},
+			'tools-office': { title: 'Office & signing' },
+			'tools-convert': { title: 'Convert & compare' },
+			'tools-edit': { title: 'Edit & security' },
+			ux: { title: 'UX improvements', subtitle: 'Across all tools' }
+		},
+		items: {
+			i18n: {
+				title: 'i18n EN / SK',
+				description:
+					'English at /, Slovak at /sk — homepage, navigation, tool names, categories, and footer.'
+			},
+			'seo-landing': {
+				title: 'SEO landing per tool',
+				description:
+					'Intro, benefits, and FAQ under each tool page, plus FAQ JSON-LD schema for search engines.'
+			},
+			'whats-new-badges': {
+				title: "What's new badges",
+				description: 'Highlight recently added tools on cards and tool pages.'
+			},
+			plausible: {
+				title: 'Plausible analytics',
+				description:
+					'Optional page-view tracking via PUBLIC_PLAUSIBLE_DOMAIN — no file or upload tracking.'
+			},
+			'offline-pwa': {
+				title: 'Better offline PWA',
+				description:
+					'Service worker caches WASM, /_app/ assets, and the app shell for faster repeat visits and limited offline use.'
+			},
+			'vercel-fixes': {
+				title: 'Vercel deployment fixes',
+				description:
+					'Explicit adapter-vercel and @embedpdf/models as a direct dependency for reliable CI builds.'
+			},
+			'data-to-pdf': {
+				title: 'CSV / JSON / XML / Excel to PDF',
+				description: 'Turn structured data and spreadsheets into formatted PDF tables.'
+			},
+			favorites: {
+				title: 'Favorites',
+				description: 'Star tools on the homepage grid — stored locally in your browser.'
+			},
+			'recent-tools': {
+				title: 'Recent tools',
+				description: 'Quick access to your last six used tools on the homepage.'
+			},
+			'share-link': {
+				title: 'Share link',
+				description: 'Copy the current tool URL from any tool page.'
+			},
+			'how-it-works': {
+				title: 'How it works',
+				description: 'Step-by-step guides above each tool workspace.'
+			},
+			'url-params': {
+				title: 'URL params in share links',
+				description: 'Share tool settings via query string, e.g. ?scale=2&pages=1-3 on PDF to PNG.'
+			},
+			'progress-bars': {
+				title: 'Progress bars',
+				description: 'Visual feedback during batch processing and multi-page ZIP exports.'
+			},
+			'page-thumbnails': {
+				title: 'Page thumbnails',
+				description: 'Live page previews when merging or organizing PDFs.'
+			},
+			'view-shortcuts': {
+				title: 'View PDF shortcuts',
+				description: 'Keyboard shortcuts for page navigation, zoom, fullscreen (F), and help (?).'
+			},
+			'dark-pwa': {
+				title: 'Dark mode & PWA',
+				description: 'Theme toggle, installable app manifest, and an enhanced service worker.'
+			},
+			'zip-export': {
+				title: 'ZIP export',
+				description: 'Multi-page PDF to JPG/PNG downloads bundled in one archive.'
+			}
+		}
+	},
 	categories: {
 		organize: 'Organize PDF',
 		optimize: 'Optimize PDF',
@@ -132,7 +249,8 @@ const sk: Messages = {
 			'Spájanie, rozdeľovanie, kompresia, podpis, vodoznak, šifrovanie — rýchlo, súkromne a úplne zadarmo. Súbory nikdy neopustia vaše zariadenie.',
 		ctaMerge: 'Spojiť PDF',
 		ctaView: 'Zobraziť PDF',
-		ctaCompress: 'Komprimovať'
+		ctaCompress: 'Komprimovať',
+		ctaWhatsNew: 'Čo je nové'
 	},
 	home: {
 		favorites: 'Obľúbené',
@@ -167,6 +285,103 @@ const sk: Messages = {
 		aboutTitle: 'O tomto nástroji',
 		benefitsTitle: 'Prečo použiť WeLovePDF?',
 		faqTitle: 'Často kladené otázky'
+	},
+	changelog: {
+		title: 'Čo je nové',
+		subtitle: 'Najnovšie produktové aktualizácie, nástroje a UX vylepšenia vo WeLovePDF.',
+		updated: 'Aktualizované júl 2026',
+		statsSuffix: 'nástrojov zadarmo · 100 % v prehliadači · bez nahrávania',
+		jumpTo: 'Preskočiť na',
+		newToolsTitle: 'Nové nástroje',
+		newToolsSubtitle: 'Nedávno pridané — vyskúšajte jedným klikom.',
+		newToolsBadge: 'nových nástrojov',
+		exploreAll: 'Prehliadať všetky nástroje',
+		openTool: 'Vyskúšať',
+		showAll: 'Zobraziť všetko',
+		showLess: 'Zobraziť menej',
+		sections: {
+			product: {
+				title: 'Produkt a rast',
+				subtitle: 'SEO, lokalizácia, analytika a offline podpora'
+			},
+			'tools-office': { title: 'Office a podpis' },
+			'tools-convert': { title: 'Konverzie a porovnanie' },
+			'tools-edit': { title: 'Úpravy a bezpečnosť' },
+			ux: { title: 'UX vylepšenia', subtitle: 'Naprieč všetkými nástrojmi' }
+		},
+		items: {
+			i18n: {
+				title: 'i18n EN / SK',
+				description:
+					'Angličtina na /, slovenčina na /sk — homepage, navigácia, názvy nástrojov, kategórie a pätička.'
+			},
+			'seo-landing': {
+				title: 'SEO landing pre každý nástroj',
+				description: 'Intro, výhody a FAQ pod stránkou nástroja vrátane FAQ JSON-LD schémy.'
+			},
+			'whats-new-badges': {
+				title: 'Značky „Nové“',
+				description: 'Zvýraznenie nedávno pridaných nástrojov na kartách a stránkach nástrojov.'
+			},
+			plausible: {
+				title: 'Plausible analytika',
+				description:
+					'Voliteľné sledovanie zobrazení cez PUBLIC_PLAUSIBLE_DOMAIN — bez trackingu súborov.'
+			},
+			'offline-pwa': {
+				title: 'Lepší offline PWA',
+				description:
+					'Service worker ukladá WASM, /_app/ assety a app shell pre rýchlejšie opakované návštevy.'
+			},
+			'vercel-fixes': {
+				title: 'Opravy nasadenia na Vercel',
+				description: 'Explicitný adapter-vercel a @embedpdf/models pre spoľahlivé CI buildy.'
+			},
+			'data-to-pdf': {
+				title: 'CSV / JSON / XML / Excel do PDF',
+				description: 'Štruktúrované dáta a tabuľky ako formátované PDF.'
+			},
+			favorites: {
+				title: 'Obľúbené',
+				description: 'Hviezdička na kartách — uložené lokálne v prehliadači.'
+			},
+			'recent-tools': {
+				title: 'Nedávno použité',
+				description: 'Rýchly prístup k posledným šiestim nástrojom na homepage.'
+			},
+			'share-link': {
+				title: 'Zdieľaný odkaz',
+				description: 'Kopírovanie URL aktuálneho nástroja z ľubovoľnej tool stránky.'
+			},
+			'how-it-works': {
+				title: 'Ako to funguje',
+				description: 'Kroky nad pracovnou plochou každého nástroja.'
+			},
+			'url-params': {
+				title: 'URL parametre v odkazoch',
+				description: 'Zdieľanie nastavení cez query string, napr. ?scale=2&pages=1-3.'
+			},
+			'progress-bars': {
+				title: 'Progress bary',
+				description: 'Vizuálna spätná väzba pri batch spracovaní a ZIP exporte.'
+			},
+			'page-thumbnails': {
+				title: 'Náhľady strán',
+				description: 'Živé miniatúry pri spájaní alebo organizovaní PDF.'
+			},
+			'view-shortcuts': {
+				title: 'Skratky v Zobraziť PDF',
+				description: 'Klávesové skratky pre stránky, zoom, fullscreen (F) a nápovedu (?).'
+			},
+			'dark-pwa': {
+				title: 'Tmavý režim a PWA',
+				description: 'Prepínač témy, inštalovateľná aplikácia a vylepšený service worker.'
+			},
+			'zip-export': {
+				title: 'ZIP export',
+				description: 'Viacstránkový PDF → JPG/PNG export v jednom archíve.'
+			}
+		}
 	},
 	categories: {
 		organize: 'Organizovať PDF',

@@ -34,6 +34,12 @@ test.describe('Homepage', () => {
 		await expect(page.locator('h1')).toContainText('Všetky PDF nástroje');
 	});
 
+	test('changelog page loads', async ({ page }) => {
+		await page.goto('/changelog');
+		await expect(page.locator('h1')).toContainText(/What's new|Čo je nové/);
+		await expect(page.getByRole('link', { name: /PDF to PNG|PDF do PNG/i })).toBeVisible();
+	});
+
 	test('search filters tools', async ({ page }) => {
 		await page.goto('/');
 		await page.getByPlaceholder('Search tools…').fill('merge');
