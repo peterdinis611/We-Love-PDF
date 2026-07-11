@@ -10,14 +10,22 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { formatFileSize, getPageCount, parsePageIndexes } from '$lib/pdf/operations';
 	import { downloadZip } from '$lib/pdf/zip';
-	import { readNumberParam, readStringParam, syncToolParams } from '$lib/tool-params';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
+	import { getToolPreset, setToolPreset } from '$lib/tool-presets';
 
 	const pdfEngine = usePdfEngineContext();
 
+	import { readNumberParam, readStringParam, syncToolParams } from '$lib/tool-params';
+
+	const ws = $derived(msg(getAppLocale()).workspace);
+
 	let file = $state<File | null>(null);
 	let pageCount = $state(0);
-	let scaleFactor = $state(readNumberParam('scale', 2));
-	let pageRange = $state(readStringParam('pages'));
+	let scaleFactor = $state(
+		readNumberParam('scale', getToolPreset<number>('pdf-to-png', 'scale', 2))
+	);
+	let pageRange = $state(readStringParam('pages') || getToolPreset<string>('pdf-to-png', 'pages', ''));
 	let processing = $state(false);
 	let progressCurrent = $state(0);
 	let error = $state('');
@@ -25,6 +33,8 @@
 
 	$effect(() => {
 		syncToolParams({ scale: scaleFactor, pages: pageRange || undefined });
+		setToolPreset('pdf-to-png', 'scale', scaleFactor);
+		setToolPreset('pdf-to-png', 'pages', pageRange);
 	});
 
 	async function setFile(f: File) {
@@ -34,7 +44,7 @@
 		try {
 			pageCount = await getPageCount(f);
 		} catch {
-			error = 'Could not read PDF file.';
+			error = ws.errors.couldNotReadPdf;
 			file = null;
 		}
 	}
@@ -43,7 +53,7 @@
 		if (!file || !pdfEngine.engine) return;
 		const indexes = parsePageIndexes(pageRange, pageCount);
 		if (!indexes.length) {
-			error = 'Invalid page range.';
+			error = ws.errors.invalidPageRange;
 			return;
 		}
 

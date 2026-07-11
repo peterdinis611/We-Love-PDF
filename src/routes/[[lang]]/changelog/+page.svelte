@@ -38,7 +38,7 @@
 	meta={{
 		title: page.title,
 		description: page.subtitle,
-		path: locale === 'sk' ? '/sk/changelog' : '/changelog'
+		path: localizedPath('/changelog', locale)
 	}}
 	jsonLd={{
 		'@context': 'https://schema.org',
@@ -49,6 +49,15 @@
 	}}
 	{locale}
 />
+
+<svelte:head>
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		title="WeLovePDF Changelog"
+		href="/changelog.xml"
+	/>
+</svelte:head>
 
 <div class="min-h-[calc(100vh-3.5rem)] bg-muted/20">
 	<div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
@@ -136,7 +145,7 @@
 		</div>
 
 		<div class="mt-12 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-			<Button href={locale === 'sk' ? '/sk#tools' : '/#tools'}>{page.exploreAll}</Button>
+			<Button href="{localizedPath('/', locale)}#tools">{page.exploreAll}</Button>
 			<Button variant="outline" href={localizedPath('/', locale)}>{m.nav.allTools}</Button>
 		</div>
 	</div>

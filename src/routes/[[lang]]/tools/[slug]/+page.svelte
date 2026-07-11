@@ -9,7 +9,8 @@
 	import { loadToolComponent, engineTools } from '$lib/tool-components';
 	import { recordToolVisit } from '$lib/recent-tools';
 	import { toolJsonLd } from '$lib/seo';
-	import { localizeTool } from '$lib/i18n';
+	import { localizeTool, msg } from '$lib/i18n';
+	import { localizedPath } from '$lib/i18n/locale';
 	import { getToolSeo, faqJsonLd } from '$lib/tool-seo';
 	import type { PageData } from './$types';
 
@@ -22,6 +23,7 @@
 	const tool = $derived(localizeTool(data.tool, locale));
 	const seo = $derived(getToolSeo(tool.slug, tool.name, locale));
 	const needsEngine = $derived(engineTools.has(tool.slug));
+	const m = $derived(msg(locale));
 
 	$effect(() => {
 		if (browser) recordToolVisit(tool.slug);
@@ -42,7 +44,7 @@
 	meta={{
 		title: seo.title,
 		description: seo.description,
-		path: locale === 'sk' ? `/sk/tools/${tool.slug}` : `/tools/${tool.slug}`
+		path: localizedPath(`/tools/${tool.slug}`, locale)
 	}}
 	jsonLd={[
 		toolJsonLd(tool.name, seo.description, tool.slug, locale),
@@ -66,6 +68,6 @@
 		{/if}
 		<ToolLanding slug={tool.slug} name={tool.name} {locale} />
 	{:else}
-		<Alert message="This tool is not available yet." variant="info" />
+		<Alert message={m.workspace.errors.toolUnavailable} variant="info" />
 	{/if}
 </ToolLayout>

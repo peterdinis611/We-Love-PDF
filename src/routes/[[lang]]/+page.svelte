@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { fly, fade } from 'svelte/transition';
 	import ToolCard from '$lib/components/ToolCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import HomeHeroDrop from '$lib/components/HomeHeroDrop.svelte';
 	import { tools, type ToolCategory, type PdfTool } from '$lib/tools';
 	import { getRecentToolSlugs } from '$lib/recent-tools';
 	import { getFavoriteToolSlugs } from '$lib/favorite-tools';
@@ -45,6 +49,28 @@
 	let filterKey = $state(0);
 	let recentSlugs = $state<string[]>([]);
 	let favoriteSlugs = $state<string[]>([]);
+	let heroDragging = $state(false);
+	let droppedFile = $state<File | null>(null);
+
+	function isPdfFile(file: File) {
+		return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+	}
+
+	function onHeroDragOver(e: DragEvent) {
+		e.preventDefault();
+		heroDragging = true;
+	}
+
+	function onHeroDragLeave() {
+		heroDragging = false;
+	}
+
+	function onHeroDrop(e: DragEvent) {
+		e.preventDefault();
+		heroDragging = false;
+		const file = Array.from(e.dataTransfer?.files ?? []).find(isPdfFile);
+		if (file) droppedFile = file;
+	}
 
 	const searchDebouncer = useDebouncer((q: string) => {
 		debouncedQuery = q;
@@ -52,6 +78,18 @@
 
 	$effect(() => {
 		searchDebouncer.maybeExecute(query);
+	});
+
+	$effect(() => {
+		if (!browser) return;
+		const url = new URL($page.url);
+		if (debouncedQuery) url.searchParams.set('q', debouncedQuery);
+		else url.searchParams.delete('q');
+		const next = `${url.pathname}${url.search}`;
+		const current = `${$page.url.pathname}${$page.url.search}`;
+		if (next !== current) {
+			goto(next, { replaceState: true, keepFocus: true, noScroll: true });
+		}
 	});
 
 	const recentTools = $derived(
@@ -103,6 +141,15 @@
 		recentSlugs = getRecentToolSlugs();
 		favoriteSlugs = getFavoriteToolSlugs();
 
+		const q = $page.url.searchParams.get('q');
+		if (q) {
+			query = q;
+			debouncedQuery = q;
+			requestAnimationFrame(() => {
+				document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' });
+			});
+		}
+
 		function onKeydown(e: KeyboardEvent) {
 			if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
 				e.preventDefault();
@@ -120,16 +167,26 @@
 
 <SeoHead
 	meta={{
-		title: locale === 'sk' ? 'Všetky PDF nástroje, ktoré potrebujete' : site.tagline,
-		description: locale === 'sk' ? m.hero.subtitle : site.description,
-		path: locale === 'sk' ? '/sk' : '/'
+		title: m.hero.title,
+		description: m.hero.subtitle,
+		path: localizedPath('/', locale)
 	}}
 	jsonLd={websiteJsonLd()}
 	{locale}
 />
 
+{#if droppedFile}
+	<HomeHeroDrop file={droppedFile} {locale} ondismiss={() => (droppedFile = null)} />
+{/if}
+
 <!-- Hero -->
-<section class="relative overflow-hidden border-b border-border/60">
+<section
+	class="relative overflow-hidden border-b border-border/60 {heroDragging ? 'ring-2 ring-inset ring-primary/40' : ''}"
+	aria-label="Hero"
+	ondragover={onHeroDragOver}
+	ondragleave={onHeroDragLeave}
+	ondrop={onHeroDrop}
+>
 	<div class="pointer-events-none absolute inset-0">
 		<div class="hero-blob absolute -left-32 -top-32 size-96 rounded-full bg-primary/10 blur-3xl"></div>
 		<div

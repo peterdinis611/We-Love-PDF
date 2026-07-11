@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 
 	interface Props {
 		disabled?: boolean;
@@ -12,15 +14,18 @@
 	let {
 		disabled = false,
 		loading = false,
-		loadingText = 'Processing…',
+		loadingText,
 		onclick,
 		children
 	}: Props = $props();
+
+	const defaultLoading = $derived(msg(getAppLocale()).workspace.actions.processing);
+	const displayLoading = $derived(loadingText ?? defaultLoading);
 </script>
 
 <Button class="w-full" size="lg" {disabled} {onclick}>
 	{#if loading}
-		{loadingText}
+		{displayLoading}
 	{:else}
 		{@render children()}
 	{/if}

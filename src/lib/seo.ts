@@ -1,4 +1,5 @@
 import { env } from '$env/dynamic/public';
+import { LOCALES, localizedPath, type Locale } from '$lib/i18n/locale';
 import { tools } from '$lib/tools';
 
 const DEFAULT_SITE_URL = 'https://welovepdf.app';
@@ -47,8 +48,8 @@ export function websiteJsonLd() {
 	};
 }
 
-export function toolJsonLd(name: string, description: string, slug: string, locale: 'en' | 'sk' = 'en') {
-	const path = locale === 'sk' ? `/sk/tools/${slug}` : `/tools/${slug}`;
+export function toolJsonLd(name: string, description: string, slug: string, locale: Locale = 'en') {
+	const path = localizedPath(`/tools/${slug}`, locale);
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'WebApplication',
@@ -60,25 +61,47 @@ export function toolJsonLd(name: string, description: string, slug: string, loca
 		browserRequirements: 'Requires JavaScript',
 		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 		isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
-		inLanguage: locale === 'sk' ? 'sk' : 'en'
+		inLanguage: locale === 'en' ? 'en' : locale
 	};
 }
 
 export function sitemapEntries() {
-	const paths = [
+	const staticPaths = [
 		{ path: '', changefreq: 'weekly' as const, priority: 1 },
-		{ path: '/sk', changefreq: 'weekly' as const, priority: 0.9 },
 		{ path: '/changelog', changefreq: 'monthly' as const, priority: 0.6 },
-		{ path: '/sk/changelog', changefreq: 'monthly' as const, priority: 0.55 },
-		...tools
-			.filter((t) => t.available)
-			.flatMap((t) => [
-				{ path: `/tools/${t.slug}`, changefreq: 'monthly' as const, priority: 0.8 },
-				{ path: `/sk/tools/${t.slug}`, changefreq: 'monthly' as const, priority: 0.75 }
-			])
+		{ path: '/guides', changefreq: 'monthly' as const, priority: 0.65 },
+		{ path: '/workflows/secure-pdf', changefreq: 'monthly' as const, priority: 0.7 },
+		{ path: '/changelog.xml', changefreq: 'weekly' as const, priority: 0.4 }
 	];
 
-	return paths.map((entry) => ({
+	const localePaths = LOCALES.flatMap((locale) =>
+		staticPaths.map((entry) => ({
+			path: localizedPath(entry.path, locale),
+			changefreq: entry.changefreq,
+			priority: locale === 'en' ? entry.priority : entry.priority * 0.95
+		}))
+	);
+
+	const toolPaths = tools
+		.filter((t) => t.available)
+		.flatMap((t) =>
+			LOCALES.map((locale) => ({
+				path: localizedPath(`/tools/${t.slug}`, locale),
+				changefreq: 'monthly' as const,
+				priority: locale === 'en' ? 0.8 : 0.75
+			}))
+		);
+
+	const guideSlugs = ['merge-pdf-free', 'pdf-digital-sign-p12', 'compress-pdf-online'];
+	const guidePaths = guideSlugs.flatMap((slug) =>
+		LOCALES.map((locale) => ({
+			path: localizedPath(`/guides/${slug}`, locale),
+			changefreq: 'monthly' as const,
+			priority: 0.6
+		}))
+	);
+
+	return [...localePaths, ...toolPaths, ...guidePaths].map((entry) => ({
 		loc: canonicalUrl(entry.path),
 		changefreq: entry.changefreq,
 		priority: entry.priority

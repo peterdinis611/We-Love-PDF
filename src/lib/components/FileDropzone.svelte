@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { formatFileSize } from '$lib/pdf/operations';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
+	import { consumePendingFile } from '$lib/pending-file';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Upload } from '@lucide/svelte';
 
@@ -10,16 +14,23 @@
 		hint?: string;
 		onfiles: (files: File[]) => void;
 		fileFilter?: (file: File) => boolean;
+		loadPending?: boolean;
 	}
 
 	let {
 		multiple = false,
 		accept = 'application/pdf,.pdf',
-		label = 'Select PDF files',
-		hint = 'or drop PDFs here',
+		label,
+		hint,
 		onfiles,
-		fileFilter = (f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
+		fileFilter = (f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'),
+		loadPending = true
 	}: Props = $props();
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
+	const dropLabel = $derived(label ?? (multiple ? ws.dropzone.selectPdfs : ws.dropzone.selectPdf));
+	const dropHint = $derived(hint ?? (multiple ? ws.dropzone.orDropPdfs : ws.dropzone.orDropPdf));
 
 	let dragging = $state(false);
 	let inputEl: HTMLInputElement;
@@ -35,6 +46,12 @@
 		dragging = false;
 		handleFiles(e.dataTransfer?.files ?? null);
 	}
+
+	onMount(() => {
+		if (!loadPending) return;
+		const pending = consumePendingFile();
+		if (pending && fileFilter(pending)) onfiles([pending]);
+	});
 </script>
 
 <Card.Root
@@ -63,7 +80,7 @@
 		>
 			<Upload class="size-6" />
 		</div>
-		<p class="mb-1 font-semibold">{label}</p>
-		<p class="text-sm text-muted-foreground">{hint}</p>
+		<p class="mb-1 font-semibold">{dropLabel}</p>
+		<p class="text-sm text-muted-foreground">{dropHint}</p>
 	</Card.Content>
 </Card.Root>

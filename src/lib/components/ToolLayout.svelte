@@ -6,6 +6,7 @@
 	import NewBadge from './NewBadge.svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { categoryLabel } from '$lib/i18n/messages';
+	import { setAppLocale } from '$lib/i18n/context';
 	import { isNewTool } from '$lib/changelog';
 	import type { Locale } from '$lib/i18n/locale';
 
@@ -18,6 +19,8 @@
 		locale?: Locale;
 		children: import('svelte').Snippet;
 	} = $props();
+
+	setAppLocale(locale);
 </script>
 
 <div class="min-h-[calc(100vh-3.5rem)] bg-muted/20">

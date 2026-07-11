@@ -1,4 +1,7 @@
 import type { Locale } from './locale';
+import { mergeMessages, localeOverlays } from './overlays';
+import type { WorkspaceMessages } from './workspace';
+import { workspaceCs, workspaceDe, workspaceEn, workspacePl, workspaceSk } from './workspace';
 
 export type ToolTranslation = { name: string; description: string };
 
@@ -71,6 +74,35 @@ export type Messages = {
 	};
 	categories: Record<string, string>;
 	tools: Record<string, ToolTranslation>;
+	workspace: WorkspaceMessages;
+	commandPalette: {
+		title: string;
+		placeholder: string;
+		noResults: string;
+		hint: string;
+	};
+	homeDrop: {
+		title: string;
+		subtitle: string;
+		dismiss: string;
+	};
+	workflow: {
+		title: string;
+		subtitle: string;
+		stepMerge: string;
+		stepCompress: string;
+		stepProtect: string;
+		next: string;
+		back: string;
+		finish: string;
+		download: string;
+	};
+	guides: {
+		title: string;
+		subtitle: string;
+		readGuide: string;
+		backToGuides: string;
+	};
 };
 
 const en: Messages = {
@@ -231,7 +263,36 @@ const en: Messages = {
 		edit: 'Edit PDF',
 		security: 'PDF Security'
 	},
-	tools: {}
+	tools: {},
+	workspace: workspaceEn,
+	commandPalette: {
+		title: 'Jump to a tool',
+		placeholder: 'Search tools…',
+		noResults: 'No matching tools',
+		hint: 'Tip: press ⌘K anytime'
+	},
+	homeDrop: {
+		title: 'Drop your PDF here',
+		subtitle: 'Choose what to do next',
+		dismiss: 'Dismiss'
+	},
+	workflow: {
+		title: 'Secure PDF workflow',
+		subtitle: 'Merge → Compress → Protect in one flow',
+		stepMerge: 'Merge PDFs',
+		stepCompress: 'Compress',
+		stepProtect: 'Protect with password',
+		next: 'Continue',
+		back: 'Back',
+		finish: 'Download protected PDF',
+		download: 'Download'
+	},
+	guides: {
+		title: 'Guides & tutorials',
+		subtitle: 'Step-by-step help for popular PDF tasks',
+		readGuide: 'Read guide',
+		backToGuides: '← All guides'
+	}
 };
 
 const sk: Messages = {
@@ -433,19 +494,49 @@ const sk: Messages = {
 		'pdf-security-check': { name: 'Kontrola bezpečnosti', description: 'Skontrolujte šifrovanie a oprávnenia.' },
 		'pdf-signature-check': { name: 'Kontrola podpisu', description: 'Zistite, či je PDF digitálne podpísané.' },
 		'digital-sign-pdf': { name: 'Digitálny podpis', description: 'PKCS#7 podpis certifikátom .p12 / .pfx.' }
+	},
+	workspace: workspaceSk,
+	commandPalette: {
+		title: 'Prejsť na nástroj',
+		placeholder: 'Hľadať nástroje…',
+		noResults: 'Žiadne výsledky',
+		hint: 'Tip: stlačte ⌘K kedykoľvek'
+	},
+	homeDrop: {
+		title: 'Pustite PDF sem',
+		subtitle: 'Vyberte, čo chcete urobiť',
+		dismiss: 'Zavrieť'
+	},
+	workflow: {
+		title: 'Bezpečný PDF workflow',
+		subtitle: 'Spojiť → Komprimovať → Chrániť v jednom kroku',
+		stepMerge: 'Spojiť PDF',
+		stepCompress: 'Komprimovať',
+		stepProtect: 'Chrániť heslom',
+		next: 'Pokračovať',
+		back: 'Späť',
+		finish: 'Stiahnuť chránené PDF',
+		download: 'Stiahnuť'
+	},
+	guides: {
+		title: 'Návody a tutoriály',
+		subtitle: 'Postup pre obľúbené PDF úlohy',
+		readGuide: 'Prečítať návod',
+		backToGuides: '← Všetky návody'
 	}
 };
 
-const catalogs: Record<Locale, Messages> = { en, sk };
-
 export function getMessages(locale: Locale): Messages {
-	return catalogs[locale];
+	if (locale === 'en') return en;
+	if (locale === 'sk') return sk;
+	const overlay = localeOverlays[locale];
+	return overlay ? mergeMessages(en, overlay) : en;
 }
 
 export function categoryLabel(category: string, locale: Locale): string {
-	return catalogs[locale].categories[category] ?? category;
+	return getMessages(locale).categories[category] ?? category;
 }
 
 export function toolTranslation(slug: string, locale: Locale): ToolTranslation | undefined {
-	return catalogs[locale].tools[slug];
+	return getMessages(locale).tools[slug];
 }

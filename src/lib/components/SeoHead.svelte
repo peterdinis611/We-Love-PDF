@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { canonicalUrl, pageTitle, site, type SeoMeta } from '$lib/seo';
-	import { alternatePaths } from '$lib/i18n/locale';
+	import { alternatePaths, localeHreflang, ogLocale } from '$lib/i18n/locale';
 	import type { Locale } from '$lib/i18n/locale';
 
 	let {
@@ -27,8 +27,9 @@
 	{:else}
 		<meta name="robots" content="index, follow" />
 		<link rel="canonical" href={url} />
-		<link rel="alternate" hreflang="en" href={canonicalUrl(alternates.en)} />
-		<link rel="alternate" hreflang="sk" href={canonicalUrl(alternates.sk)} />
+		{#each Object.entries(alternates) as [loc, altPath]}
+			<link rel="alternate" hreflang={localeHreflang(loc as Locale)} href={canonicalUrl(altPath)} />
+		{/each}
 		<link rel="alternate" hreflang="x-default" href={canonicalUrl(alternates.en)} />
 	{/if}
 
@@ -37,12 +38,12 @@
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={meta.description} />
 	<meta property="og:url" content={url} />
-	<meta property="og:locale" content={locale === 'sk' ? 'sk_SK' : 'en_US'} />
-	{#if locale === 'en'}
-		<meta property="og:locale:alternate" content="sk_SK" />
-	{:else}
-		<meta property="og:locale:alternate" content="en_US" />
-	{/if}
+	<meta property="og:locale" content={ogLocale(locale)} />
+	{#each Object.entries(alternates) as [loc, altPath]}
+		{#if loc !== locale}
+			<meta property="og:locale:alternate" content={ogLocale(loc as Locale)} />
+		{/if}
+	{/each}
 
 	<meta name="twitter:card" content="summary" />
 	<meta name="twitter:title" content={title} />

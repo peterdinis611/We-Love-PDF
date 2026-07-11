@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { getTool, tools } from '$lib/tools';
+import { toolSlugEntries } from '$lib/i18n/prerender';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = ({ params }) => {
@@ -10,7 +11,7 @@ export const load: PageLoad = ({ params }) => {
 
 export function entries() {
 	const slugs = tools.filter((t) => t.available).map((t) => t.slug);
-	return [...slugs.map((slug) => ({ slug })), ...slugs.map((slug) => ({ lang: 'sk', slug }))];
+	return toolSlugEntries(slugs);
 }
 
 export const prerender = true;

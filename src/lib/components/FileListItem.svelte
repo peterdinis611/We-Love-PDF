@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { formatFileSize } from '$lib/pdf/operations';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { ChevronUp, ChevronDown, X } from '@lucide/svelte';
@@ -27,6 +29,8 @@
 		canMoveUp = true,
 		canMoveDown = true
 	}: Props = $props();
+
+	const a11y = $derived(msg(getAppLocale()).workspace.a11y);
 </script>
 
 <Card.Root class="border-border/60">
@@ -44,17 +48,17 @@
 
 		{#if showReorder}
 			<div class="flex gap-0.5">
-				<Button variant="ghost" size="icon-sm" disabled={!canMoveUp} onclick={onmoveup} aria-label="Move up">
+				<Button variant="ghost" size="icon-sm" disabled={!canMoveUp} onclick={onmoveup} aria-label={a11y.moveUp}>
 					<ChevronUp class="size-4" />
 				</Button>
-				<Button variant="ghost" size="icon-sm" disabled={!canMoveDown} onclick={onmovedown} aria-label="Move down">
+				<Button variant="ghost" size="icon-sm" disabled={!canMoveDown} onclick={onmovedown} aria-label={a11y.moveDown}>
 					<ChevronDown class="size-4" />
 				</Button>
 			</div>
 		{/if}
 
 		{#if onremove}
-			<Button variant="ghost" size="icon-sm" onclick={onremove} aria-label="Remove file" class="text-muted-foreground hover:text-destructive">
+			<Button variant="ghost" size="icon-sm" onclick={onremove} aria-label={a11y.removeFile} class="text-muted-foreground hover:text-destructive">
 				<X class="size-4" />
 			</Button>
 		{/if}

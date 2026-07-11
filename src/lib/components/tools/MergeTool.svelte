@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { usePdfEngineContext } from '$lib/pdf/engine-context';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import PageThumbnail from '$lib/components/PageThumbnail.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -20,6 +22,7 @@
 	import { ChevronDown, ChevronUp, GripVertical, X } from '@lucide/svelte';
 
 	const pdfEngine = usePdfEngineContext();
+	const ws = $derived(msg(getAppLocale()).workspace);
 
 	let files = $state<PdfFile[]>([]);
 	let dragIdx = $state<number | null>(null);
@@ -92,7 +95,7 @@
 
 	async function handleMerge() {
 		if (files.length < 2) {
-			error = 'Please add at least 2 PDF files to merge.';
+			error = ws.errors.mergeMinFiles;
 			return;
 		}
 		processing = true;
@@ -115,7 +118,7 @@
 </script>
 
 <div class="space-y-4">
-	<FileDropzone multiple label="Select PDF files" hint="or drop PDFs here to merge" onfiles={addFiles} />
+	<FileDropzone multiple onfiles={addFiles} />
 
 	{#if files.length > 0}
 		<p class="text-sm text-muted-foreground">
@@ -165,8 +168,8 @@
 				<OutputFilename bind:value={outputName} />
 			</div>
 		</ToolPanel>
-		<ToolAction disabled={processing || files.length < 2} loading={processing} loadingText="Merging…" onclick={handleMerge}>
-			Merge PDF
+		<ToolAction disabled={processing || files.length < 2} loading={processing} loadingText={ws.actions.merging} onclick={handleMerge}>
+			{ws.actions.merge}
 		</ToolAction>
 		<ToolSuccess message={success} />
 	{/if}

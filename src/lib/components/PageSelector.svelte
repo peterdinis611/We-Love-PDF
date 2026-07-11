@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 
 	interface Props {
 		pageCount: number;
@@ -8,6 +10,8 @@
 	}
 
 	let { pageCount, selected, onchange }: Props = $props();
+
+	const ps = $derived(msg(getAppLocale()).workspace.pageSelector);
 
 	function toggle(page: number) {
 		const next = new Set(selected);
@@ -24,22 +28,22 @@
 			size="sm"
 			onclick={() => onchange(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
 		>
-			Select all
+			{ps.selectAll}
 		</Button>
-		<Button variant="outline" size="sm" onclick={() => onchange(new Set())}>Clear</Button>
+		<Button variant="outline" size="sm" onclick={() => onchange(new Set())}>{ps.clear}</Button>
 		<Button
 			variant="outline"
 			size="sm"
 			onclick={() => onchange(new Set(Array.from({ length: pageCount }, (_, i) => i).filter((i) => i % 2 === 0)))}
 		>
-			Odd pages
+			{ps.odd}
 		</Button>
 		<Button
 			variant="outline"
 			size="sm"
 			onclick={() => onchange(new Set(Array.from({ length: pageCount }, (_, i) => i).filter((i) => i % 2 === 1)))}
 		>
-			Even pages
+			{ps.even}
 		</Button>
 	</div>
 	<div class="flex flex-wrap gap-1.5">
