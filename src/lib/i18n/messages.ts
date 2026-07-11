@@ -103,6 +103,15 @@ export type Messages = {
 		readGuide: string;
 		backToGuides: string;
 	};
+	shortcuts: {
+		title: string;
+		search: string;
+		commandPalette: string;
+		help: string;
+		goMerge: string;
+		swUpdate: string;
+		swRefresh: string;
+	};
 };
 
 const en: Messages = {
@@ -292,6 +301,15 @@ const en: Messages = {
 		subtitle: 'Step-by-step help for popular PDF tasks',
 		readGuide: 'Read guide',
 		backToGuides: '← All guides'
+	},
+	shortcuts: {
+		title: 'Keyboard shortcuts',
+		search: 'Focus search on homepage',
+		commandPalette: 'Open command palette',
+		help: 'Show this help',
+		goMerge: 'Go to Merge PDF',
+		swUpdate: 'New version available — refresh',
+		swRefresh: 'Refresh'
 	}
 };
 
@@ -523,6 +541,15 @@ const sk: Messages = {
 		subtitle: 'Postup pre obľúbené PDF úlohy',
 		readGuide: 'Prečítať návod',
 		backToGuides: '← Všetky návody'
+	},
+	shortcuts: {
+		title: 'Klávesové skratky',
+		search: 'Fokus hľadania na homepage',
+		commandPalette: 'Otvoriť command palette',
+		help: 'Zobraziť nápovedu',
+		goMerge: 'Prejsť na Spojiť PDF',
+		swUpdate: 'Nová verzia — obnovte stránku',
+		swRefresh: 'Obnoviť'
 	}
 };
 

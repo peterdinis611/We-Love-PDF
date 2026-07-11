@@ -4,7 +4,7 @@
 	let { children }: { children: import('svelte').Snippet } = $props();
 </script>
 
-<Card.Root class="border-border/60">
+<Card.Root class="border-border/60 bg-card">
 	<Card.Content class="p-5">
 		{@render children()}
 	</Card.Content>

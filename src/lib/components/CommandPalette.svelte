@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { fly, fade } from 'svelte/transition';
+	import { trapFocus } from '$lib/focus-trap';
 	import ToolIcon from '$lib/components/ToolIcon.svelte';
 	import { tools, type PdfTool } from '$lib/tools';
 	import { msg, localizeTools } from '$lib/i18n';
@@ -25,6 +26,7 @@
 	let query = $state('');
 	let activeIndex = $state(0);
 	let inputEl = $state<HTMLInputElement | null>(null);
+	let dialogEl = $state<HTMLDivElement | null>(null);
 
 	const filtered = $derived(
 		localizedTools.filter(
@@ -46,6 +48,11 @@
 
 	$effect(() => {
 		if (activeIndex >= filtered.length) activeIndex = Math.max(0, filtered.length - 1);
+	});
+
+	$effect(() => {
+		if (!open || !dialogEl) return;
+		return trapFocus(dialogEl, close);
 	});
 
 	function close() {
@@ -92,6 +99,7 @@
 {#if open}
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<div
+		bind:this={dialogEl}
 		class="fixed inset-0 z-[100] flex items-start justify-center bg-background/70 p-4 pt-[12vh] backdrop-blur-sm"
 		role="dialog"
 		aria-modal="true"

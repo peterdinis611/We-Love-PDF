@@ -1,8 +1,9 @@
-const CACHE = 'welovepdf-v3';
-const SHELL = ['/', '/sk', '/changelog', '/sk/changelog', '/manifest.webmanifest'];
+const CACHE = 'welovepdf-v4';
+const SHELL = ['/', '/sk', '/cs', '/de', '/pl', '/changelog', '/sk/changelog', '/guides', '/manifest.webmanifest'];
 
 const IMMUTABLE = /\.(wasm|woff2?|png|jpg|svg|ico)$/i;
 const APP_ASSET = /\/_app\//;
+const TOOL_PAGE = /\/tools\//;
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
@@ -16,6 +17,12 @@ self.addEventListener('activate', (event) => {
 		)
 	);
 	self.clients.claim();
+});
+
+self.addEventListener('message', (event) => {
+	if (event.data?.type === 'SKIP_WAITING') {
+		self.skipWaiting();
+	}
 });
 
 async function cacheFirst(request) {
@@ -47,6 +54,7 @@ self.addEventListener('fetch', (event) => {
 
 	const isImmutable = IMMUTABLE.test(url.pathname) || APP_ASSET.test(url.pathname);
 	const isNavigate = event.request.mode === 'navigate';
+	const isToolPage = TOOL_PAGE.test(url.pathname);
 
 	if (isImmutable) {
 		event.respondWith(cacheFirst(event.request));
@@ -61,7 +69,7 @@ self.addEventListener('fetch', (event) => {
 	event.respondWith(
 		fetch(event.request)
 			.then((response) => {
-				if (response.ok && (isImmutable || url.pathname.endsWith('.js'))) {
+				if (response.ok && (isImmutable || isToolPage || url.pathname.endsWith('.js'))) {
 					const clone = response.clone();
 					caches.open(CACHE).then((cache) => cache.put(event.request, clone));
 				}

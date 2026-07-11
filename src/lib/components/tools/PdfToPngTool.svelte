@@ -13,11 +13,9 @@
 	import { getAppLocale } from '$lib/i18n/context';
 	import { msg } from '$lib/i18n';
 	import { getToolPreset, setToolPreset } from '$lib/tool-presets';
-
-	const pdfEngine = usePdfEngineContext();
-
 	import { readNumberParam, readStringParam, syncToolParams } from '$lib/tool-params';
 
+	const pdfEngine = usePdfEngineContext();
 	const ws = $derived(msg(getAppLocale()).workspace);
 
 	let file = $state<File | null>(null);
@@ -91,9 +89,9 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF here to convert to PNG" onfiles={(files) => setFile(files[0])} />
+		<FileDropzone onfiles={(files) => setFile(files[0])} />
 	{:else}
-		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
+		<FileListItem name={file.name} size={file.size} {file} showPageCount onremove={() => (file = null)} />
 		<ToolPanel>
 			<div class="space-y-4">
 				<p class="text-sm text-muted-foreground">

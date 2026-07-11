@@ -28,6 +28,11 @@ export type WorkspaceMessages = {
 		moveDown: string;
 		removeFile: string;
 	};
+	stats: {
+		page: string;
+		pages: string;
+	};
+	undo: string;
 	errors: {
 		couldNotReadPdf: string;
 		invalidPageRange: string;
@@ -66,6 +71,11 @@ export const workspaceEn: WorkspaceMessages = {
 		moveDown: 'Move down',
 		removeFile: 'Remove file'
 	},
+	stats: {
+		page: 'page',
+		pages: 'pages'
+	},
+	undo: 'Undo',
 	errors: {
 		couldNotReadPdf: 'Could not read PDF file.',
 		invalidPageRange: 'Invalid page range.',
@@ -104,6 +114,11 @@ export const workspaceSk: WorkspaceMessages = {
 		moveDown: 'Posunúť dole',
 		removeFile: 'Odstrániť súbor'
 	},
+	stats: {
+		page: 'strana',
+		pages: 'strán'
+	},
+	undo: 'Späť',
 	errors: {
 		couldNotReadPdf: 'Nepodarilo sa načítať PDF súbor.',
 		invalidPageRange: 'Neplatný rozsah strán.',

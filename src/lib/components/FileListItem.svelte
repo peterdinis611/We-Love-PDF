@@ -2,6 +2,7 @@
 	import { formatFileSize } from '$lib/pdf/operations';
 	import { getAppLocale } from '$lib/i18n/context';
 	import { msg } from '$lib/i18n';
+	import PdfFileStats from '$lib/components/PdfFileStats.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { ChevronUp, ChevronDown, X } from '@lucide/svelte';
@@ -9,6 +10,8 @@
 	interface Props {
 		name: string;
 		size: number;
+		file?: File;
+		showPageCount?: boolean;
 		index?: number;
 		onremove?: () => void;
 		onmoveup?: () => void;
@@ -21,6 +24,8 @@
 	let {
 		name,
 		size,
+		file,
+		showPageCount = false,
 		index,
 		onremove,
 		onmoveup,
@@ -43,7 +48,11 @@
 
 		<div class="min-w-0 flex-1">
 			<p class="truncate text-sm font-medium">{name}</p>
-			<p class="text-xs text-muted-foreground">{formatFileSize(size)}</p>
+			{#if showPageCount && file}
+				<PdfFileStats {file} />
+			{:else}
+				<p class="text-xs text-muted-foreground">{formatFileSize(size)}</p>
+			{/if}
 		</div>
 
 		{#if showReorder}

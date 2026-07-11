@@ -6,23 +6,49 @@
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, formatFileSize, getPageCount, parsePageIndexes } from '$lib/pdf/operations';
 	import { blobToJpeg } from '$lib/pdf/convert';
 	import { downloadZip } from '$lib/pdf/zip';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
+	import { getToolPreset, setToolPreset } from '$lib/tool-presets';
+	import { readNumberParam, readStringParam, syncToolParams } from '$lib/tool-params';
 
 	const pdfEngine = usePdfEngineContext();
+	const ws = $derived(msg(getAppLocale()).workspace);
 
 	let file = $state<File | null>(null);
 	let pageCount = $state(0);
-	let scaleFactor = $state(2);
-	let pageRange = $state('');
-	let imageFormat = $state<'png' | 'jpeg'>('png');
-	let jpegQuality = $state(0.92);
-	let downloadMode = $state<'zip' | 'separate'>('zip');
+	let scaleFactor = $state(
+		readNumberParam('scale', getToolPreset<number>('pdf-to-jpg', 'scale', 2))
+	);
+	let pageRange = $state(readStringParam('pages') || getToolPreset<string>('pdf-to-jpg', 'pages', ''));
+	let imageFormat = $state<'png' | 'jpeg'>(
+		(readStringParam('format', 'jpeg') as 'png' | 'jpeg') || 'jpeg'
+	);
+	let jpegQuality = $state(readNumberParam('quality', getToolPreset<number>('pdf-to-jpg', 'quality', 0.92)));
+	let downloadMode = $state<'zip' | 'separate'>(
+		(readStringParam('mode', 'zip') as 'zip' | 'separate') || 'zip'
+	);
 	let processing = $state(false);
+	let progressCurrent = $state(0);
 	let error = $state('');
 	let success = $state('');
+
+	$effect(() => {
+		syncToolParams({
+			scale: scaleFactor,
+			pages: pageRange || undefined,
+			format: imageFormat,
+			quality: imageFormat === 'jpeg' ? jpegQuality : undefined,
+			mode: downloadMode
+		});
+		setToolPreset('pdf-to-jpg', 'scale', scaleFactor);
+		setToolPreset('pdf-to-jpg', 'pages', pageRange);
+		setToolPreset('pdf-to-jpg', 'quality', jpegQuality);
+	});
 
 	async function setFile(f: File) {
 		file = f;
@@ -31,25 +57,26 @@
 		try {
 			pageCount = await getPageCount(f);
 		} catch {
-			error = 'Could not read PDF file.';
+			error = ws.errors.couldNotReadPdf;
 			file = null;
 		}
 	}
 
-	function getPageIndexes(): number[] {
+	function targetIndexes(): number[] {
 		return parsePageIndexes(pageRange, pageCount);
 	}
 
 	async function handleConvert() {
 		if (!file || !pdfEngine.engine) return;
-		const indexes = getPageIndexes();
+		const indexes = targetIndexes();
 		if (!indexes.length) {
-			error = 'Invalid page range.';
+			error = ws.errors.invalidPageRange;
 			return;
 		}
 		processing = true;
 		error = '';
 		success = '';
+		progressCurrent = 0;
 		try {
 			const buffer = await file.arrayBuffer();
 			const doc = await pdfEngine.engine
@@ -60,7 +87,9 @@
 			const entries: { name: string; data: Blob }[] = [];
 			let totalSize = 0;
 
-			for (const i of indexes) {
+			for (let n = 0; n < indexes.length; n++) {
+				progressCurrent = n + 1;
+				const i = indexes[n];
 				const page = doc.pages[i];
 				if (!page) continue;
 				let blob = await pdfEngine.engine.renderPage(doc, page, { scaleFactor }).toPromise();
@@ -84,15 +113,16 @@
 			error = e instanceof Error ? e.message : 'Failed to convert PDF to images.';
 		} finally {
 			processing = false;
+			progressCurrent = 0;
 		}
 	}
 </script>
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF here to convert to images" onfiles={(files) => setFile(files[0])} />
+		<FileDropzone onfiles={(files) => setFile(files[0])} />
 	{:else}
-		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
+		<FileListItem name={file.name} size={file.size} {file} showPageCount onremove={() => (file = null)} />
 		<ToolPanel>
 			<div class="space-y-4">
 				<p class="text-sm text-muted-foreground">
@@ -149,10 +179,17 @@
 				</div>
 			</div>
 		</ToolPanel>
+		{#if processing && progressCurrent > 0}
+			<ProgressBar
+				value={progressCurrent}
+				max={targetIndexes().length || pageCount}
+				label="Rendering page {progressCurrent}…"
+			/>
+		{/if}
 		<ToolAction
 			disabled={processing || pdfEngine.isLoading || !pdfEngine.engine}
 			loading={processing || pdfEngine.isLoading}
-			loadingText={pdfEngine.isLoading ? 'Loading engine…' : 'Converting…'}
+			loadingText={pdfEngine.isLoading ? ws.actions.loadingEngine : ws.actions.converting}
 			onclick={handleConvert}
 		>
 			Convert to {imageFormat === 'jpeg' ? 'JPEG' : 'PNG'}
@@ -160,7 +197,7 @@
 		<ToolSuccess message={success} />
 	{/if}
 	{#if pdfEngine.error}
-		<Alert message="Failed to load PDF engine. Please refresh the page." />
+		<Alert message={ws.errors.engineFailed} variant="info" />
 	{/if}
 	<Alert message={error} />
 </div>

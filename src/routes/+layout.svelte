@@ -1,11 +1,16 @@
 <script lang="ts">
 	import Plausible from '$lib/components/Plausible.svelte';
 	import CommandPalette from '$lib/components/CommandPalette.svelte';
+	import SwUpdateToast from '$lib/components/SwUpdateToast.svelte';
+	import GlobalShortcuts from '$lib/components/GlobalShortcuts.svelte';
+	import ShortcutHelp from '$lib/components/ShortcutHelp.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import ScrollToTop from '$lib/components/ScrollToTop.svelte';
+	import { globalUi } from '$lib/global-ui.svelte';
+	import { precacheToolPages } from '$lib/precache-tools';
 	import { theme } from '$lib/theme.svelte';
 	import type { Locale } from '$lib/i18n/locale';
 	import './layout.css';
@@ -13,15 +18,13 @@
 
 	let { children } = $props();
 
-	let paletteOpen = $state(false);
-
 	const locale = $derived(($page.data.locale as Locale | undefined) ?? 'en');
 
 	onMount(() => {
 		theme.init();
-		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('/sw.js').catch(() => {});
-		}
+		// Idle precache of tool pages for offline use after first visit
+		const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 3000));
+		idle(() => void precacheToolPages());
 	});
 </script>
 
@@ -30,6 +33,8 @@
 </svelte:head>
 
 <Plausible />
+<GlobalShortcuts />
+<ShortcutHelp />
 
 <div class="flex min-h-screen flex-col bg-background">
 	<Header />
@@ -40,4 +45,5 @@
 	<ScrollToTop />
 </div>
 
-<CommandPalette bind:open={paletteOpen} {locale} />
+<CommandPalette bind:open={globalUi.paletteOpen} {locale} />
+<SwUpdateToast />

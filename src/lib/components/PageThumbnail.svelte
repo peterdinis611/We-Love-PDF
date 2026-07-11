@@ -50,7 +50,9 @@
 </script>
 
 {#if src}
-	<img {src} alt="Page {pageIndex + 1} preview" class="rounded border border-border object-cover {className}" />
+	<div class="pdf-thumb-frame overflow-hidden rounded border border-border bg-muted/60 dark:bg-zinc-800/80 {className}">
+		<img {src} alt="Page {pageIndex + 1} preview" class="block h-full w-full object-cover" />
+	</div>
 {:else}
-	<div class="animate-pulse rounded border border-border bg-muted {className}"></div>
+	<div class="animate-pulse rounded border border-border bg-muted dark:bg-zinc-800/60 {className}"></div>
 {/if}
