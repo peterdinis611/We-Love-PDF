@@ -111,12 +111,12 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) 20+
-- [pnpm](https://pnpm.io/) (recommended)
+- [Bun](https://bun.sh/) (recommended)
 
 ### Install
 
 ```sh
-pnpm install
+bun install
 cp .env.example .env
 ```
 
@@ -130,7 +130,7 @@ cp .env.example .env
 ### Development
 
 ```sh
-pnpm dev
+bun dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173).
@@ -138,23 +138,23 @@ Open [http://localhost:5173](http://localhost:5173).
 ### Production build
 
 ```sh
-pnpm build
-pnpm preview
+bun run build
+bun run preview
 ```
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start dev server |
-| `pnpm build` | Production build |
-| `pnpm preview` | Preview production build |
-| `pnpm check` | Type-check with svelte-check |
-| `pnpm lint` | Run Prettier + ESLint |
-| `pnpm format` | Format with Prettier |
-| `pnpm test:unit` | Run Vitest unit tests |
-| `pnpm test:e2e` | Run Playwright e2e tests |
-| `pnpm test` | Run all tests |
+| `bun dev` | Start dev server |
+| `bun run build` | Production build |
+| `bun run preview` | Preview production build |
+| `bun run check` | Type-check with svelte-check |
+| `bun run lint` | Run Prettier + ESLint |
+| `bun run format` | Format with Prettier |
+| `bun run test:unit` | Run Vitest unit tests |
+| `bun run test:e2e` | Run Playwright e2e tests |
+| `bun run test` | Run all tests |
 
 ## Project structure
 
@@ -191,13 +191,13 @@ Tools that need the WASM engine are lazy-loaded via `PdfEngineProvider` to keep 
 Unit tests live in `src/__tests__/unit/`:
 
 ```sh
-pnpm exec vitest run src/__tests__/unit
+bunx vitest run src/__tests__/unit
 ```
 
 E2E tests cover every tool page and key workflows:
 
 ```sh
-pnpm test:e2e
+bun run test:e2e
 ```
 
 Test fixtures are generated on demand in `src/__tests__/fixtures/` (gitignored).

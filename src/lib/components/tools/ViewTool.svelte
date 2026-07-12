@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import PdfViewer from '$lib/components/PdfViewer.svelte';
+	import { consumePendingFile } from '$lib/pending-file';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Maximize2, Minimize2, X, Keyboard } from '@lucide/svelte';
 
@@ -16,7 +17,14 @@
 		fullscreen = document.fullscreenElement === viewerEl;
 	}
 
+	function isPdf(f: File) {
+		return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+	}
+
 	onMount(() => {
+		const pending = consumePendingFile();
+		if (pending && isPdf(pending)) void setFile(pending);
+
 		document.addEventListener('fullscreenchange', syncFullscreenState);
 
 		function onKeydown(e: KeyboardEvent) {
@@ -49,6 +57,8 @@
 		if (pdfUrl) URL.revokeObjectURL(pdfUrl);
 		file = f;
 		pdfUrl = URL.createObjectURL(f);
+		await tick();
+		viewerEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 	}
 
 	async function clearFile() {
@@ -80,7 +90,12 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF here to view" onfiles={(files) => setFile(files[0])} />
+		<FileDropzone
+			label="Select PDF file"
+			hint="or drop a PDF here to view"
+			loadPending={false}
+			onfiles={(files) => setFile(files[0])}
+		/>
 	{:else}
 		<div class="flex items-center justify-between gap-2">
 			<FileListItem name={file.name} size={file.size} onremove={clearFile} />

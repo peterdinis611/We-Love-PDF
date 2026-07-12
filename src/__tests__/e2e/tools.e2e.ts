@@ -325,10 +325,14 @@ test.describe('Engine-dependent tools', () => {
 		expect(download.suggestedFilename()).toBe('batch-compress.zip');
 	});
 
-	test('view PDF accepts file and shows viewer shell', async ({ page }) => {
+	test('view PDF accepts file and renders document', async ({ page }) => {
 		await page.goto('/tools/view-pdf');
-		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-1pg.pdf'));
-		await expect(page.getByText('sample-1pg.pdf')).toBeVisible();
+		await page.locator('input[type="file"]').setInputFiles(fixturePath('sample-3pg.pdf'));
+		await expect(page.getByText('sample-3pg.pdf')).toBeVisible();
 		await expect(page.locator('.overflow-hidden.rounded-xl.border')).toBeVisible();
+		await expect(page.locator('embedpdf-container')).toBeVisible({ timeout: 15000 });
+		await expect(page.locator('embedpdf-container').locator('css=img').first()).toBeVisible({
+			timeout: 15000
+		});
 	});
 });
