@@ -24,8 +24,8 @@
 			if (isTypingContext()) return;
 			if (globalUi.paletteOpen || globalUi.helpOpen) {
 				if (e.key === 'Escape') {
-					globalUi.paletteOpen = false;
-					globalUi.helpOpen = false;
+					globalUi.setPaletteOpen(false);
+					globalUi.setHelpOpen(false);
 				}
 				return;
 			}
@@ -34,7 +34,7 @@
 
 			if (e.key === '?') {
 				e.preventDefault();
-				globalUi.helpOpen = true;
+				globalUi.setHelpOpen(true);
 				return;
 			}
 
@@ -43,7 +43,7 @@
 				const onHome = path === '/' || /^\/(sk|cs|de|pl)\/?$/.test(path);
 				if (!onHome) {
 					e.preventDefault();
-					globalUi.paletteOpen = true;
+					globalUi.setPaletteOpen(true);
 				}
 				return;
 			}

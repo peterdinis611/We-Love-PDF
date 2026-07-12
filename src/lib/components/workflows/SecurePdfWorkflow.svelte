@@ -25,7 +25,10 @@
 	const pdfEngine = usePdfEngineContext();
 
 	let { locale = 'en' as Locale }: { locale?: Locale } = $props();
-	setAppLocale(locale);
+
+	$effect(() => {
+		setAppLocale(locale);
+	});
 
 	const m = $derived(msg(locale));
 	const wf = $derived(m.workflow);

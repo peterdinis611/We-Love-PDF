@@ -13,10 +13,12 @@
 	import { Search, Command } from '@lucide/svelte';
 
 	let {
-		open = $bindable(false),
+		open = false,
+		onOpenChange,
 		locale = 'en' as Locale
 	}: {
 		open?: boolean;
+		onOpenChange?: (open: boolean) => void;
 		locale?: Locale;
 	} = $props();
 
@@ -56,7 +58,7 @@
 	});
 
 	function close() {
-		open = false;
+		onOpenChange?.(false);
 	}
 
 	function pick(tool: PdfTool) {
@@ -88,7 +90,7 @@
 		function globalKey(e: KeyboardEvent) {
 			if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
 				e.preventDefault();
-				open = !open;
+				onOpenChange?.(!open);
 			}
 		}
 		window.addEventListener('keydown', globalKey);

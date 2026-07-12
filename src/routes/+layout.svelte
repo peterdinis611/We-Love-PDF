@@ -45,5 +45,9 @@
 	<ScrollToTop />
 </div>
 
-<CommandPalette bind:open={globalUi.paletteOpen} {locale} />
+<CommandPalette
+	open={globalUi.paletteOpen}
+	onOpenChange={(v) => globalUi.setPaletteOpen(v)}
+	{locale}
+/>
 <SwUpdateToast />

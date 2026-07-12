@@ -15,7 +15,7 @@
 
 	$effect(() => {
 		if (!globalUi.helpOpen || !dialogEl) return;
-		return trapFocus(dialogEl, () => (globalUi.helpOpen = false));
+		return trapFocus(dialogEl, () => globalUi.setHelpOpen(false));
 	});
 
 	const rows = $derived([
@@ -31,7 +31,7 @@
 		class="fixed inset-0 z-[100] flex items-center justify-center bg-background/70 p-4 backdrop-blur-sm"
 		role="presentation"
 		transition:fade={{ duration: 150 }}
-		onclick={(e) => e.target === e.currentTarget && (globalUi.helpOpen = false)}
+		onclick={(e) => e.target === e.currentTarget && globalUi.setHelpOpen(false)}
 	>
 		<div
 			bind:this={dialogEl}
@@ -45,7 +45,7 @@
 			<button
 				type="button"
 				class="absolute top-3 right-3 rounded-md p-1 text-muted-foreground hover:bg-muted"
-				onclick={() => (globalUi.helpOpen = false)}
+				onclick={() => globalUi.setHelpOpen(false)}
 				aria-label="Close"
 			>
 				<X class="size-4" />
@@ -64,7 +64,7 @@
 				{/each}
 			</dl>
 			<div class="mt-4 flex justify-end">
-				<Button variant="outline" size="sm" onclick={() => (globalUi.helpOpen = false)}>Close</Button>
+				<Button variant="outline" size="sm" onclick={() => globalUi.setHelpOpen(false)}>Close</Button>
 			</div>
 		</div>
 	</div>

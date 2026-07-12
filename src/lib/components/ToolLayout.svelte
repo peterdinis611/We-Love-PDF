@@ -20,7 +20,9 @@
 		children: import('svelte').Snippet;
 	} = $props();
 
-	setAppLocale(locale);
+	$effect(() => {
+		setAppLocale(locale);
+	});
 </script>
 
 <div class="min-h-[calc(100vh-3.5rem)] bg-muted/20">
