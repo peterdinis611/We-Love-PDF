@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { usePdfEngineContext } from '$lib/pdf/engine-context';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
@@ -18,6 +20,9 @@
 		type PermissionToggleKey
 	} from '$lib/pdf/security';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -86,30 +91,30 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select protected PDF"
-			hint="or drop an encrypted PDF here"
+			label={ws.dropzone.selectProtected}
+			hint={ws.dropzone.orDropProtected}
 			onfiles={(f) => { file = f[0]; error = ''; success = ''; }}
 		/>
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>
 			<div class="space-y-4">
-				<PasswordInput id="current-password" label="Current password" bind:value={currentPassword} />
-				<PasswordInput id="new-password" label="New password" bind:value={newPassword} />
+				<PasswordInput id="current-password" label={ws.password.currentPassword} bind:value={currentPassword} />
+				<PasswordInput id="new-password" label={ws.password.newPassword} bind:value={newPassword} />
 				{#if strength}
 					<p class="-mt-2 text-xs capitalize text-muted-foreground">
 						Strength:
 						<span class={strengthColor(strength)}>{strength}</span>
 					</p>
 				{/if}
-				<PasswordInput id="confirm-new-password" label="Confirm new password" bind:value={confirmPassword} />
+				<PasswordInput id="confirm-new-password" label={ws.password.confirmNewPassword} bind:value={confirmPassword} />
 
 				<label class="flex cursor-pointer items-center gap-2 text-sm">
 					<input type="checkbox" class="size-4 rounded border-input accent-primary" bind:checked={separateOwner} />
 					Use separate owner password
 				</label>
 				{#if separateOwner}
-					<PasswordInput id="change-owner-password" label="Owner password" bind:value={ownerPassword} />
+					<PasswordInput id="change-owner-password" label={ws.password.ownerPassword} bind:value={ownerPassword} />
 				{/if}
 
 				<PermissionControls bind:preset bind:toggles />

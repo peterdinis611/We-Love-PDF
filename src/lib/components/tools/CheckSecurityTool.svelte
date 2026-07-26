@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { usePdfEngineContext } from '$lib/pdf/engine-context';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
@@ -8,6 +10,9 @@
 	import PasswordInput from '$lib/components/PasswordInput.svelte';
 	import { describePermissions } from '$lib/pdf/security';
 	import { Shield, ShieldOff } from '@lucide/svelte';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -87,7 +92,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF to inspect security" onfiles={(f) => setFile(f[0])} />
+		<FileDropzone onfiles={(f) => setFile(f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; info = null; error = ''; }} />
 
@@ -153,7 +158,7 @@
 		{#if info?.needsPassword && info.permissions == null}
 			<ToolPanel>
 				<div class="space-y-3">
-					<PasswordInput id="check-password" label="Password" bind:value={password} />
+					<PasswordInput id="check-password" label={ws.password.password} bind:value={password} />
 					<ToolAction
 						disabled={loading || !password || pdfEngine.isLoading || !pdfEngine.engine}
 						loading={loading}

@@ -3,6 +3,7 @@
 	import { isFavoriteTool, toggleFavoriteTool } from '$lib/favorite-tools';
 	import { isNewTool } from '$lib/changelog';
 	import { categoryLabel } from '$lib/i18n/messages';
+	import { msg } from '$lib/i18n';
 	import { toolPath } from '$lib/i18n/locale';
 	import type { Locale } from '$lib/i18n/locale';
 	import ToolIcon from './ToolIcon.svelte';
@@ -12,6 +13,8 @@
 	import { ArrowUpRight, Star } from '@lucide/svelte';
 
 	let { tool, locale = 'en', index = 0 }: { tool: PdfTool; locale?: Locale; index?: number } = $props();
+
+	const m = $derived(msg(locale));
 
 	let favorited = $state(false);
 
@@ -55,7 +58,7 @@
 						size="icon-sm"
 						class={favorited ? 'text-amber-500' : 'text-muted-foreground'}
 						onclick={toggleFavorite}
-						aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
+						aria-label={favorited ? m.home.removeFavorite : m.home.addFavorite}
 					>
 						<Star class="size-4 {favorited ? 'fill-current' : ''}" />
 					</Button>

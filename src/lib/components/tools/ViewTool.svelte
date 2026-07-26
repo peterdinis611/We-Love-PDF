@@ -4,8 +4,14 @@
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import PdfViewer from '$lib/components/PdfViewer.svelte';
 	import { consumePendingFile } from '$lib/pending-file';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Maximize2, Minimize2, X, Keyboard } from '@lucide/svelte';
+
+	const locale = getAppLocale();
+	const view = $derived(msg(locale).workspace.view);
+	const dropzone = $derived(msg(locale).workspace.dropzone);
 
 	let file = $state<File | null>(null);
 	let pdfUrl = $state<string | null>(null);
@@ -91,8 +97,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select PDF file"
-			hint="or drop a PDF here to view"
+			label={dropzone.selectPdf}
+			hint={dropzone.orDropToView}
 			loadPending={false}
 			onfiles={(files) => setFile(files[0])}
 		/>
@@ -100,14 +106,14 @@
 		<div class="flex items-center justify-between gap-2">
 			<FileListItem name={file.name} size={file.size} onremove={clearFile} />
 			<div class="flex gap-2">
-				<Button variant="outline" size="sm" onclick={() => (showHelp = !showHelp)} aria-label="Keyboard shortcuts">
+				<Button variant="outline" size="sm" onclick={() => (showHelp = !showHelp)} aria-label={view.keyboardShortcuts}>
 					<Keyboard class="size-4" />
-					Shortcuts
+					{view.shortcuts}
 				</Button>
 				{#if pdfUrl && !fullscreen}
 					<Button variant="outline" size="sm" onclick={enterFullscreen}>
 						<Maximize2 class="size-4" />
-						Fullscreen
+						{view.fullscreen}
 					</Button>
 				{/if}
 			</div>
@@ -121,9 +127,9 @@
 					<div class="absolute top-3 right-3 z-50 flex gap-2">
 						<Button variant="secondary" size="sm" onclick={exitFullscreen}>
 							<Minimize2 class="size-4" />
-							Exit fullscreen
+							{view.exitFullscreen}
 						</Button>
-						<Button variant="secondary" size="icon-sm" onclick={exitFullscreen} aria-label="Close fullscreen">
+						<Button variant="secondary" size="icon-sm" onclick={exitFullscreen} aria-label={view.closeFullscreen}>
 							<X class="size-4" />
 						</Button>
 					</div>
@@ -134,26 +140,26 @@
 
 		{#if showHelp}
 			<div class="rounded-lg border border-border bg-muted/40 p-4 text-sm">
-				<p class="mb-2 font-medium">Keyboard shortcuts</p>
+				<p class="mb-2 font-medium">{view.keyboardShortcuts}</p>
 				<dl class="grid gap-1.5 sm:grid-cols-2">
 					<div class="flex justify-between gap-4">
-						<dt class="text-muted-foreground">Previous / next page</dt>
+						<dt class="text-muted-foreground">{view.prevNext}</dt>
 						<dd><kbd class="rounded border px-1.5 py-0.5 text-xs">←</kbd> <kbd class="rounded border px-1.5 py-0.5 text-xs">→</kbd></dd>
 					</div>
 					<div class="flex justify-between gap-4">
-						<dt class="text-muted-foreground">Zoom in / out</dt>
+						<dt class="text-muted-foreground">{view.zoom}</dt>
 						<dd><kbd class="rounded border px-1.5 py-0.5 text-xs">+</kbd> <kbd class="rounded border px-1.5 py-0.5 text-xs">−</kbd></dd>
 					</div>
 					<div class="flex justify-between gap-4">
-						<dt class="text-muted-foreground">Toggle fullscreen</dt>
+						<dt class="text-muted-foreground">{view.toggleFullscreen}</dt>
 						<dd><kbd class="rounded border px-1.5 py-0.5 text-xs">F</kbd></dd>
 					</div>
 					<div class="flex justify-between gap-4">
-						<dt class="text-muted-foreground">Show shortcuts</dt>
+						<dt class="text-muted-foreground">{view.showShortcuts}</dt>
 						<dd><kbd class="rounded border px-1.5 py-0.5 text-xs">?</kbd></dd>
 					</div>
 					<div class="flex justify-between gap-4">
-						<dt class="text-muted-foreground">Exit fullscreen / close help</dt>
+						<dt class="text-muted-foreground">{view.exitHelp}</dt>
 						<dd><kbd class="rounded border px-1.5 py-0.5 text-xs">Esc</kbd></dd>
 					</div>
 				</dl>

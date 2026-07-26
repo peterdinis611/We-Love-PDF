@@ -12,6 +12,7 @@ export type Messages = {
 		merge: string;
 		backToTools: string;
 		whatsNew: string;
+		guides: string;
 	};
 	hero: {
 		badge: string;
@@ -40,6 +41,8 @@ export type Messages = {
 		featureFastDesc: string;
 		featureDarkTitle: string;
 		featureDarkDesc: string;
+		addFavorite: string;
+		removeFavorite: string;
 	};
 	footer: {
 		tagline: string;
@@ -111,6 +114,13 @@ export type Messages = {
 		goMerge: string;
 		swUpdate: string;
 		swRefresh: string;
+		close: string;
+	};
+	theme: {
+		light: string;
+		dark: string;
+		switchToLight: string;
+		switchToDark: string;
 	};
 };
 
@@ -120,7 +130,8 @@ const en: Messages = {
 		view: 'View',
 		merge: 'Merge',
 		backToTools: '← Tools',
-		whatsNew: "What's new"
+		whatsNew: "What's new",
+		guides: 'Guides'
 	},
 	hero: {
 		badge: 'free tools · 100% in-browser',
@@ -149,7 +160,9 @@ const en: Messages = {
 		featureFastTitle: 'Lightning Fast',
 		featureFastDesc: 'Instant results powered by modern browser PDF engines.',
 		featureDarkTitle: 'Dark Mode',
-		featureDarkDesc: 'Comfortable viewing day or night with theme switching.'
+		featureDarkDesc: 'Comfortable viewing day or night with theme switching.',
+		addFavorite: 'Add to favorites',
+		removeFavorite: 'Remove from favorites'
 	},
 	footer: {
 		tagline: 'free tools · 100% in-browser · no uploads'
@@ -309,7 +322,14 @@ const en: Messages = {
 		help: 'Show this help',
 		goMerge: 'Go to Merge PDF',
 		swUpdate: 'New version available — refresh',
-		swRefresh: 'Refresh'
+		swRefresh: 'Refresh',
+		close: 'Close'
+	},
+	theme: {
+		light: 'Light',
+		dark: 'Dark',
+		switchToLight: 'Switch to light mode',
+		switchToDark: 'Switch to dark mode'
 	}
 };
 
@@ -319,7 +339,8 @@ const sk: Messages = {
 		view: 'Zobraziť',
 		merge: 'Spojiť',
 		backToTools: '← Nástroje',
-		whatsNew: 'Čo je nové'
+		whatsNew: 'Čo je nové',
+		guides: 'Návody'
 	},
 	hero: {
 		badge: 'nástrojov zadarmo · 100 % v prehliadači',
@@ -348,7 +369,9 @@ const sk: Messages = {
 		featureFastTitle: 'Bleskovo rýchle',
 		featureFastDesc: 'Okamžité výsledky vďaka moderným PDF enginom v prehliadači.',
 		featureDarkTitle: 'Tmavý režim',
-		featureDarkDesc: 'Pohodlné používanie cez deň aj v noci.'
+		featureDarkDesc: 'Pohodlné používanie cez deň aj v noci.',
+		addFavorite: 'Pridať medzi obľúbené',
+		removeFavorite: 'Odstrániť z obľúbených'
 	},
 	footer: {
 		tagline: 'nástrojov zadarmo · 100 % v prehliadači · bez nahrávania'
@@ -549,7 +572,14 @@ const sk: Messages = {
 		help: 'Zobraziť nápovedu',
 		goMerge: 'Prejsť na Spojiť PDF',
 		swUpdate: 'Nová verzia — obnovte stránku',
-		swRefresh: 'Obnoviť'
+		swRefresh: 'Obnoviť',
+		close: 'Zavrieť'
+	},
+	theme: {
+		light: 'Svetlý',
+		dark: 'Tmavý',
+		switchToLight: 'Prepnúť na svetlý režim',
+		switchToDark: 'Prepnúť na tmavý režim'
 	}
 };
 

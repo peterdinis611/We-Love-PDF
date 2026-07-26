@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { usePdfEngineContext } from '$lib/pdf/engine-context';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
@@ -18,6 +20,9 @@
 		type PermissionToggleKey
 	} from '$lib/pdf/security';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -118,7 +123,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF to encrypt" onfiles={(f) => inspectFile(f[0])} />
+		<FileDropzone onfiles={(f) => inspectFile(f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; encrypted = null; error = ''; }} />
 
@@ -132,21 +137,21 @@
 
 		<ToolPanel>
 			<div class="space-y-4">
-				<PasswordInput id="password" label="Password" bind:value={password} />
+				<PasswordInput id="password" label={ws.password.password} bind:value={password} />
 				{#if strength}
 					<p class="-mt-2 text-xs capitalize text-muted-foreground">
 						Strength:
 						<span class={strengthColor(strength)}>{strength}</span>
 					</p>
 				{/if}
-				<PasswordInput id="confirm" label="Confirm password" bind:value={confirm} />
+				<PasswordInput id="confirm" label={ws.password.confirmPassword} bind:value={confirm} />
 
 				<label class="flex cursor-pointer items-center gap-2 text-sm">
 					<input type="checkbox" class="size-4 rounded border-input accent-primary" bind:checked={separateOwner} />
 					Use separate owner password (for changing permissions later)
 				</label>
 				{#if separateOwner}
-					<PasswordInput id="owner-password" label="Owner password" bind:value={ownerPassword} />
+					<PasswordInput id="owner-password" label={ws.password.ownerPassword} bind:value={ownerPassword} />
 				{/if}
 
 				<PermissionControls bind:preset bind:toggles />

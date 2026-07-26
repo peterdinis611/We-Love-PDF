@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -10,6 +12,9 @@
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { docxToPdf } from '$lib/pdf/office';
 	import type { ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let title = $state('');
@@ -51,8 +56,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select Word file"
-			hint="or drop a .docx file (Office Open XML)"
+			label={ws.dropzone.selectWord}
+			hint={ws.dropzone.orDropWord}
 			accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 			onfiles={(f) => setFile(f[0])}
 		/>

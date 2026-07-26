@@ -4,6 +4,7 @@
 	import { msg } from '$lib/i18n';
 	import { setPendingFile } from '$lib/pending-file';
 	import { toolPath } from '$lib/i18n/locale';
+	import { toolTranslation } from '$lib/i18n/messages';
 	import type { Locale } from '$lib/i18n/locale';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { FileText, Eye, Minimize2, Scissors, X } from '@lucide/svelte';
@@ -19,10 +20,11 @@
 	} = $props();
 
 	const m = $derived(msg(locale));
+	const splitLabel = $derived(toolTranslation('split-pdf', locale)?.name ?? 'Split PDF');
 
 	const actions = $derived([
 		{ slug: 'merge-pdf', label: m.hero.ctaMerge, icon: FileText },
-		{ slug: 'split-pdf', label: locale === 'sk' ? 'Rozdeliť PDF' : 'Split PDF', icon: Scissors },
+		{ slug: 'split-pdf', label: splitLabel, icon: Scissors },
 		{ slug: 'view-pdf', label: m.hero.ctaView, icon: Eye },
 		{ slug: 'compress-pdf', label: m.hero.ctaCompress, icon: Minimize2 }
 	]);

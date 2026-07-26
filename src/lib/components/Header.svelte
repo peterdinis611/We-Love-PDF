@@ -36,7 +36,7 @@
 			</Button>
 			<Button variant="ghost" size="sm" href={localizedPath('/guides', locale)}>
 				<BookOpen class="size-4" />
-				Guides
+				{m.nav.guides}
 			</Button>
 			<Button variant="ghost" size="sm" href={localizedPath('/changelog', locale)}>
 				<Sparkles class="size-4" />

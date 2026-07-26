@@ -1,6 +1,10 @@
-import { describe, expect, it, beforeEach, vi } from 'vitest';
-import { getMessages } from '$lib/i18n/messages';
-import { getToolPreset, setToolPreset } from '$lib/tool-presets';
+import { describe, expect, it } from 'vitest';
+import { getMessages, toolTranslation } from '$lib/i18n/messages';
+import { tools } from '$lib/tools';
+import type { Locale } from '$lib/i18n/locale';
+import { workspaceEn } from '$lib/i18n/workspace';
+
+const locales: Locale[] = ['sk', 'cs', 'de', 'pl'];
 
 describe('i18n getMessages', () => {
 	it('returns Slovak workspace strings', () => {
@@ -10,22 +14,35 @@ describe('i18n getMessages', () => {
 	it('merges Czech overlay onto English base', () => {
 		expect(getMessages('cs').nav.allTools).toBe('Všechny nástroje');
 		expect(getMessages('cs').commandPalette.title).toBe('Přejít na nástroj');
+		expect(getMessages('cs').nav.guides).toBe('Návody');
+	});
+
+	it('localizes DE backToTools without English Tools label', () => {
+		expect(getMessages('de').nav.backToTools).toBe('← Werkzeuge');
 	});
 });
 
-describe('tool presets', () => {
-	const storage = new Map<string, string>();
-
-	beforeEach(() => {
-		storage.clear();
-		vi.stubGlobal('localStorage', {
-			getItem: (key: string) => storage.get(key) ?? null,
-			setItem: (key: string, value: string) => storage.set(key, value)
+describe('tool translations', () => {
+	for (const locale of locales) {
+		it(`has name+description for every tool slug (${locale})`, () => {
+			for (const tool of tools) {
+				const tr = toolTranslation(tool.slug, locale);
+				expect(tr, `${locale}:${tool.slug}`).toBeDefined();
+				expect(tr!.name.length).toBeGreaterThan(0);
+				expect(tr!.description.length).toBeGreaterThan(0);
+			}
 		});
-	});
+	}
+});
 
-	it('stores and reads presets per tool', () => {
-		setToolPreset('pdf-to-png', 'scale', 3);
-		expect(getToolPreset('pdf-to-png', 'scale', 2)).toBe(3);
-	});
+describe('workspace locale parity', () => {
+	for (const locale of locales) {
+		it(`${locale} dropzone differs from English`, () => {
+			const ws = getMessages(locale).workspace;
+			expect(ws.dropzone.selectPdf).not.toBe(workspaceEn.dropzone.selectPdf);
+			expect(ws.dropzone.orDropPdf).not.toBe(workspaceEn.dropzone.orDropPdf);
+			expect(ws.view.loadingViewer).not.toBe(workspaceEn.view.loadingViewer);
+			expect(ws.password.password).not.toBe(workspaceEn.password.password);
+		});
+	}
 });

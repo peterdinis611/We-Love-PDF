@@ -75,7 +75,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF to convert to Word (.docx)" onfiles={(f) => setFile(f[0])} />
+		<FileDropzone onfiles={(f) => setFile(f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>

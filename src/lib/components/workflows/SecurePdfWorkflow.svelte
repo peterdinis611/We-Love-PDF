@@ -65,7 +65,7 @@
 
 	async function runMerge() {
 		if (files.length < 1) {
-			error = locale === 'sk' ? 'Pridajte aspoň jeden PDF súbor.' : 'Please add at least one PDF file.';
+			error = m.workspace.errors.addAtLeastOne;
 			return;
 		}
 		processing = true;
@@ -196,8 +196,8 @@
 				<p class="text-sm text-muted-foreground">
 					{compressedBytes ? formatFileSize(compressedBytes.length) : ''} — add password
 				</p>
-				<PasswordInput id="wf-password" label="Password" bind:value={password} />
-				<PasswordInput id="wf-confirm" label="Confirm password" bind:value={confirm} />
+				<PasswordInput id="wf-password" label={m.workspace.password.password} bind:value={password} />
+				<PasswordInput id="wf-confirm" label={m.workspace.password.confirmPassword} bind:value={confirm} />
 				<OutputFilename bind:value={outputName} />
 			</div>
 		</ToolPanel>

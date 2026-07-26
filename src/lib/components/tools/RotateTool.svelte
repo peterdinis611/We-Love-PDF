@@ -64,7 +64,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF here to rotate" onfiles={(files) => setFile(files[0])} />
+		<FileDropzone onfiles={(files) => setFile(files[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>

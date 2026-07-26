@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -8,6 +10,9 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { markdownToPdf, type ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let markdown = $state('');
@@ -54,8 +59,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select Markdown file"
-			hint="or drop a .md file — or paste Markdown below"
+			label={ws.dropzone.selectMarkdown}
+			hint={ws.dropzone.orDropMarkdown}
 			accept=".md,.markdown,text/markdown"
 			onfiles={(f) => setFile(f[0])}
 		/>

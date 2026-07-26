@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -8,6 +10,9 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { htmlToPdf, type ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let html = $state('');
@@ -54,8 +59,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select HTML file"
-			hint="or drop an .html file — or paste HTML below"
+			label={ws.dropzone.selectHtml}
+			hint={ws.dropzone.orDropHtml}
 			accept=".html,text/html"
 			onfiles={(f) => setFile(f[0])}
 		/>

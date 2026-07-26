@@ -54,7 +54,7 @@
 			{#if leftFile}
 				<FileListItem name={leftFile.name} size={leftFile.size} onremove={() => { leftFile = null; comparisons = null; }} />
 			{:else}
-				<FileDropzone label="Select first PDF" hint="original version" onfiles={(f) => { leftFile = f[0]; comparisons = null; }} />
+				<FileDropzone onfiles={(f) => { leftFile = f[0]; comparisons = null; }} />
 			{/if}
 		</div>
 		<div class="space-y-2">
@@ -62,7 +62,7 @@
 			{#if rightFile}
 				<FileListItem name={rightFile.name} size={rightFile.size} onremove={() => { rightFile = null; comparisons = null; }} />
 			{:else}
-				<FileDropzone label="Select second PDF" hint="revised version" onfiles={(f) => { rightFile = f[0]; comparisons = null; }} />
+				<FileDropzone onfiles={(f) => { rightFile = f[0]; comparisons = null; }} />
 			{/if}
 		</div>
 	</div>

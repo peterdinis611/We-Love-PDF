@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { usePdfEngineContext } from '$lib/pdf/engine-context';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
@@ -9,6 +11,9 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import PasswordInput from '$lib/components/PasswordInput.svelte';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -70,7 +75,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select protected PDF" hint="or drop a PDF here" onfiles={(f) => inspectFile(f[0])} />
+		<FileDropzone label={ws.dropzone.selectProtected} hint={ws.dropzone.orDropPdf} onfiles={(f) => inspectFile(f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; encrypted = null; error = ''; }} />
 
@@ -86,7 +91,7 @@
 
 		<ToolPanel>
 			<div class="space-y-3">
-				<PasswordInput id="unlock-password" label="Current password" bind:value={password} />
+				<PasswordInput id="unlock-password" label={ws.password.currentPassword} bind:value={password} />
 				<OutputFilename bind:value={outputName} />
 			</div>
 		</ToolPanel>

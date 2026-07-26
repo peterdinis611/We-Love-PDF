@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -10,6 +12,9 @@
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { jsonToPdf } from '$lib/pdf/data-to-pdf';
 	import type { ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let jsonText = $state('');
@@ -62,7 +67,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select JSON file" hint="or drop a .json file — or paste JSON below" accept=".json,application/json" onfiles={(f) => setFile(f[0])} />
+		<FileDropzone label={ws.dropzone.selectJson} hint={ws.dropzone.orDropJson} accept=".json,application/json" onfiles={(f) => setFile(f[0])} />
 	{/if}
 	{#if file}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />

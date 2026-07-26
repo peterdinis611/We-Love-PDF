@@ -46,7 +46,7 @@
 				type="button"
 				class="absolute top-3 right-3 rounded-md p-1 text-muted-foreground hover:bg-muted"
 				onclick={() => globalUi.setHelpOpen(false)}
-				aria-label="Close"
+				aria-label={sc.close}
 			>
 				<X class="size-4" />
 			</button>
@@ -64,7 +64,7 @@
 				{/each}
 			</dl>
 			<div class="mt-4 flex justify-end">
-				<Button variant="outline" size="sm" onclick={() => globalUi.setHelpOpen(false)}>Close</Button>
+				<Button variant="outline" size="sm" onclick={() => globalUi.setHelpOpen(false)}>{sc.close}</Button>
 			</div>
 		</div>
 	</div>

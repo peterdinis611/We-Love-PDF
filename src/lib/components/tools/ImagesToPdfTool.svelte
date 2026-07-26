@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -7,6 +9,9 @@
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { createFileId, downloadBlob, ensurePdfFilename, formatFileSize, imagesToPdf, type PdfFile } from '$lib/pdf/operations';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let files = $state<PdfFile[]>([]);
 	let pageSize = $state<'fit' | 'a4' | 'letter'>('a4');
@@ -59,8 +64,8 @@
 	<FileDropzone
 		multiple
 		accept="image/jpeg,image/png,.jpg,.jpeg,.png"
-		label="Select images"
-		hint="or drop JPG/PNG files here"
+		label={ws.dropzone.selectImages}
+		hint={ws.dropzone.orDropImages}
 		onfiles={addFiles}
 		fileFilter={(f) => f.type.startsWith('image/') || /\.(jpe?g|png)$/i.test(f.name)}
 	/>

@@ -60,7 +60,7 @@
 
 <div class="space-y-6">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF to inspect" onfiles={(f) => setFile(f[0])} />
+		<FileDropzone onfiles={(f) => setFile(f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; info = null; }} />
 

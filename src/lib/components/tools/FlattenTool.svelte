@@ -46,7 +46,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF file" hint="or drop a PDF with forms or annotations" onfiles={(f) => (file = f[0])} />
+		<FileDropzone onfiles={(f) => (file = f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>

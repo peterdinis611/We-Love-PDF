@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -10,6 +12,9 @@
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { excelToPdf } from '$lib/pdf/excel';
 	import type { ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let title = $state('');
@@ -53,8 +58,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select Excel file"
-			hint="or drop an .xlsx or .xls file"
+			label={ws.dropzone.selectExcel}
+			hint={ws.dropzone.orDropExcel}
 			accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
 			onfiles={(f) => setFile(f[0])}
 		/>

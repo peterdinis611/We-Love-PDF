@@ -121,7 +121,7 @@
 </script>
 
 <div class="space-y-4">
-	<FileDropzone multiple label="Select PDF files" hint="or drop multiple PDFs to process in batch" onfiles={addFiles} />
+	<FileDropzone multiple onfiles={addFiles} />
 
 	{#if files.length > 0}
 		<p class="text-sm text-muted-foreground">{files.length} file{files.length === 1 ? '' : 's'} queued</p>

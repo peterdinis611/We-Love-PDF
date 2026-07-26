@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { usePdfEngineContext } from '$lib/pdf/engine-context';
 	import {
 		PDF_FORM_FIELD_TYPE,
@@ -15,6 +17,9 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -160,7 +165,7 @@
 
 <div class="space-y-4">
 	{#if !file}
-		<FileDropzone label="Select PDF form" hint="or drop a PDF with fillable fields" onfiles={(f) => loadForm(f[0])} />
+		<FileDropzone label={ws.dropzone.selectForm} hint={ws.dropzone.orDropForm} onfiles={(f) => loadForm(f[0])} />
 	{:else}
 		<FileListItem name={file.name} size={file.size} onremove={() => { file = null; fields = []; docRef = null; error = ''; }} />
 

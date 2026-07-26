@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -9,6 +11,9 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { textToPdf, type ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let pastedText = $state('');
@@ -59,8 +64,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select text file"
-			hint="or drop a .txt file — or paste text below"
+			label={ws.dropzone.selectText}
+			hint={ws.dropzone.orDropText}
 			accept=".txt,text/plain"
 			onfiles={(f) => setFile(f[0])}
 		/>

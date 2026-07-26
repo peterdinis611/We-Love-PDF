@@ -2,6 +2,8 @@
 	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { theme } from '$lib/theme.svelte';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import type { EmbedPdfContainer } from '@embedpdf/snippet';
 
 	interface Props {
@@ -10,6 +12,9 @@
 	}
 
 	let { src, class: className = '' }: Props = $props();
+
+	const locale = getAppLocale();
+	const view = $derived(msg(locale).workspace.view);
 
 	let containerEl = $state<HTMLDivElement | null>(null);
 	let loading = $state(true);
@@ -39,10 +44,10 @@
 			}) ?? null;
 
 			if (!viewer) {
-				loadError = 'Could not initialize PDF viewer.';
+				loadError = msg(locale).workspace.view.initError;
 			}
 		} catch {
-			loadError = 'Could not load PDF viewer.';
+			loadError = msg(locale).workspace.view.loadError;
 		} finally {
 			loading = false;
 		}
@@ -82,7 +87,7 @@
 		<div class="flex min-h-96 flex-1 items-center justify-center">
 			<div class="flex flex-col items-center gap-3 text-muted-foreground">
 				<div class="size-8 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-				<p class="text-sm">Loading PDF viewer…</p>
+				<p class="text-sm">{view.loadingViewer}</p>
 			</div>
 		</div>
 	{/if}

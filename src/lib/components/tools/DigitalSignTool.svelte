@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -10,6 +12,9 @@
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { signPdfWithCertificate } from '$lib/pdf/digital-sign';
 	import { Shield } from '@lucide/svelte';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let pdfFile = $state<File | null>(null);
 	let certFile = $state<File | null>(null);
@@ -80,7 +85,7 @@
 		{#if pdfFile}
 			<FileListItem name={pdfFile.name} size={pdfFile.size} onremove={() => (pdfFile = null)} />
 		{:else}
-			<FileDropzone label="Select PDF file" hint="document to sign" onfiles={(f) => (pdfFile = f[0])} />
+			<FileDropzone onfiles={(f) => (pdfFile = f[0])} />
 		{/if}
 	</div>
 
@@ -90,8 +95,8 @@
 			<FileListItem name={certFile.name} size={certFile.size} onremove={() => (certFile = null)} />
 		{:else}
 			<FileDropzone
-				label="Select certificate"
-				hint="your .p12 or .pfx file"
+				label={ws.dropzone.selectCert}
+				hint={ws.dropzone.orDropCert}
 				accept=".p12,.pfx,application/x-pkcs12"
 				onfiles={(f) => (certFile = f[0])}
 			/>

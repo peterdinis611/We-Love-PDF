@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import FileDropzone from '$lib/components/FileDropzone.svelte';
 	import FileListItem from '$lib/components/FileListItem.svelte';
 	import ToolAction from '$lib/components/ToolAction.svelte';
@@ -10,6 +12,9 @@
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { csvToPdf } from '$lib/pdf/csv';
 	import type { ConvertPageSize } from '$lib/pdf/convert';
+
+	const locale = getAppLocale();
+	const ws = $derived(msg(locale).workspace);
 
 	let file = $state<File | null>(null);
 	let csvText = $state('');
@@ -62,8 +67,8 @@
 <div class="space-y-4">
 	{#if !file}
 		<FileDropzone
-			label="Select CSV file"
-			hint="or drop a .csv file — or paste CSV below"
+			label={ws.dropzone.selectCsv}
+			hint={ws.dropzone.orDropCsv}
 			accept=".csv,text/csv"
 			onfiles={(f) => setFile(f[0])}
 		/>
