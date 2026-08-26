@@ -1,0 +1,13 @@
+---
+title: Komprimovat PDF bez nahrávání
+description: Zmenšete PDF v prohlížeči — soubory zůstanou u vás.
+relatedTool: compress-pdf
+---
+
+## Postup
+
+1. Otevřete **Komprimovat PDF** na WeLovePDF.
+2. Vyberte soubor PDF.
+3. Zvolte režim Light nebo Strong.
+4. Porovnejte velikost před a po.
+5. Stáhněte optimalizované PDF.

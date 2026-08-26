@@ -1,0 +1,20 @@
+---
+title: Sign a PDF with a .p12 / .pfx certificate
+description: Add a PKCS#7 digital signature using your certificate — processed locally.
+relatedTool: digital-sign-pdf
+---
+
+Add a PKCS#7 digital signature using your certificate — processed locally.
+
+## Steps
+
+1. Export your qualified certificate as `.p12` or `.pfx` (includes private key).
+2. Open **Digital Sign PDF** on WeLovePDF.
+3. Upload the PDF and your certificate file.
+4. Enter the certificate password when prompted.
+5. Download the signed PDF — the signature is embedded in the document.
+
+## Notes
+
+- Processing stays in your browser; the certificate is not uploaded to a server.
+- Keep your `.p12` / `.pfx` password private.

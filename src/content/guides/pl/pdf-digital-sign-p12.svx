@@ -1,0 +1,13 @@
+---
+title: Podpisz PDF certyfikatem .p12 / .pfx
+description: Podpis PKCS#7 certyfikatem — przetwarzanie lokalne.
+relatedTool: digital-sign-pdf
+---
+
+## Kroki
+
+1. Eksportuj certyfikat jako `.p12` lub `.pfx`.
+2. Otwórz **Podpis cyfrowy** w WeLovePDF.
+3. Prześlij PDF i certyfikat.
+4. Wprowadź hasło certyfikatu.
+5. Pobierz podpisany PDF.

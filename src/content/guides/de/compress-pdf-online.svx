@@ -1,0 +1,13 @@
+---
+title: PDF komprimieren ohne Upload
+description: PDF-Größe im Browser reduzieren — Dateien bleiben lokal.
+relatedTool: compress-pdf
+---
+
+## Schritte
+
+1. Öffnen Sie **PDF komprimieren** auf WeLovePDF.
+2. Wählen Sie Ihre PDF-Datei.
+3. Wählen Sie Light- oder Strong-Modus.
+4. Vergleichen Sie Original- und komprimierte Größe.
+5. Laden Sie die optimierte PDF herunter.

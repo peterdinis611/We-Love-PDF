@@ -1,0 +1,13 @@
+---
+title: Kompresuj PDF bez wysyłania
+description: Zmniejsz PDF w przeglądarce — pliki zostają u Ciebie.
+relatedTool: compress-pdf
+---
+
+## Kroki
+
+1. Otwórz **Kompresuj PDF** w WeLovePDF.
+2. Wybierz plik PDF.
+3. Wybierz tryb Light lub Strong.
+4. Porównaj rozmiar przed i po.
+5. Pobierz zoptymalizowany PDF.

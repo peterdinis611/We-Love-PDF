@@ -1,0 +1,14 @@
+---
+title: Guides & tutorials
+description: Step-by-step help for popular PDF tasks — 100% in your browser.
+---
+
+Welcome to WeLovePDF guides. Every tool runs locally in your browser — no uploads, no accounts.
+
+## Popular guides
+
+- [How to merge PDF files for free](/guides/merge-pdf-free)
+- [Sign a PDF with a .p12 / .pfx certificate](/guides/pdf-digital-sign-p12)
+- [Compress a PDF without uploading](/guides/compress-pdf-online)
+
+Pick a guide from the sidebar, or open any tool from the homepage when you are ready.

@@ -1,0 +1,12 @@
+---
+title: Anleitungen & Tutorials
+description: Schritt-für-Schritt-Hilfe für beliebte PDF-Aufgaben — 100 % im Browser.
+---
+
+Willkommen bei den WeLovePDF-Anleitungen. Alle Tools laufen lokal im Browser.
+
+## Beliebte Anleitungen
+
+- [PDF-Dateien kostenlos zusammenfügen](/de/guides/merge-pdf-free)
+- [PDF mit .p12-/.pfx-Zertifikat signieren](/de/guides/pdf-digital-sign-p12)
+- [PDF komprimieren ohne Upload](/de/guides/compress-pdf-online)

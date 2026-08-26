@@ -1,0 +1,12 @@
+---
+title: Jak sloučit PDF zdarma
+description: Slučte více PDF v prohlížeči — bez nahrávání.
+relatedTool: merge-pdf
+---
+
+## Postup
+
+1. Otevřete nástroj **Sloučit PDF** na WeLovePDF.
+2. Vyberte dva nebo více PDF souborů nebo je přetáhněte do zóny.
+3. Seřaďte soubory podle potřeby.
+4. Klikněte na **Sloučit PDF** a stáhněte výsledek.

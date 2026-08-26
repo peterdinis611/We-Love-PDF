@@ -1,0 +1,15 @@
+---
+title: Podpísať PDF certifikátom .p12 / .pfx
+description: Pridajte PKCS#7 digitálny podpis certifikátom — spracovanie lokálne.
+relatedTool: digital-sign-pdf
+---
+
+Pridajte PKCS#7 digitálny podpis certifikátom — spracovanie lokálne.
+
+## Postup
+
+1. Exportujte kvalifikovaný certifikát ako `.p12` alebo `.pfx` (s privátnym kľúčom).
+2. Otvorte **Digitálny podpis** na WeLovePDF.
+3. Nahrajte PDF a súbor certifikátu.
+4. Zadajte heslo certifikátu.
+5. Stiahnite podpísané PDF — podpis je súčasťou dokumentu.

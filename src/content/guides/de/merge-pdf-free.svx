@@ -1,0 +1,12 @@
+---
+title: PDF-Dateien kostenlos zusammenfügen
+description: Mehrere PDFs im Browser kombinieren — ohne Upload.
+relatedTool: merge-pdf
+---
+
+## Schritte
+
+1. Öffnen Sie das Tool **PDF zusammenfügen** auf WeLovePDF.
+2. Wählen Sie zwei oder mehr PDF-Dateien oder ziehen Sie sie in die Zone.
+3. Sortieren Sie die Dateien bei Bedarf.
+4. Klicken Sie auf **Zusammenfügen** und laden Sie die Datei herunter.

@@ -1,0 +1,13 @@
+---
+title: PDF mit .p12-/.pfx-Zertifikat signieren
+description: PKCS#7-Signatur mit Zertifikat — lokal verarbeitet.
+relatedTool: digital-sign-pdf
+---
+
+## Schritte
+
+1. Exportieren Sie Ihr Zertifikat als `.p12` oder `.pfx`.
+2. Öffnen Sie **Digitale Signatur** auf WeLovePDF.
+3. Laden Sie PDF und Zertifikat hoch.
+4. Geben Sie das Zertifikatpasswort ein.
+5. Laden Sie das signierte PDF herunter.

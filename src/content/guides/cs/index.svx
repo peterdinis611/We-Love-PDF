@@ -1,0 +1,12 @@
+---
+title: Návody a tutoriály
+description: Postup pro oblíbené PDF úkoly — 100 % v prohlížeči.
+---
+
+Vítejte v návodech WeLovePDF. Všechny nástroje běží lokálně v prohlížeči.
+
+## Oblíbené návody
+
+- [Jak sloučit PDF zdarma](/cs/guides/merge-pdf-free)
+- [Podepsat PDF certifikátem .p12 / .pfx](/cs/guides/pdf-digital-sign-p12)
+- [Komprimovat PDF bez nahrávání](/cs/guides/compress-pdf-online)

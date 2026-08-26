@@ -1,0 +1,20 @@
+---
+title: Compress a PDF without uploading
+description: Reduce PDF file size in the browser while keeping your files private.
+relatedTool: compress-pdf
+---
+
+Reduce PDF file size in the browser while keeping your files private.
+
+## Steps
+
+1. Open **Compress PDF** on WeLovePDF.
+2. Select your PDF file.
+3. Choose **Light** (structure) or **Strong** (JPEG raster) mode.
+4. Review the original vs compressed size preview.
+5. Download the optimized PDF — results vary by source file.
+
+## Tips
+
+- Strong mode is best for scans; it rasterizes pages and removes selectable text.
+- Light mode keeps text selectable and only strips metadata / rebuilds streams.

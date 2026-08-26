@@ -1,0 +1,20 @@
+---
+title: How to merge PDF files for free
+description: Combine multiple PDFs in your browser — no upload, no account.
+relatedTool: merge-pdf
+---
+
+Combine multiple PDFs in your browser — no upload, no account.
+
+## Steps
+
+1. Open the **Merge PDF** tool on WeLovePDF.
+2. Select two or more PDF files, or drag them onto the drop zone.
+3. Reorder files if needed — order determines page sequence.
+4. Optionally enable blank pages between documents.
+5. Click **Merge PDF** and download the combined file instantly.
+
+## Tips
+
+- Files never leave your device.
+- Use the homepage drop zone to jump straight into Merge.

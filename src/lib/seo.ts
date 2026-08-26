@@ -1,5 +1,6 @@
 import { env } from '$env/dynamic/public';
 import { LOCALES, localizedPath, type Locale } from '$lib/i18n/locale';
+import { GUIDE_SLUGS } from '$lib/guides';
 import { tools } from '$lib/tools';
 
 const DEFAULT_SITE_URL = 'https://welovepdf.app';
@@ -94,7 +95,7 @@ export function sitemapEntries() {
 			}))
 		);
 
-	const guideSlugs = ['merge-pdf-free', 'pdf-digital-sign-p12', 'compress-pdf-online'];
+	const guideSlugs = GUIDE_SLUGS;
 	const guidePaths = guideSlugs.flatMap((slug) =>
 		LOCALES.map((locale) => ({
 			path: localizedPath(`/guides/${slug}`, locale),
