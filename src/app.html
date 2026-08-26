@@ -16,9 +16,82 @@
 				if (dark) document.documentElement.classList.add('dark');
 			})();
 		</script>
+		<style>
+			#app-preload {
+				position: fixed;
+				inset: 0;
+				z-index: 9999;
+				display: grid;
+				place-items: center;
+				background: #fafafa;
+				color: #171717;
+				transition: opacity 0.22s ease, visibility 0.22s ease;
+			}
+			html.dark #app-preload {
+				background: #0a0a0a;
+				color: #fafafa;
+			}
+			#app-preload[data-hide='true'] {
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+			}
+			#app-preload .mark {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1rem;
+			}
+			#app-preload .badge {
+				display: grid;
+				place-items: center;
+				width: 2.75rem;
+				height: 2.75rem;
+				border-radius: 0.65rem;
+				background: #dc2626;
+				color: #fff;
+				font: 700 0.7rem/1 system-ui, sans-serif;
+				letter-spacing: 0.04em;
+				box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28);
+			}
+			#app-preload .spin {
+				width: 1.35rem;
+				height: 1.35rem;
+				border-radius: 999px;
+				border: 2px solid color-mix(in srgb, currentColor 18%, transparent);
+				border-top-color: #dc2626;
+				animation: app-spin 0.7s linear infinite;
+			}
+			#app-preload .label {
+				font: 500 0.75rem/1.2 system-ui, sans-serif;
+				opacity: 0.55;
+				letter-spacing: 0.02em;
+			}
+			@keyframes app-spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+			@media (prefers-reduced-motion: reduce) {
+				#app-preload .spin {
+					animation: none;
+					border-top-color: color-mix(in srgb, currentColor 40%, transparent);
+				}
+				#app-preload {
+					transition: none;
+				}
+			}
+		</style>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
+		<div id="app-preload" role="status" aria-live="polite" aria-label="Loading">
+			<div class="mark">
+				<div class="badge">PDF</div>
+				<div class="spin" aria-hidden="true"></div>
+				<span class="label">Loading WeLovePDF…</span>
+			</div>
+		</div>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

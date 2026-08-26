@@ -4,6 +4,7 @@
 	import SwUpdateToast from '$lib/components/SwUpdateToast.svelte';
 	import GlobalShortcuts from '$lib/components/GlobalShortcuts.svelte';
 	import ShortcutHelp from '$lib/components/ShortcutHelp.svelte';
+	import NavigationProgress from '$lib/components/NavigationProgress.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Header from '$lib/components/Header.svelte';
@@ -21,10 +22,18 @@
 
 	const locale = $derived(($page.data.locale as Locale | undefined) ?? 'en');
 
+	function hidePreload() {
+		const el = document.getElementById('app-preload');
+		if (!el) return;
+		el.setAttribute('data-hide', 'true');
+		window.setTimeout(() => el.remove(), 260);
+	}
+
 	onMount(() => {
 		theme.init();
 		initWebVitals();
-		// Idle precache of tool pages for offline use after first visit
+		// Wait one frame so first paint of the app is ready
+		requestAnimationFrame(() => requestAnimationFrame(hidePreload));
 		const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 3000));
 		idle(() => void precacheToolPages());
 	});
@@ -37,6 +46,7 @@
 <Plausible />
 <GlobalShortcuts />
 <ShortcutHelp />
+<NavigationProgress />
 
 <div class="flex min-h-screen flex-col bg-background">
 	<Header />
