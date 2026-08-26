@@ -6,7 +6,8 @@
 	import OutputFilename from '$lib/components/OutputFilename.svelte';
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
-	import { compressPdf, compressionRatio, downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
+	import { compressionRatio, downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
+	import { compressPdf as compressPdfHeavy } from '$lib/pdf/heavy';
 
 	let file = $state<File | null>(null);
 	let outputName = $state('compressed.pdf');
@@ -14,6 +15,7 @@
 	let error = $state('');
 	let success = $state('');
 	let result = $state<{ original: number; compressed: number } | null>(null);
+	let lastDownload = $state<{ bytes: Uint8Array; name: string } | null>(null);
 
 	async function handleCompress() {
 		if (!file) return;
@@ -21,11 +23,13 @@
 		error = '';
 		success = '';
 		result = null;
+		lastDownload = null;
 		try {
-			const bytes = await compressPdf(file);
+			const bytes = await compressPdfHeavy(file);
 			result = { original: file.size, compressed: bytes.length };
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(bytes, name);
+			lastDownload = { bytes, name };
 			const saved = compressionRatio(file.size, bytes.length);
 			success = `Downloaded ${name} — saved ${saved}% (${formatFileSize(file.size)} → ${formatFileSize(bytes.length)})`;
 		} catch (e) {
@@ -70,7 +74,12 @@
 		<ToolAction disabled={processing} loading={processing} loadingText="Compressing…" onclick={handleCompress}>
 			Compress PDF
 		</ToolAction>
-		<ToolSuccess message={success} />
+		<ToolSuccess
+			message={success}
+			onRedownload={lastDownload
+				? () => downloadBlob(lastDownload!.bytes, lastDownload!.name)
+				: undefined}
+		/>
 	{/if}
 	<Alert message={error} />
 </div>

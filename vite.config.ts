@@ -10,6 +10,21 @@ export default defineConfig({
 			buffer: 'buffer'
 		}
 	},
+	build: {
+		rolldownOptions: {
+			output: {
+				codeSplitting: {
+					groups: [
+						{ name: 'vendor-pdf-lib', test: /node_modules[\\/]pdf-lib/ },
+						{ name: 'vendor-mammoth', test: /node_modules[\\/]mammoth/ },
+						{ name: 'vendor-xlsx', test: /node_modules[\\/]xlsx/ },
+						{ name: 'vendor-docx', test: /node_modules[\\/]docx/ },
+						{ name: 'vendor-embedpdf', test: /node_modules[\\/]@embedpdf/ }
+					]
+				}
+			}
+		}
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

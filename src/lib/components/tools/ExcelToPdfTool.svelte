@@ -10,7 +10,6 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
-	import { excelToPdf } from '$lib/pdf/excel';
 	import type { ConvertPageSize } from '$lib/pdf/convert';
 
 	const locale = getAppLocale();
@@ -38,6 +37,7 @@
 		error = '';
 		success = '';
 		try {
+			const { excelToPdf } = await import('$lib/pdf/excel');
 			const buffer = await file.arrayBuffer();
 			const result = await excelToPdf(buffer, {
 				pageSize,

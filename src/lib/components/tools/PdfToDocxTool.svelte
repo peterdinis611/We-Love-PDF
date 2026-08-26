@@ -9,7 +9,6 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, formatFileSize, getPageCount, parsePageIndexes } from '$lib/pdf/operations';
-	import { pagesTextToDocx } from '$lib/pdf/docx-export';
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -45,6 +44,7 @@
 		error = '';
 		success = '';
 		try {
+			const { pagesTextToDocx } = await import('$lib/pdf/docx-export');
 			const buffer = await file.arrayBuffer();
 			const doc = await pdfEngine.engine
 				.openDocumentBuffer({ id: 'docx-export', content: buffer })

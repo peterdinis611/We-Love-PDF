@@ -12,6 +12,7 @@
 	import { globalUi } from '$lib/global-ui.svelte';
 	import { precacheToolPages } from '$lib/precache-tools';
 	import { theme } from '$lib/theme.svelte';
+	import { initWebVitals } from '$lib/analytics';
 	import type { Locale } from '$lib/i18n/locale';
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
@@ -22,6 +23,7 @@
 
 	onMount(() => {
 		theme.init();
+		initWebVitals();
 		// Idle precache of tool pages for offline use after first visit
 		const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 3000));
 		idle(() => void precacheToolPages());

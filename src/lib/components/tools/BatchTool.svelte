@@ -8,7 +8,6 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import {
-		compressPdf,
 		createFileId,
 		formatFileSize,
 		outputNameFromInput,
@@ -16,6 +15,7 @@
 		rotateAllPages,
 		type PdfFile
 	} from '$lib/pdf/operations';
+	import { compressPdf } from '$lib/pdf/heavy';
 	import { downloadZip, uniqueZipName } from '$lib/pdf/zip';
 	import { readStringParam, syncToolParams } from '$lib/tool-params';
 

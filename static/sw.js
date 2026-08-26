@@ -1,12 +1,27 @@
-const CACHE = 'welovepdf-v4';
-const SHELL = ['/', '/sk', '/cs', '/de', '/pl', '/changelog', '/sk/changelog', '/guides', '/manifest.webmanifest'];
+const CACHE = 'welovepdf-v5';
+const SHELL = [
+	'/',
+	'/sk',
+	'/cs',
+	'/de',
+	'/pl',
+	'/changelog',
+	'/sk/changelog',
+	'/guides',
+	'/manifest.webmanifest',
+	'/wasm/pdfium.wasm'
+];
 
 const IMMUTABLE = /\.(wasm|woff2?|png|jpg|svg|ico)$/i;
 const APP_ASSET = /\/_app\//;
 const TOOL_PAGE = /\/tools\//;
 
 self.addEventListener('install', (event) => {
-	event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
+	event.waitUntil(
+		caches.open(CACHE).then((cache) =>
+			cache.addAll(SHELL).catch(() => cache.addAll(SHELL.filter((u) => !u.includes('.wasm'))))
+		)
+	);
 	self.skipWaiting();
 });
 

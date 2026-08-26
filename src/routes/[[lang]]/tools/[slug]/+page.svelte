@@ -66,8 +66,12 @@
 		{:else}
 			<ToolComponent />
 		{/if}
-		<ToolLanding slug={tool.slug} name={tool.name} {locale} />
 	{:else}
 		<Alert message={m.workspace.errors.toolUnavailable} variant="info" />
 	{/if}
+	{#snippet after()}
+		{#if ToolComponent}
+			<ToolLanding slug={tool.slug} name={tool.name} {locale} />
+		{/if}
+	{/snippet}
 </ToolLayout>

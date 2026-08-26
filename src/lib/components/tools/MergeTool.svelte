@@ -18,9 +18,9 @@
 		ensurePdfFilename,
 		formatFileSize,
 		getPageCount,
-		mergePdfs,
 		type PdfFile
 	} from '$lib/pdf/operations';
+	import { mergePdfs } from '$lib/pdf/heavy';
 	import { ChevronDown, ChevronUp, GripVertical, Undo2, X } from '@lucide/svelte';
 
 	const pdfEngine = usePdfEngineContext();
@@ -37,6 +37,7 @@
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
+	let lastDownload = $state<{ bytes: Uint8Array; name: string } | null>(null);
 
 	const canUndo = $derived(undoStack.canUndo());
 
@@ -156,6 +157,7 @@
 		processing = true;
 		error = '';
 		success = '';
+		lastDownload = null;
 		try {
 			const result = await mergePdfs(
 				files.map((f) => f.file),
@@ -163,6 +165,7 @@
 			);
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(result, name);
+			lastDownload = { bytes: result, name };
 			success = `Downloaded ${name} — ${totalPages} pages, ${formatFileSize(result.length)}`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to merge PDFs.';
@@ -250,7 +253,12 @@
 		<ToolAction disabled={processing || files.length < 2} loading={processing} loadingText={ws.actions.merging} onclick={handleMerge}>
 			{ws.actions.merge}
 		</ToolAction>
-		<ToolSuccess message={success} />
+		<ToolSuccess
+			message={success}
+			onRedownload={lastDownload
+				? () => downloadBlob(lastDownload!.bytes, lastDownload!.name)
+				: undefined}
+		/>
 	{/if}
 
 	{#if pdfEngine.error}

@@ -10,15 +10,26 @@
 	import { isNewTool } from '$lib/changelog';
 	import type { Locale } from '$lib/i18n/locale';
 
+	const WIDE_TOOLS = new Set(['view-pdf', 'compare-pdf', 'organize-pdf', 'redact-pdf']);
+
 	let {
 		tool,
 		locale = 'en',
-		children
+		width,
+		children,
+		after
 	}: {
 		tool: PdfTool;
 		locale?: Locale;
+		width?: 'default' | 'wide';
 		children: import('svelte').Snippet;
+		after?: import('svelte').Snippet;
 	} = $props();
+
+	const layoutWidth = $derived(
+		width ?? (WIDE_TOOLS.has(tool.slug) ? 'wide' : 'default')
+	);
+	const maxWidth = $derived(layoutWidth === 'wide' ? 'max-w-5xl' : 'max-w-2xl');
 
 	$effect(() => {
 		setAppLocale(locale);
@@ -26,7 +37,7 @@
 </script>
 
 <div class="min-h-[calc(100vh-3.5rem)] bg-muted/20">
-	<div class="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+	<div class="mx-auto px-4 py-10 sm:px-6 {maxWidth}">
 		<div class="mb-8 text-center">
 			<div
 				class="{tool.color} mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl text-white shadow-lg shadow-black/10"
@@ -46,10 +57,14 @@
 			</div>
 		</div>
 
-		<div class="mb-6">
+		{@render children()}
+
+		<div class="mt-6">
 			<HowItWorks {tool} {locale} />
 		</div>
 
-		{@render children()}
+		{#if after}
+			{@render after()}
+		{/if}
 	</div>
 </div>

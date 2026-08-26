@@ -35,12 +35,15 @@
 
 		try {
 			const EmbedPDF = (await import('@embedpdf/snippet')).default;
+			const { PDFIUM_WASM_URL } = await import('$lib/pdf/wasm');
 			viewer = EmbedPDF.init({
 				type: 'container',
 				target: containerEl,
 				src: documentSrc,
+				wasmUrl: PDFIUM_WASM_URL,
 				theme: { preference: themePreference },
-				tabBar: 'never'
+				tabBar: 'never',
+				fontFallback: null
 			}) ?? null;
 
 			if (!viewer) {

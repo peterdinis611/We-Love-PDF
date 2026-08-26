@@ -7,7 +7,8 @@
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, parsePageRanges, splitPdf } from '$lib/pdf/operations';
+	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, parsePageRanges } from '$lib/pdf/operations';
+	import { splitPdf } from '$lib/pdf/heavy';
 
 	let file = $state<File | null>(null);
 	let pageCount = $state(0);

@@ -16,7 +16,14 @@
 	{#if label}
 		<p class="text-xs text-muted-foreground">{label}</p>
 	{/if}
-	<div class="h-2 overflow-hidden rounded-full bg-muted">
+	<div
+		class="h-2 overflow-hidden rounded-full bg-muted"
+		role="progressbar"
+		aria-valuemin={0}
+		aria-valuemax={100}
+		aria-valuenow={percent}
+		aria-label={label || undefined}
+	>
 		<div class="h-full bg-primary transition-all duration-300" style="width: {percent}%"></div>
 	</div>
 </div>

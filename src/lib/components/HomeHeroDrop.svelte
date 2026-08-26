@@ -7,6 +7,7 @@
 	import { toolTranslation } from '$lib/i18n/messages';
 	import type { Locale } from '$lib/i18n/locale';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { trapFocus } from '$lib/focus-trap';
 	import { FileText, Eye, Minimize2, Scissors, X } from '@lucide/svelte';
 
 	let {
@@ -29,6 +30,15 @@
 		{ slug: 'compress-pdf', label: m.hero.ctaCompress, icon: Minimize2 }
 	]);
 
+	let dialogEl = $state<HTMLDivElement | null>(null);
+
+	$effect(() => {
+		if (!dialogEl) return;
+		const first = dialogEl.querySelector('button:not([aria-label])') as HTMLButtonElement | null;
+		first?.focus();
+		return trapFocus(dialogEl, ondismiss);
+	});
+
 	function isPdf(f: File) {
 		return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
 	}
@@ -43,16 +53,17 @@
 
 <div
 	class="fixed inset-0 z-[90] flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm"
-	role="dialog"
-	aria-modal="true"
-	aria-label={m.homeDrop.title}
-	tabindex="-1"
+	role="presentation"
 	transition:fade={{ duration: 150 }}
 	onclick={(e) => e.target === e.currentTarget && ondismiss()}
-	onkeydown={(e) => e.key === 'Escape' && ondismiss()}
 >
 	<div
+		bind:this={dialogEl}
 		class="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
+		role="dialog"
+		aria-modal="true"
+		aria-label={m.homeDrop.title}
+		tabindex="-1"
 		in:fly={{ y: 12, duration: 200 }}
 	>
 		<button

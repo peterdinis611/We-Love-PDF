@@ -11,14 +11,13 @@
 	import { msg } from '$lib/i18n';
 	import type { Locale } from '$lib/i18n/locale';
 	import {
-		compressPdf,
 		downloadBlob,
 		ensurePdfFilename,
 		formatFileSize,
-		mergePdfs,
 		type PdfFile
 	} from '$lib/pdf/operations';
 	import { createFileId } from '$lib/pdf/operations';
+	import { compressPdf, mergePdfs } from '$lib/pdf/heavy';
 	import { resolveAllowedFlags, validatePasswordPair, type PermissionPreset } from '$lib/pdf/security';
 	import { Check } from '@lucide/svelte';
 

@@ -13,7 +13,8 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { createUndoStack } from '$lib/undo-stack';
-	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, organizePdf } from '$lib/pdf/operations';
+	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount } from '$lib/pdf/operations';
+	import { organizePdf } from '$lib/pdf/heavy';
 	import { ChevronDown, ChevronUp, X, RotateCcw, GripVertical, ArrowDownAZ, Eraser, Undo2 } from '@lucide/svelte';
 
 	const pdfEngine = usePdfEngineContext();

@@ -15,12 +15,33 @@
 
 	const pdfEngine = usePdfEngineContext();
 	let src = $state<string | null>(null);
+	let rootEl = $state<HTMLDivElement | null>(null);
+	let visible = $state(false);
+
+	$effect(() => {
+		const el = rootEl;
+		if (!el || typeof IntersectionObserver === 'undefined') {
+			visible = true;
+			return;
+		}
+		const io = new IntersectionObserver(
+			(entries) => {
+				if (entries.some((e) => e.isIntersecting)) {
+					visible = true;
+					io.disconnect();
+				}
+			},
+			{ rootMargin: '120px' }
+		);
+		io.observe(el);
+		return () => io.disconnect();
+	});
 
 	$effect(() => {
 		const engine = pdfEngine.engine;
 		const currentFile = file;
 		const index = pageIndex;
-		if (!engine || !currentFile) return;
+		if (!engine || !currentFile || !visible) return;
 
 		let cancelled = false;
 		let objectUrl: string | null = null;
@@ -49,10 +70,14 @@
 	});
 </script>
 
-{#if src}
-	<div class="pdf-thumb-frame overflow-hidden rounded border border-border bg-muted/60 dark:bg-zinc-800/80 {className}">
-		<img {src} alt="Page {pageIndex + 1} preview" class="block h-full w-full object-cover" />
-	</div>
-{:else}
-	<div class="animate-pulse rounded border border-border bg-muted dark:bg-zinc-800/60 {className}"></div>
-{/if}
+<div
+	bind:this={rootEl}
+	class="pdf-thumb-frame overflow-hidden rounded border border-border bg-muted/60 dark:bg-zinc-800/80 {className}"
+	style="content-visibility: auto; contain-intrinsic-size: 120px 160px;"
+>
+	{#if src}
+		<img {src} alt="Page {pageIndex + 1} preview" class="block h-full w-full object-cover" loading="lazy" decoding="async" />
+	{:else}
+		<div class="h-full min-h-24 w-full animate-pulse bg-muted dark:bg-zinc-800/60"></div>
+	{/if}
+</div>

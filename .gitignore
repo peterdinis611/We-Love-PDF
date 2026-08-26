@@ -25,3 +25,6 @@ vite.config.ts.timestamp-*
 # Playwright
 test-results
 src/__tests__/fixtures
+
+# Generated WASM (copied from @embedpdf/pdfium on prepare)
+/static/wasm/*.wasm

@@ -38,12 +38,17 @@
 
 	<ToolPanel>
 		<h3 class="mb-3 text-sm font-semibold">{m.landing.faqTitle}</h3>
-		<div class="space-y-4">
-			{#each content.faq as item}
-				<div>
-					<p class="text-sm font-medium">{item.question}</p>
-					<p class="mt-1 text-sm text-muted-foreground">{item.answer}</p>
-				</div>
+		<div class="space-y-2">
+			{#each content.faq as item, i}
+				<details class="group rounded-lg border border-border/60 px-3 py-2" open={i === 0}>
+					<summary class="cursor-pointer list-none text-sm font-medium marker:content-none [&::-webkit-details-marker]:hidden">
+						<span class="flex items-center justify-between gap-2">
+							{item.question}
+							<span class="text-muted-foreground transition group-open:rotate-180">▾</span>
+						</span>
+					</summary>
+					<p class="mt-2 text-sm text-muted-foreground">{item.answer}</p>
+				</details>
 			{/each}
 		</div>
 	</ToolPanel>

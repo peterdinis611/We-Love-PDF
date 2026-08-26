@@ -3,10 +3,13 @@
 	import { ArrowUp } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { PACER, useThrottler } from '$lib/pacer/svelte';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 
 	const SHOW_AFTER = 400;
 
 	let visible = $state(false);
+	const scrollLabel = $derived(msg(getAppLocale()).workspace.scrollToTop);
 
 	const scrollThrottler = useThrottler(
 		() => {
@@ -33,8 +36,8 @@
 	<Button
 		type="button"
 		size="icon"
-		aria-label="Scroll to top"
-		class="scroll-top-btn fixed bottom-6 right-6 z-50 size-11 rounded-full shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-primary/30"
+		aria-label={scrollLabel}
+		class="scroll-top-btn fixed bottom-20 right-6 z-50 size-11 rounded-full shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-primary/30 md:bottom-6"
 		onclick={scrollToTop}
 	>
 		<ArrowUp class="size-5" />

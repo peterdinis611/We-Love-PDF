@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { msg } from '$lib/i18n';
 	import { Eye, EyeOff } from '@lucide/svelte';
 
 	let {
@@ -15,6 +17,7 @@
 		placeholder?: string;
 	} = $props();
 
+	const pw = $derived(msg(getAppLocale()).workspace.password);
 	let visible = $state(false);
 </script>
 
@@ -35,7 +38,7 @@
 			size="icon"
 			class="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
 			onclick={() => (visible = !visible)}
-			aria-label={visible ? 'Hide password' : 'Show password'}
+			aria-label={visible ? pw.hide : pw.show}
 		>
 			{#if visible}
 				<EyeOff class="size-4 text-muted-foreground" />

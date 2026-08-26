@@ -32,6 +32,7 @@ export type WorkspaceMessages = {
 		selectCert: string;
 		orDropCert: string;
 		orDropToView: string;
+		rejectInvalid: string;
 	};
 	actions: {
 		processing: string;
@@ -43,12 +44,14 @@ export type WorkspaceMessages = {
 	};
 	output: {
 		filename: string;
+		extensionHint: string;
 	};
 	pageSelector: {
 		selectAll: string;
 		clear: string;
 		odd: string;
 		even: string;
+		selectedCount: string;
 	};
 	pages: {
 		optional: string;
@@ -61,6 +64,8 @@ export type WorkspaceMessages = {
 		currentPassword: string;
 		newPassword: string;
 		confirmNewPassword: string;
+		show: string;
+		hide: string;
 	};
 	view: {
 		shortcuts: string;
@@ -87,6 +92,8 @@ export type WorkspaceMessages = {
 		pages: string;
 	};
 	undo: string;
+	downloadAgain: string;
+	scrollToTop: string;
 	errors: {
 		couldNotReadPdf: string;
 		invalidPageRange: string;
@@ -129,7 +136,8 @@ export const workspaceEn: WorkspaceMessages = {
 		orDropProtected: 'or drop an encrypted PDF here',
 		selectCert: 'Select certificate',
 		orDropCert: 'or drop a .p12 / .pfx file',
-		orDropToView: 'or drop a PDF here to view'
+		orDropToView: 'or drop a PDF here to view',
+		rejectInvalid: 'That file type is not supported here.'
 	},
 	actions: {
 		processing: 'Processing…',
@@ -140,13 +148,15 @@ export const workspaceEn: WorkspaceMessages = {
 		converting: 'Converting…'
 	},
 	output: {
-		filename: 'Output filename'
+		filename: 'Output filename',
+		extensionHint: '.pdf is added automatically if missing'
 	},
 	pageSelector: {
 		selectAll: 'Select all',
 		clear: 'Clear',
 		odd: 'Odd pages',
-		even: 'Even pages'
+		even: 'Even pages',
+		selectedCount: '{n} selected'
 	},
 	pages: {
 		optional: 'Pages (optional)',
@@ -158,7 +168,9 @@ export const workspaceEn: WorkspaceMessages = {
 		ownerPassword: 'Owner password',
 		currentPassword: 'Current password',
 		newPassword: 'New password',
-		confirmNewPassword: 'Confirm new password'
+		confirmNewPassword: 'Confirm new password',
+		show: 'Show password',
+		hide: 'Hide password'
 	},
 	view: {
 		shortcuts: 'Shortcuts',
@@ -185,6 +197,8 @@ export const workspaceEn: WorkspaceMessages = {
 		pages: 'pages'
 	},
 	undo: 'Undo',
+	downloadAgain: 'Download again',
+	scrollToTop: 'Scroll to top',
 	errors: {
 		couldNotReadPdf: 'Could not read PDF file.',
 		invalidPageRange: 'Invalid page range.',
@@ -227,7 +241,8 @@ export const workspaceSk: WorkspaceMessages = {
 		orDropProtected: 'alebo pretiahnite šifrované PDF sem',
 		selectCert: 'Vybrať certifikát',
 		orDropCert: 'alebo pretiahnite .p12 / .pfx súbor',
-		orDropToView: 'alebo pretiahnite PDF sem na zobrazenie'
+		orDropToView: 'alebo pretiahnite PDF sem na zobrazenie',
+		rejectInvalid: 'Tento typ súboru tu nie je podporovaný.'
 	},
 	actions: {
 		processing: 'Spracovávam…',
@@ -238,13 +253,15 @@ export const workspaceSk: WorkspaceMessages = {
 		converting: 'Konvertujem…'
 	},
 	output: {
-		filename: 'Názov výstupného súboru'
+		filename: 'Názov výstupného súboru',
+		extensionHint: 'Prípona .pdf sa doplní automaticky'
 	},
 	pageSelector: {
 		selectAll: 'Vybrať všetko',
 		clear: 'Vymazať',
 		odd: 'Nepárne strany',
-		even: 'Párne strany'
+		even: 'Párne strany',
+		selectedCount: 'Vybrané: {n}'
 	},
 	pages: {
 		optional: 'Strany (voliteľné)',
@@ -256,7 +273,9 @@ export const workspaceSk: WorkspaceMessages = {
 		ownerPassword: 'Heslo vlastníka',
 		currentPassword: 'Aktuálne heslo',
 		newPassword: 'Nové heslo',
-		confirmNewPassword: 'Potvrdiť nové heslo'
+		confirmNewPassword: 'Potvrdiť nové heslo',
+		show: 'Zobraziť heslo',
+		hide: 'Skryť heslo'
 	},
 	view: {
 		shortcuts: 'Skratky',
@@ -283,6 +302,8 @@ export const workspaceSk: WorkspaceMessages = {
 		pages: 'strán'
 	},
 	undo: 'Späť',
+	downloadAgain: 'Stiahnuť znova',
+	scrollToTop: 'Späť nahor',
 	errors: {
 		couldNotReadPdf: 'Nepodarilo sa načítať PDF súbor.',
 		invalidPageRange: 'Neplatný rozsah strán.',
@@ -325,7 +346,8 @@ export const workspaceCs: WorkspaceMessages = {
 		orDropProtected: 'nebo přetáhněte šifrované PDF sem',
 		selectCert: 'Vybrat certifikát',
 		orDropCert: 'nebo přetáhněte .p12 / .pfx soubor',
-		orDropToView: 'nebo přetáhněte PDF sem k zobrazení'
+		orDropToView: 'nebo přetáhněte PDF sem k zobrazení',
+		rejectInvalid: 'Tento typ souboru zde není podporován.'
 	},
 	actions: {
 		processing: 'Zpracovávám…',
@@ -336,13 +358,15 @@ export const workspaceCs: WorkspaceMessages = {
 		converting: 'Převádím…'
 	},
 	output: {
-		filename: 'Název výstupního souboru'
+		filename: 'Název výstupního souboru',
+		extensionHint: 'Přípona .pdf se doplní automaticky'
 	},
 	pageSelector: {
 		selectAll: 'Vybrat vše',
 		clear: 'Vymazat',
 		odd: 'Liché strany',
-		even: 'Sudé strany'
+		even: 'Sudé strany',
+		selectedCount: 'Vybráno: {n}'
 	},
 	pages: {
 		optional: 'Strany (volitelné)',
@@ -354,7 +378,9 @@ export const workspaceCs: WorkspaceMessages = {
 		ownerPassword: 'Heslo vlastníka',
 		currentPassword: 'Aktuální heslo',
 		newPassword: 'Nové heslo',
-		confirmNewPassword: 'Potvrdit nové heslo'
+		confirmNewPassword: 'Potvrdit nové heslo',
+		show: 'Zobrazit heslo',
+		hide: 'Skrýt heslo'
 	},
 	view: {
 		shortcuts: 'Zkratky',
@@ -381,6 +407,8 @@ export const workspaceCs: WorkspaceMessages = {
 		pages: 'stran'
 	},
 	undo: 'Zpět',
+	downloadAgain: 'Stáhnout znovu',
+	scrollToTop: 'Zpět nahoru',
 	errors: {
 		couldNotReadPdf: 'Nepodařilo se načíst PDF soubor.',
 		invalidPageRange: 'Neplatný rozsah stran.',
@@ -423,7 +451,8 @@ export const workspaceDe: WorkspaceMessages = {
 		orDropProtected: 'oder verschlüsseltes PDF hier ablegen',
 		selectCert: 'Zertifikat auswählen',
 		orDropCert: 'oder .p12-/.pfx-Datei ablegen',
-		orDropToView: 'oder PDF hier ablegen zum Ansehen'
+		orDropToView: 'oder PDF hier ablegen zum Ansehen',
+		rejectInvalid: 'Dieser Dateityp wird hier nicht unterstützt.'
 	},
 	actions: {
 		processing: 'Verarbeitung…',
@@ -434,13 +463,15 @@ export const workspaceDe: WorkspaceMessages = {
 		converting: 'Wird umgewandelt…'
 	},
 	output: {
-		filename: 'Ausgabedateiname'
+		filename: 'Ausgabedateiname',
+		extensionHint: '.pdf wird bei Bedarf automatisch ergänzt'
 	},
 	pageSelector: {
 		selectAll: 'Alle auswählen',
 		clear: 'Leeren',
 		odd: 'Ungerade Seiten',
-		even: 'Gerade Seiten'
+		even: 'Gerade Seiten',
+		selectedCount: '{n} ausgewählt'
 	},
 	pages: {
 		optional: 'Seiten (optional)',
@@ -452,7 +483,9 @@ export const workspaceDe: WorkspaceMessages = {
 		ownerPassword: 'Besitzerpasswort',
 		currentPassword: 'Aktuelles Passwort',
 		newPassword: 'Neues Passwort',
-		confirmNewPassword: 'Neues Passwort bestätigen'
+		confirmNewPassword: 'Neues Passwort bestätigen',
+		show: 'Passwort anzeigen',
+		hide: 'Passwort verbergen'
 	},
 	view: {
 		shortcuts: 'Tastenkürzel',
@@ -479,6 +512,8 @@ export const workspaceDe: WorkspaceMessages = {
 		pages: 'Seiten'
 	},
 	undo: 'Rückgängig',
+	downloadAgain: 'Erneut herunterladen',
+	scrollToTop: 'Nach oben',
 	errors: {
 		couldNotReadPdf: 'PDF-Datei konnte nicht gelesen werden.',
 		invalidPageRange: 'Ungültiger Seitenbereich.',
@@ -521,7 +556,8 @@ export const workspacePl: WorkspaceMessages = {
 		orDropProtected: 'lub upuść zaszyfrowany PDF tutaj',
 		selectCert: 'Wybierz certyfikat',
 		orDropCert: 'lub upuść plik .p12 / .pfx',
-		orDropToView: 'lub upuść PDF tutaj, aby wyświetlić'
+		orDropToView: 'lub upuść PDF tutaj, aby wyświetlić',
+		rejectInvalid: 'Ten typ pliku nie jest tu obsługiwany.'
 	},
 	actions: {
 		processing: 'Przetwarzanie…',
@@ -532,13 +568,15 @@ export const workspacePl: WorkspaceMessages = {
 		converting: 'Konwersja…'
 	},
 	output: {
-		filename: 'Nazwa pliku wyjściowego'
+		filename: 'Nazwa pliku wyjściowego',
+		extensionHint: 'Rozszerzenie .pdf zostanie dodane automatycznie'
 	},
 	pageSelector: {
 		selectAll: 'Zaznacz wszystko',
 		clear: 'Wyczyść',
 		odd: 'Strony nieparzyste',
-		even: 'Strony parzyste'
+		even: 'Strony parzyste',
+		selectedCount: 'Wybrano: {n}'
 	},
 	pages: {
 		optional: 'Strony (opcjonalnie)',
@@ -550,7 +588,9 @@ export const workspacePl: WorkspaceMessages = {
 		ownerPassword: 'Hasło właściciela',
 		currentPassword: 'Aktualne hasło',
 		newPassword: 'Nowe hasło',
-		confirmNewPassword: 'Potwierdź nowe hasło'
+		confirmNewPassword: 'Potwierdź nowe hasło',
+		show: 'Pokaż hasło',
+		hide: 'Ukryj hasło'
 	},
 	view: {
 		shortcuts: 'Skróty',
@@ -577,6 +617,8 @@ export const workspacePl: WorkspaceMessages = {
 		pages: 'stron'
 	},
 	undo: 'Cofnij',
+	downloadAgain: 'Pobierz ponownie',
+	scrollToTop: 'Do góry',
 	errors: {
 		couldNotReadPdf: 'Nie udało się odczytać pliku PDF.',
 		invalidPageRange: 'Nieprawidłowy zakres stron.',

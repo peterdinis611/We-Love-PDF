@@ -10,7 +10,6 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
-	import { docxToPdf } from '$lib/pdf/office';
 	import type { ConvertPageSize } from '$lib/pdf/convert';
 
 	const locale = getAppLocale();
@@ -37,6 +36,7 @@
 		error = '';
 		success = '';
 		try {
+			const { docxToPdf } = await import('$lib/pdf/office');
 			const buffer = await file.arrayBuffer();
 			const result = await docxToPdf(buffer, {
 				pageSize,

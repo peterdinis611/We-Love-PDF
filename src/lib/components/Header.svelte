@@ -3,9 +3,10 @@
 	import ThemeToggle from './ThemeToggle.svelte';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { FileText, Layers, Eye, Sparkles, BookOpen } from '@lucide/svelte';
+	import { FileText, Layers, Eye, Sparkles, BookOpen, Search } from '@lucide/svelte';
 	import { msg } from '$lib/i18n';
 	import { toolPath, localizedPath } from '$lib/i18n/locale';
+	import { globalUi } from '$lib/global-ui.svelte';
 
 	const locale = $derived($page.data.locale ?? 'en');
 	const m = $derived(msg(locale));
@@ -49,6 +50,15 @@
 		</nav>
 
 		<div class="flex items-center gap-1.5">
+			<Button
+				variant="ghost"
+				size="icon-sm"
+				class="md:hidden"
+				aria-label={m.commandPalette.title}
+				onclick={() => globalUi.setPaletteOpen(true)}
+			>
+				<Search class="size-4" />
+			</Button>
 			<LanguageSwitcher {locale} />
 			<ThemeToggle compact />
 			{#if $page.url.pathname.includes('/tools/')}

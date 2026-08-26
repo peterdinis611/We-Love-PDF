@@ -30,6 +30,9 @@ export function downloadBlob(data: Blob | Uint8Array, filename: string, mime?: s
 	a.download = filename;
 	a.click();
 	URL.revokeObjectURL(url);
+	if (typeof window !== 'undefined') {
+		void import('$lib/analytics').then((m) => m.trackDownload());
+	}
 }
 
 export function ensureExtension(filename: string, ext: string): string {

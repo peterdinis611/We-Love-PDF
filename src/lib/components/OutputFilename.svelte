@@ -13,10 +13,13 @@
 		placeholder?: string;
 	} = $props();
 
-	const outputLabel = $derived(label ?? msg(getAppLocale()).workspace.output.filename);
+	const ws = $derived(msg(getAppLocale()).workspace);
+	const outputLabel = $derived(label ?? ws.output.filename);
+	const fieldId = `output-filename-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
 </script>
 
 <div>
-	<label for="output-filename" class="mb-1.5 block text-sm font-medium">{outputLabel}</label>
-	<Input id="output-filename" bind:value {placeholder} class="font-mono text-sm" />
+	<label for={fieldId} class="mb-1.5 block text-sm font-medium">{outputLabel}</label>
+	<Input id={fieldId} bind:value {placeholder} class="font-mono text-sm" />
+	<p class="mt-1 text-xs text-muted-foreground">{ws.output.extensionHint}</p>
 </div>
