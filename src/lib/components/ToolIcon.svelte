@@ -189,6 +189,14 @@
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
 	</svg>
+{:else if icon === 'annotate'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M18.5 1.15l-4 4L17 7.65l4-4-2.5-2.5zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
+	</svg>
+{:else if icon === 'ocr'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M4 4h4V2H2v6h2V4zm14 0v4h2V2h-6v2h4zM4 20v-4H2v6h6v-2H4zm16-4v4h-4v2h6v-6h-2zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />
+	</svg>
 {:else}
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path

@@ -10,6 +10,15 @@
 	import { tools, type ToolCategory, type PdfTool } from '$lib/tools';
 	import { getRecentToolSlugs } from '$lib/recent-tools';
 	import { getFavoriteToolSlugs } from '$lib/favorite-tools';
+	import {
+		clearRecentFiles,
+		getRecentFile,
+		listRecentFiles,
+		type RecentFileRecord
+	} from '$lib/recent-files';
+	import { setPendingFile } from '$lib/pending-file';
+	import { workflows } from '$lib/workflows';
+	import { formatFileSize } from '$lib/pdf/operations';
 	import { site, websiteJsonLd } from '$lib/seo';
 	import { msg, localizeTools } from '$lib/i18n';
 	import { categoryLabel } from '$lib/i18n/messages';
@@ -30,7 +39,9 @@
 		Eye,
 		Minimize2,
 		X,
-		Command
+		Command,
+		Workflow,
+		ArrowRight
 	} from '@lucide/svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -49,6 +60,7 @@
 	let filterKey = $state(0);
 	let recentSlugs = $state<string[]>([]);
 	let favoriteSlugs = $state<string[]>([]);
+	let recentFiles = $state<Omit<RecentFileRecord, 'bytes'>[]>([]);
 	let heroDragging = $state(false);
 	let droppedFile = $state<File | null>(null);
 
@@ -104,6 +116,20 @@
 			.filter((t): t is PdfTool => !!t)
 	);
 
+	const workflowCards = $derived(
+		workflows.map((w) => {
+			const copy =
+				w.slug === 'secure-pdf'
+					? m.workflows.secure
+					: w.slug === 'prepare-for-send'
+						? m.workflows.prepareForSend
+						: w.slug === 'scan-cleanup'
+							? m.workflows.scanCleanup
+							: m.workflows.archivePack;
+			return { ...w, title: copy.title, subtitle: copy.subtitle };
+		})
+	);
+
 	const filtered = $derived(
 		localizedTools.filter((t) => {
 			const matchesQuery =
@@ -137,9 +163,27 @@
 		searchInput?.focus();
 	}
 
+	async function resumeRecentFile(id: string) {
+		const file = await getRecentFile(id);
+		if (!file) {
+			recentFiles = await listRecentFiles();
+			return;
+		}
+		setPendingFile(file);
+		goto(toolPath('view-pdf', locale));
+	}
+
+	async function handleClearRecentFiles() {
+		await clearRecentFiles();
+		recentFiles = [];
+	}
+
 	onMount(() => {
 		recentSlugs = getRecentToolSlugs();
 		favoriteSlugs = getFavoriteToolSlugs();
+		void listRecentFiles().then((files) => {
+			recentFiles = files;
+		});
 
 		const q = $page.url.searchParams.get('q');
 		if (q) {
@@ -242,6 +286,58 @@
 
 <!-- Tools section -->
 <section id="tools" class="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-14">
+	{#if recentFiles.length}
+		<div class="mb-10">
+			<div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+				<h2 class="text-lg font-semibold">{m.home.recentFiles}</h2>
+				<button
+					type="button"
+					class="text-xs text-muted-foreground underline-offset-2 hover:underline"
+					onclick={handleClearRecentFiles}
+				>
+					{m.home.clearRecentFiles}
+				</button>
+			</div>
+			<ul class="space-y-2">
+				{#each recentFiles as rf (rf.id)}
+					<li class="flex items-center justify-between gap-3 rounded-lg border border-border/60 px-3 py-2">
+						<div class="min-w-0">
+							<p class="truncate text-sm font-medium">{rf.name}</p>
+							<p class="text-xs text-muted-foreground">{formatFileSize(rf.size)}</p>
+						</div>
+						<Button type="button" size="sm" variant="outline" onclick={() => resumeRecentFile(rf.id)}>
+							{m.home.resumeFile}
+							<ArrowRight class="size-3.5" />
+						</Button>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
+
+	<div class="mb-10">
+		<div class="mb-4">
+			<h2 class="text-lg font-semibold">{m.home.workflows}</h2>
+			<p class="text-sm text-muted-foreground">{m.home.workflowsSubtitle}</p>
+		</div>
+		<div class="grid gap-3 sm:grid-cols-2">
+			{#each workflowCards as wf (wf.slug)}
+				<a
+					href={localizedPath(wf.path, locale)}
+					class="group flex items-start gap-3 rounded-xl border border-border/60 p-4 transition hover:border-primary/40 hover:bg-muted/40"
+				>
+					<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+						<Workflow class="size-5" />
+					</div>
+					<div class="min-w-0">
+						<p class="font-medium group-hover:text-primary">{wf.title}</p>
+						<p class="text-xs text-muted-foreground">{wf.subtitle}</p>
+					</div>
+				</a>
+			{/each}
+		</div>
+	</div>
+
 	{#if favoriteTools.length}
 		<div class="mb-10">
 			<h2 class="mb-4 text-lg font-semibold">{m.home.favorites}</h2>

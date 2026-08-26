@@ -43,6 +43,11 @@ export type Messages = {
 		featureDarkDesc: string;
 		addFavorite: string;
 		removeFavorite: string;
+		workflows: string;
+		workflowsSubtitle: string;
+		recentFiles: string;
+		clearRecentFiles: string;
+		resumeFile: string;
 	};
 	footer: {
 		tagline: string;
@@ -99,6 +104,38 @@ export type Messages = {
 		back: string;
 		finish: string;
 		download: string;
+	};
+	workflows: {
+		secure: { title: string; subtitle: string };
+		prepareForSend: {
+			title: string;
+			subtitle: string;
+			stepCompress: string;
+			stepWatermark: string;
+			stepProtect: string;
+			watermarkLabel: string;
+			readyWatermark: string;
+			readyProtect: string;
+		};
+		scanCleanup: {
+			title: string;
+			subtitle: string;
+			stepRotate: string;
+			stepCrop: string;
+			stepCompress: string;
+			angleLabel: string;
+			readyCrop: string;
+			readyCompress: string;
+		};
+		archivePack: {
+			title: string;
+			subtitle: string;
+			stepMerge: string;
+			stepFlatten: string;
+			stepClean: string;
+			readyFlatten: string;
+			readyClean: string;
+		};
 	};
 	guides: {
 		title: string;
@@ -162,7 +199,12 @@ const en: Messages = {
 		featureDarkTitle: 'Dark Mode',
 		featureDarkDesc: 'Comfortable viewing day or night with theme switching.',
 		addFavorite: 'Add to favorites',
-		removeFavorite: 'Remove from favorites'
+		removeFavorite: 'Remove from favorites',
+		workflows: 'Workflows',
+		workflowsSubtitle: 'Multi-step PDF jobs in one guided flow',
+		recentFiles: 'Continue with a recent file',
+		clearRecentFiles: 'Clear local files',
+		resumeFile: 'Open'
 	},
 	footer: {
 		tagline: 'free tools · 100% in-browser · no uploads'
@@ -309,6 +351,41 @@ const en: Messages = {
 		finish: 'Download protected PDF',
 		download: 'Download'
 	},
+	workflows: {
+		secure: {
+			title: 'Secure PDF',
+			subtitle: 'Merge → Compress → Protect'
+		},
+		prepareForSend: {
+			title: 'Prepare for send',
+			subtitle: 'Compress → Watermark → Protect before you share',
+			stepCompress: 'Compress',
+			stepWatermark: 'Watermark',
+			stepProtect: 'Protect',
+			watermarkLabel: 'Watermark text',
+			readyWatermark: 'ready to watermark',
+			readyProtect: 'add password'
+		},
+		scanCleanup: {
+			title: 'Scan cleanup',
+			subtitle: 'Rotate → Crop → Compress scanned pages',
+			stepRotate: 'Rotate',
+			stepCrop: 'Crop margins',
+			stepCompress: 'Compress',
+			angleLabel: 'Rotation',
+			readyCrop: 'trim margins',
+			readyCompress: 'compress and download'
+		},
+		archivePack: {
+			title: 'Archive pack',
+			subtitle: 'Merge → Flatten → Remove metadata for long-term storage',
+			stepMerge: 'Merge',
+			stepFlatten: 'Flatten',
+			stepClean: 'Remove metadata',
+			readyFlatten: 'flatten forms & annotations',
+			readyClean: 'strip metadata and download'
+		}
+	},
 	guides: {
 		title: 'Guides & tutorials',
 		subtitle: 'Step-by-step help for popular PDF tasks',
@@ -371,7 +448,12 @@ const sk: Messages = {
 		featureDarkTitle: 'Tmavý režim',
 		featureDarkDesc: 'Pohodlné používanie cez deň aj v noci.',
 		addFavorite: 'Pridať medzi obľúbené',
-		removeFavorite: 'Odstrániť z obľúbených'
+		removeFavorite: 'Odstrániť z obľúbených',
+		workflows: 'Workflowy',
+		workflowsSubtitle: 'Viacero krokov v jednom vedenom toku',
+		recentFiles: 'Pokračovať s nedávnym súborom',
+		clearRecentFiles: 'Vymazať lokálne súbory',
+		resumeFile: 'Otvoriť'
 	},
 	footer: {
 		tagline: 'nástrojov zadarmo · 100 % v prehliadači · bez nahrávania'
@@ -534,7 +616,12 @@ const sk: Messages = {
 		'change-pdf-password': { name: 'Zmeniť heslo PDF', description: 'Nahraďte heslo a oprávnenia.' },
 		'pdf-security-check': { name: 'Kontrola bezpečnosti', description: 'Skontrolujte šifrovanie a oprávnenia.' },
 		'pdf-signature-check': { name: 'Kontrola podpisu', description: 'Zistite, či je PDF digitálne podpísané.' },
-		'digital-sign-pdf': { name: 'Digitálny podpis', description: 'PKCS#7 podpis certifikátom .p12 / .pfx.' }
+		'digital-sign-pdf': { name: 'Digitálny podpis', description: 'PKCS#7 podpis certifikátom .p12 / .pfx.' },
+		'annotate-pdf': { name: 'Anotovať PDF', description: 'Zvýraznenie, komentáre a markup priamo v prehliadači.' },
+		'pdf-to-excel': { name: 'PDF do Excelu', description: 'Extrahujte tabuľky a text do .xlsx.' },
+		'pdf-to-csv': { name: 'PDF do CSV', description: 'Extrahujte tabuľkový text do CSV.' },
+		'ocr-pdf': { name: 'OCR PDF', description: 'Urobte zo skenu vyhľadávateľné PDF (Tesseract v prehliadači).' },
+		'create-pdf-form': { name: 'Vytvoriť PDF formulár', description: 'Pridajte vyplniteľné textové polia a checkboxy.' }
 	},
 	workspace: workspaceSk,
 	commandPalette: {
@@ -558,6 +645,41 @@ const sk: Messages = {
 		back: 'Späť',
 		finish: 'Stiahnuť chránené PDF',
 		download: 'Stiahnuť'
+	},
+	workflows: {
+		secure: {
+			title: 'Bezpečný PDF',
+			subtitle: 'Spojiť → Komprimovať → Chrániť'
+		},
+		prepareForSend: {
+			title: 'Pripraviť na odoslanie',
+			subtitle: 'Komprimovať → Vodoznak → Chrániť pred zdieľaním',
+			stepCompress: 'Komprimovať',
+			stepWatermark: 'Vodoznak',
+			stepProtect: 'Chrániť',
+			watermarkLabel: 'Text vodoznaku',
+			readyWatermark: 'pripravené na vodoznak',
+			readyProtect: 'pridajte heslo'
+		},
+		scanCleanup: {
+			title: 'Vyčistenie skenu',
+			subtitle: 'Otočiť → Orezať → Komprimovať naskenované strany',
+			stepRotate: 'Otočiť',
+			stepCrop: 'Orezať okraje',
+			stepCompress: 'Komprimovať',
+			angleLabel: 'Otočenie',
+			readyCrop: 'orežte okraje',
+			readyCompress: 'skomprimujte a stiahnite'
+		},
+		archivePack: {
+			title: 'Archívny balík',
+			subtitle: 'Spojiť → Zploštiť → Odstrániť metadáta na dlhodobé uloženie',
+			stepMerge: 'Spojiť',
+			stepFlatten: 'Zploštiť',
+			stepClean: 'Odstrániť metadáta',
+			readyFlatten: 'zploštiť formuláre a anotácie',
+			readyClean: 'odstrániť metadáta a stiahnuť'
+		}
 	},
 	guides: {
 		title: 'Návody a tutoriály',

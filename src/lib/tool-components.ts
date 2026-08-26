@@ -42,7 +42,12 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'change-pdf-password': () => import('$lib/components/tools/ChangePasswordTool.svelte'),
 	'pdf-security-check': () => import('$lib/components/tools/CheckSecurityTool.svelte'),
 	'pdf-signature-check': () => import('$lib/components/tools/SignatureCheckTool.svelte'),
-	'digital-sign-pdf': () => import('$lib/components/tools/DigitalSignTool.svelte')
+	'digital-sign-pdf': () => import('$lib/components/tools/DigitalSignTool.svelte'),
+	'annotate-pdf': () => import('$lib/components/tools/AnnotateTool.svelte'),
+	'pdf-to-excel': () => import('$lib/components/tools/PdfToExcelTool.svelte'),
+	'pdf-to-csv': () => import('$lib/components/tools/PdfToCsvTool.svelte'),
+	'ocr-pdf': () => import('$lib/components/tools/OcrTool.svelte'),
+	'create-pdf-form': () => import('$lib/components/tools/FormBuilderTool.svelte')
 };
 
 export const engineTools = new Set([
@@ -62,7 +67,12 @@ export const engineTools = new Set([
 	'batch-pdf',
 	'redact-pdf',
 	'fill-pdf-form',
-	'pdf-signature-check'
+	'compress-pdf',
+	'pdf-signature-check',
+	'annotate-pdf',
+	'pdf-to-excel',
+	'pdf-to-csv',
+	'ocr-pdf'
 ]);
 
 export async function loadToolComponent(slug: string): Promise<Component | null> {

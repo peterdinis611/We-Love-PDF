@@ -70,7 +70,10 @@ export function sitemapEntries() {
 		{ path: '', changefreq: 'weekly' as const, priority: 1 },
 		{ path: '/changelog', changefreq: 'monthly' as const, priority: 0.6 },
 		{ path: '/guides', changefreq: 'monthly' as const, priority: 0.65 },
-		{ path: '/workflows/secure-pdf', changefreq: 'monthly' as const, priority: 0.7 }
+		{ path: '/workflows/secure-pdf', changefreq: 'monthly' as const, priority: 0.7 },
+		{ path: '/workflows/prepare-for-send', changefreq: 'monthly' as const, priority: 0.7 },
+		{ path: '/workflows/scan-cleanup', changefreq: 'monthly' as const, priority: 0.7 },
+		{ path: '/workflows/archive-pack', changefreq: 'monthly' as const, priority: 0.7 }
 	];
 
 	const localePaths = LOCALES.flatMap((locale) =>

@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { fly, fade } from 'svelte/transition';
 	import { trapFocus } from '$lib/focus-trap';
 	import ToolIcon from '$lib/components/ToolIcon.svelte';
 	import { tools, type PdfTool } from '$lib/tools';
+	import { workflows } from '$lib/workflows';
 	import { msg, localizeTools } from '$lib/i18n';
-	import { toolPath } from '$lib/i18n/locale';
+	import { toolPath, localizedPath } from '$lib/i18n/locale';
 	import type { Locale } from '$lib/i18n/locale';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { Search, Command } from '@lucide/svelte';
+	import { Search, Command, Workflow } from '@lucide/svelte';
+
+	type PaletteItem =
+		| { kind: 'tool'; tool: PdfTool }
+		| { kind: 'workflow'; slug: string; title: string; subtitle: string; path: string };
 
 	let {
 		open = false,
@@ -25,20 +29,51 @@
 	const m = $derived(msg(locale));
 	const localizedTools = $derived(localizeTools(tools.filter((t) => t.available), locale));
 
+	const workflowItems = $derived(
+		workflows.map((w) => {
+			const copy =
+				w.slug === 'secure-pdf'
+					? m.workflows.secure
+					: w.slug === 'prepare-for-send'
+						? m.workflows.prepareForSend
+						: w.slug === 'scan-cleanup'
+							? m.workflows.scanCleanup
+							: m.workflows.archivePack;
+			return {
+				kind: 'workflow' as const,
+				slug: w.slug,
+				title: copy.title,
+				subtitle: copy.subtitle,
+				path: w.path
+			};
+		})
+	);
+
 	let query = $state('');
 	let activeIndex = $state(0);
 	let inputEl = $state<HTMLInputElement | null>(null);
 	let dialogEl = $state<HTMLDivElement | null>(null);
 
-	const filtered = $derived(
-		localizedTools.filter(
-			(t) =>
-				!query ||
-				t.name.toLowerCase().includes(query.toLowerCase()) ||
-				t.description.toLowerCase().includes(query.toLowerCase()) ||
-				t.slug.includes(query.toLowerCase())
-		)
-	);
+	const filtered = $derived.by(() => {
+		const q = query.toLowerCase();
+		const toolItems: PaletteItem[] = localizedTools
+			.filter(
+				(t) =>
+					!q ||
+					t.name.toLowerCase().includes(q) ||
+					t.description.toLowerCase().includes(q) ||
+					t.slug.includes(q)
+			)
+			.map((tool) => ({ kind: 'tool' as const, tool }));
+		const wfs: PaletteItem[] = workflowItems.filter(
+			(w) =>
+				!q ||
+				w.title.toLowerCase().includes(q) ||
+				w.subtitle.toLowerCase().includes(q) ||
+				w.slug.includes(q)
+		);
+		return [...wfs, ...toolItems];
+	});
 
 	$effect(() => {
 		if (open) {
@@ -61,9 +96,10 @@
 		onOpenChange?.(false);
 	}
 
-	function pick(tool: PdfTool) {
+	function pick(item: PaletteItem) {
 		close();
-		goto(toolPath(tool.slug, locale));
+		if (item.kind === 'tool') goto(toolPath(item.tool.slug, locale));
+		else goto(localizedPath(item.path, locale));
 	}
 
 	function onKeydown(e: KeyboardEvent) {
@@ -133,25 +169,38 @@
 				{#if filtered.length === 0}
 					<li class="px-3 py-6 text-center text-sm text-muted-foreground">{m.commandPalette.noResults}</li>
 				{:else}
-					{#each filtered as tool, i (tool.slug)}
+					{#each filtered as item, i (item.kind === 'tool' ? item.tool.slug : item.slug)}
 						<li role="option" aria-selected={i === activeIndex}>
 							<button
 								type="button"
-								class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition {i === activeIndex
+								class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition {i ===
+								activeIndex
 									? 'bg-primary/10 text-foreground'
 									: 'hover:bg-muted/60'}"
 								onmouseenter={() => (activeIndex = i)}
-								onclick={() => pick(tool)}
+								onclick={() => pick(item)}
 							>
-								<div
-									class="{tool.color} flex size-8 shrink-0 items-center justify-center rounded-lg text-white"
-								>
-									<ToolIcon icon={tool.icon} />
-								</div>
-								<div class="min-w-0 flex-1">
-									<p class="truncate font-medium">{tool.name}</p>
-									<p class="truncate text-xs text-muted-foreground">{tool.description}</p>
-								</div>
+								{#if item.kind === 'tool'}
+									<div
+										class="{item.tool.color} flex size-8 shrink-0 items-center justify-center rounded-lg text-white"
+									>
+										<ToolIcon icon={item.tool.icon} />
+									</div>
+									<div class="min-w-0 flex-1">
+										<p class="truncate font-medium">{item.tool.name}</p>
+										<p class="truncate text-xs text-muted-foreground">{item.tool.description}</p>
+									</div>
+								{:else}
+									<div
+										class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary"
+									>
+										<Workflow class="size-4" />
+									</div>
+									<div class="min-w-0 flex-1">
+										<p class="truncate font-medium">{item.title}</p>
+										<p class="truncate text-xs text-muted-foreground">{item.subtitle}</p>
+									</div>
+								{/if}
 							</button>
 						</li>
 					{/each}

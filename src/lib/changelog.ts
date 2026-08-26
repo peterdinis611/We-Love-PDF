@@ -14,7 +14,12 @@ export const NEW_TOOL_SLUGS = [
 	'powerpoint-to-pdf',
 	'pdf-to-docx',
 	'digital-sign-pdf',
-	'pdf-signature-check'
+	'pdf-signature-check',
+	'annotate-pdf',
+	'pdf-to-excel',
+	'pdf-to-csv',
+	'ocr-pdf',
+	'create-pdf-form'
 ] as const;
 
 export type NewToolSlug = (typeof NEW_TOOL_SLUGS)[number];

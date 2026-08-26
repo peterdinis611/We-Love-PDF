@@ -54,6 +54,11 @@
 		if (filtered.length) {
 			rejectMessage = '';
 			onfiles(filtered);
+			void import('$lib/recent-files').then(({ saveRecentFile }) => {
+				for (const f of filtered.slice(0, 3)) {
+					void saveRecentFile(f);
+				}
+			});
 		} else {
 			showReject();
 		}

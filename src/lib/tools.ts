@@ -99,7 +99,8 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'batch-pdf',
 		name: 'Batch PDF',
-		description: 'Process multiple PDFs at once — compress, rotate, flatten, or remove metadata — and download as ZIP.',
+		description:
+			'Process multiple PDFs at once — compress, rotate, watermark, protect, flatten — and download as a ZIP.',
 		category: 'organize',
 		icon: 'batch',
 		color: 'bg-rose-600',
@@ -109,7 +110,7 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'compress-pdf',
 		name: 'Compress PDF',
-		description: 'Reduce file size by optimizing and stripping unnecessary metadata.',
+		description: 'Reduce file size — light structure optimize or strong JPEG raster compress.',
 		category: 'optimize',
 		icon: 'compress',
 		color: 'bg-green-500',
@@ -412,6 +413,51 @@ export const tools: PdfTool[] = [
 		category: 'security',
 		icon: 'cert',
 		color: 'bg-slate-950',
+		available: true
+	},
+	{
+		slug: 'annotate-pdf',
+		name: 'Annotate PDF',
+		description: 'Highlight, comment, and mark up PDFs entirely in your browser.',
+		category: 'edit',
+		icon: 'annotate',
+		color: 'bg-violet-600',
+		available: true
+	},
+	{
+		slug: 'pdf-to-excel',
+		name: 'PDF to Excel',
+		description: 'Extract tables and text from a PDF into an .xlsx spreadsheet.',
+		category: 'convert',
+		icon: 'excel',
+		color: 'bg-emerald-600',
+		available: true
+	},
+	{
+		slug: 'pdf-to-csv',
+		name: 'PDF to CSV',
+		description: 'Extract tabular text from a PDF into a CSV file.',
+		category: 'convert',
+		icon: 'csv',
+		color: 'bg-teal-600',
+		available: true
+	},
+	{
+		slug: 'ocr-pdf',
+		name: 'OCR PDF',
+		description: 'Make scanned PDFs searchable with in-browser OCR (Tesseract).',
+		category: 'optimize',
+		icon: 'ocr',
+		color: 'bg-indigo-600',
+		available: true
+	},
+	{
+		slug: 'create-pdf-form',
+		name: 'Create PDF Form',
+		description: 'Add fillable text fields and checkboxes to any PDF.',
+		category: 'edit',
+		icon: 'form',
+		color: 'bg-cyan-700',
 		available: true
 	}
 ];

@@ -40,5 +40,10 @@ export const toolsCs: Record<string, { name: string; description: string }> = {
 	'change-pdf-password': { name: 'Změnit heslo PDF', description: 'Nahraďte heslo a oprávnění.' },
 	'pdf-security-check': { name: 'Kontrola bezpečnosti', description: 'Zkontrolujte šifrování a oprávnění.' },
 	'pdf-signature-check': { name: 'Kontrola podpisu', description: 'Zjistěte, zda je PDF digitálně podepsané.' },
-	'digital-sign-pdf': { name: 'Digitální podpis', description: 'PKCS#7 podpis certifikátem .p12 / .pfx.' }
+	'digital-sign-pdf': { name: 'Digitální podpis', description: 'PKCS#7 podpis certifikátem .p12 / .pfx.' },
+	'annotate-pdf': { name: 'Anotovat PDF', description: 'Zvýraznění, komentáře a markup přímo v prohlížeči.' },
+	'pdf-to-excel': { name: 'PDF do Excelu', description: 'Extrahujte tabulky a text do .xlsx.' },
+	'pdf-to-csv': { name: 'PDF do CSV', description: 'Extrahujte tabulkový text do CSV.' },
+	'ocr-pdf': { name: 'OCR PDF', description: 'Ze skenu udělejte prohledávatelné PDF (Tesseract v prohlížeči).' },
+	'create-pdf-form': { name: 'Vytvořit PDF formulář', description: 'Přidejte vyplnitelná textová pole a checkboxy.' }
 };

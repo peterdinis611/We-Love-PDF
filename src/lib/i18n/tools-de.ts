@@ -40,5 +40,10 @@ export const toolsDe: Record<string, { name: string; description: string }> = {
 	'change-pdf-password': { name: 'PDF-Passwort ändern', description: 'Passwort und Berechtigungen ersetzen.' },
 	'pdf-security-check': { name: 'Sicherheitscheck', description: 'Verschlüsselung und Berechtigungen prüfen.' },
 	'pdf-signature-check': { name: 'Signatur prüfen', description: 'Prüfen, ob das PDF digital signiert ist.' },
-	'digital-sign-pdf': { name: 'Digitale Signatur', description: 'PKCS#7-Signatur mit .p12 / .pfx-Zertifikat.' }
+	'digital-sign-pdf': { name: 'Digitale Signatur', description: 'PKCS#7-Signatur mit .p12 / .pfx-Zertifikat.' },
+	'annotate-pdf': { name: 'PDF annotieren', description: 'Hervorheben, kommentieren und markieren — im Browser.' },
+	'pdf-to-excel': { name: 'PDF zu Excel', description: 'Tabellen und Text in eine .xlsx-Datei extrahieren.' },
+	'pdf-to-csv': { name: 'PDF zu CSV', description: 'Tabellarischen Text in eine CSV-Datei extrahieren.' },
+	'ocr-pdf': { name: 'OCR PDF', description: 'Gescannte PDFs durchsuchbar machen (Tesseract im Browser).' },
+	'create-pdf-form': { name: 'PDF-Formular erstellen', description: 'Ausfüllbare Textfelder und Checkboxen hinzufügen.' }
 };

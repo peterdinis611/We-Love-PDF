@@ -46,6 +46,7 @@
 	function goToTool(slug: string) {
 		if (!isPdf(file)) return;
 		setPendingFile(file);
+		void import('$lib/recent-files').then(({ saveRecentFile }) => saveRecentFile(file));
 		goto(toolPath(slug, locale));
 		ondismiss();
 	}

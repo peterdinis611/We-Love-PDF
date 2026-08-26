@@ -40,5 +40,10 @@ export const toolsPl: Record<string, { name: string; description: string }> = {
 	'change-pdf-password': { name: 'Zmień hasło PDF', description: 'Zastąp hasło i uprawnienia.' },
 	'pdf-security-check': { name: 'Kontrola bezpieczeństwa', description: 'Sprawdź szyfrowanie i uprawnienia.' },
 	'pdf-signature-check': { name: 'Kontrola podpisu', description: 'Sprawdź, czy PDF jest cyfrowo podpisany.' },
-	'digital-sign-pdf': { name: 'Podpis cyfrowy', description: 'Podpis PKCS#7 certyfikatem .p12 / .pfx.' }
+	'digital-sign-pdf': { name: 'Podpis cyfrowy', description: 'Podpis PKCS#7 certyfikatem .p12 / .pfx.' },
+	'annotate-pdf': { name: 'Adnotuj PDF', description: 'Podświetlanie, komentarze i markup w przeglądarce.' },
+	'pdf-to-excel': { name: 'PDF do Excela', description: 'Wyodrębnij tabele i tekst do pliku .xlsx.' },
+	'pdf-to-csv': { name: 'PDF do CSV', description: 'Wyodrębnij tekst tabelaryczny do CSV.' },
+	'ocr-pdf': { name: 'OCR PDF', description: 'Uczyń skany przeszukiwalnymi (Tesseract w przeglądarce).' },
+	'create-pdf-form': { name: 'Utwórz formularz PDF', description: 'Dodaj wypełnialne pola tekstowe i checkboxy.' }
 };
