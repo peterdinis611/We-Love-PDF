@@ -1,0 +1,30 @@
+---
+title: Add a visible signature to a PDF
+description: Draw, type, or upload a signature image — free and private in your browser.
+relatedTool: sign-pdf
+---
+
+Add a **visible signature** to contracts, forms, or approvals.
+
+## Steps
+
+1. Open **Sign PDF**.
+2. Upload your PDF.
+3. Create a signature:
+   - Draw with mouse or touch
+   - Type your name
+   - Upload a PNG signature image
+4. Place the signature on the page, adjust size and date if needed.
+5. Download the signed PDF.
+
+## Tips
+
+> **Info:** For legally binding **digital certificates**, use [Digital Sign PDF](/guides/pdf-digital-sign-p12) instead.
+
+- You can add signatures to multiple pages before downloading.
+- Signatures are embedded into the page content for normal viewing.
+
+## Related
+
+- [Digital Sign PDF](/guides/pdf-digital-sign-p12) — PKCS#7 certificate signing
+- [Annotate PDF](/tools/annotate-pdf) — highlights and notes

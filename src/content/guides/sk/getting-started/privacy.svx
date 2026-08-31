@@ -1,0 +1,31 @@
+---
+title: Súkromie a bezpečnosť
+description: Prečo WeLovePDF spracúva súbory v prehliadači a čo to znamená pre citlivé dokumenty.
+---
+
+WeLovePDF stojí na princípe: **vaše súbory majú zostať vo vašom zariadení**.
+
+## Bez nahrávania na server
+
+Pri spájaní, komprimácii alebo podpisovaní PDF:
+
+- Súbor sa načíta v prehliadači
+- Spracovanie prebieha v pamäti (PDFium, pdf-lib a pod.)
+- Výstup sa vygeneruje lokálne a ponúkne na stiahnutie
+
+Obsah dokumentov na naše servery pre tieto nástroje neposielame.
+
+> **Sieťové požiadavky:** Stránka sa načítava cez HTTPS. Analytika (Plausible) zaznamenáva zobrazenia stránok, nie obsah súborov.
+
+## Digitálne podpisy
+
+Pri **Digitálnom podpise PDF** sa certifikát `.p12` / `.pfx` a heslo použijú len v prehliadači. Súkromný kľúč neodosielame.
+
+## Citlivé dokumenty
+
+- Používajte dôveryhodné zariadenie a aktuálny prehliadač
+- Pre právne dôležité dokumenty preferujte **digitálny podpis** pred textovým
+
+## Lokálne úložisko
+
+WeLovePDF môže ukladať **nedávno použité nástroje** a voliteľne **nedávne súbory** (IndexedDB) len vo vašom zariadení.

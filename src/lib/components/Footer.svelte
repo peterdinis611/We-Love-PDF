@@ -46,6 +46,12 @@
 				>
 					{m.nav.whatsNew}
 				</a>
+				<a
+					href={localizedPath('/guides', locale)}
+					class="rounded-full border border-border/60 bg-background/80 px-4 py-1.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:bg-primary/5 hover:text-primary hover:shadow-sm"
+				>
+					{m.nav.guides}
+				</a>
 				{#each popular as link}
 					<a
 						href={toolPath(link.slug, locale)}

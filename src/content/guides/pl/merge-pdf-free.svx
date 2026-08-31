@@ -1,12 +1,27 @@
 ---
-title: Jak połączyć pliki PDF za darmo
-description: Połącz wiele PDF w przeglądarce — bez wysyłania plików.
+title: How to merge PDF files for free
+description: Combine multiple PDFs in your browser — no upload, no account.
 relatedTool: merge-pdf
 ---
 
-## Kroki
+Combine multiple PDFs in your browser — no upload, no account.
 
-1. Otwórz narzędzie **Połącz PDF** w WeLovePDF.
-2. Wybierz dwa lub więcej plików PDF albo upuść je w strefie.
-3. Uporządkuj pliki w razie potrzeby.
-4. Kliknij **Połącz PDF** i pobierz wynik.
+## Steps
+
+1. Open the **Merge PDF** tool on WeLovePDF.
+2. Select two or more PDF files, or drag them onto the drop zone.
+3. Reorder files if needed — order determines page sequence.
+4. Optionally enable blank pages between documents.
+5. Click **Merge PDF** and download the combined file instantly.
+
+## Tips
+
+> **Tip:** Files never leave your device. Use the homepage drop zone to jump straight into Merge.
+
+- Merge works best when all inputs are standard PDFs (not corrupted or password-locked).
+- For very large batches, merge in groups if your device has limited memory.
+
+## Related
+
+- [Split PDF](/guides/split-pdf-free) — divide a merged file again if needed
+- [Compress PDF](/guides/compress-pdf-online) — shrink the output before sharing

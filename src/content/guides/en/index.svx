@@ -3,12 +3,27 @@ title: Guides & tutorials
 description: Step-by-step help for popular PDF tasks — 100% in your browser.
 ---
 
-Welcome to WeLovePDF guides. Every tool runs locally in your browser — no uploads, no accounts.
+Welcome to **WeLovePDF guides**. Every tool runs locally in your browser — no uploads, no accounts.
 
-## Popular guides
+> **New here?:** Start with [Getting started](/guides/getting-started) to learn how browser-based PDF processing keeps your files private.
 
-- [How to merge PDF files for free](/guides/merge-pdf-free)
-- [Sign a PDF with a .p12 / .pfx certificate](/guides/pdf-digital-sign-p12)
-- [Compress a PDF without uploading](/guides/compress-pdf-online)
+## Getting started
+
+- [How WeLovePDF works](/guides/getting-started)
+- [Privacy & security](/guides/getting-started/privacy)
+
+## Popular tool guides
+
+- [Merge PDF files for free](/guides/merge-pdf-free)
+- [Split a PDF into parts](/guides/split-pdf-free)
+- [Compress without uploading](/guides/compress-pdf-online)
+- [Sign with a .p12 / .pfx certificate](/guides/pdf-digital-sign-p12)
+- [Add a visible signature](/guides/sign-pdf-guide)
+- [Protect PDF with a password](/guides/protect-pdf-guide)
+- [OCR — extract text from scans](/guides/ocr-pdf-guide)
+
+## Workflows
+
+- [Secure PDF workflow](/guides/secure-pdf-workflow) — merge, compress, and password-protect in one flow
 
 Pick a guide from the sidebar, or open any tool from the homepage when you are ready.

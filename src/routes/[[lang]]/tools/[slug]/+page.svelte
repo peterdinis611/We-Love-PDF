@@ -8,7 +8,7 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { loadToolComponent, engineTools } from '$lib/tool-components';
 	import { recordToolVisit } from '$lib/recent-tools';
-	import { toolJsonLd } from '$lib/seo';
+	import { toolJsonLd, breadcrumbJsonLd, site } from '$lib/seo';
 	import { localizeTool, msg } from '$lib/i18n';
 	import { localizedPath } from '$lib/i18n/locale';
 	import { getToolSeo, faqJsonLd } from '$lib/tool-seo';
@@ -48,7 +48,12 @@
 	}}
 	jsonLd={[
 		toolJsonLd(tool.name, seo.description, tool.slug, locale),
-		faqJsonLd(seo.faq)
+		faqJsonLd(seo.faq),
+		breadcrumbJsonLd([
+			{ name: site.name, path: localizedPath('/', locale) },
+			{ name: m.nav.allTools, path: localizedPath('/', locale) + '#tools' },
+			{ name: tool.name, path: localizedPath(`/tools/${tool.slug}`, locale) }
+		])
 	]}
 	{locale}
 />

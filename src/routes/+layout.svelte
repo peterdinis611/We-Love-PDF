@@ -14,13 +14,18 @@
 	import { precacheToolPages } from '$lib/precache-tools';
 	import { theme } from '$lib/theme.svelte';
 	import { initWebVitals } from '$lib/analytics';
-	import type { Locale } from '$lib/i18n/locale';
+	import { canonicalUrl, site } from '$lib/seo';
+	import { localeHreflang, type Locale } from '$lib/i18n/locale';
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 
 	let { children } = $props();
 
 	const locale = $derived(($page.data.locale as Locale | undefined) ?? 'en');
+
+	$effect(() => {
+		document.documentElement.lang = localeHreflang(locale);
+	});
 
 	function hidePreload() {
 		const el = document.getElementById('app-preload');
@@ -41,6 +46,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<link rel="alternate" type="application/rss+xml" title="{site.name} Changelog" href={canonicalUrl('/changelog.xml')} />
 </svelte:head>
 
 <Plausible />

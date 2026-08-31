@@ -16,5 +16,12 @@ Combine multiple PDFs in your browser — no upload, no account.
 
 ## Tips
 
-- Files never leave your device.
-- Use the homepage drop zone to jump straight into Merge.
+> **Tip:** Files never leave your device. Use the homepage drop zone to jump straight into Merge.
+
+- Merge works best when all inputs are standard PDFs (not corrupted or password-locked).
+- For very large batches, merge in groups if your device has limited memory.
+
+## Related
+
+- [Split PDF](/guides/split-pdf-free) — divide a merged file again if needed
+- [Compress PDF](/guides/compress-pdf-online) — shrink the output before sharing

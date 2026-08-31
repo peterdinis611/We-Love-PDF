@@ -1,15 +1,28 @@
 ---
-title: Komprimovať PDF bez nahrávania
-description: Zmenšite PDF v prehliadači a súbory zostanú u vás.
+title: Compress a PDF without uploading
+description: Reduce PDF file size in your browser — metadata cleanup and strong compression modes.
 relatedTool: compress-pdf
 ---
 
-Zmenšite PDF v prehliadači a súbory zostanú u vás.
+Shrink PDFs before email or upload limits — without sending files to a cloud service.
 
-## Postup
+## Steps
 
-1. Otvorte **Komprimovať PDF** na WeLovePDF.
-2. Vyberte PDF súbor.
-3. Zvoľte režim **Light** (štruktúra) alebo **Strong** (JPEG raster).
-4. Porovnajte pôvodnú a komprimovanú veľkosť.
-5. Stiahnite optimalizované PDF — výsledok závisí od súboru.
+1. Open **Compress PDF**.
+2. Upload your document.
+3. Pick a mode:
+   - **Light** — structure optimization and metadata cleanup (best for text PDFs)
+   - **Strong** — rasterizes pages for maximum size reduction (best for scans)
+4. Download the compressed file and compare sizes.
+
+## Tips
+
+> **Strong mode:** Strong compression converts pages to images — text may not stay selectable. Use Light mode when you need searchable text.
+
+- Scanned PDFs compress more with **Strong** mode.
+- Always preview important documents after compression.
+
+## Related
+
+- [Secure PDF workflow](/guides/secure-pdf-workflow) — compress before password protection
+- [Remove metadata](/tools/remove-metadata) — strip hidden document info

@@ -2,6 +2,7 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import PdfEngineProvider from '$lib/components/PdfEngineProvider.svelte';
 	import PrepareForSendWorkflow from '$lib/components/workflows/PrepareForSendWorkflow.svelte';
+	import { breadcrumbJsonLd, site, workflowJsonLd } from '$lib/seo';
 	import { msg } from '$lib/i18n';
 	import { localizedPath } from '$lib/i18n/locale';
 	import type { PageData } from './$types';
@@ -11,14 +12,23 @@
 	const locale = $derived(data.locale);
 	const m = $derived(msg(locale));
 	const copy = $derived(m.workflows.prepareForSend);
+	const path = $derived(localizedPath('/workflows/prepare-for-send', locale));
 </script>
 
 <SeoHead
 	meta={{
 		title: copy.title,
 		description: copy.subtitle,
-		path: localizedPath('/workflows/prepare-for-send', locale)
+		path
 	}}
+	jsonLd={[
+		workflowJsonLd(copy.title, copy.subtitle, 'prepare-for-send', locale),
+		breadcrumbJsonLd([
+			{ name: site.name, path: localizedPath('/', locale) },
+			{ name: m.home.workflows, path: localizedPath('/', locale) + '#workflows' },
+			{ name: copy.title, path }
+		])
+	]}
 	{locale}
 />
 

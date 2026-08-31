@@ -45,6 +45,8 @@ export type Messages = {
 		removeFavorite: string;
 		workflows: string;
 		workflowsSubtitle: string;
+		guides: string;
+		guidesSubtitle: string;
 		recentFiles: string;
 		clearRecentFiles: string;
 		resumeFile: string;
@@ -142,6 +144,9 @@ export type Messages = {
 		subtitle: string;
 		readGuide: string;
 		backToGuides: string;
+		onThisPage: string;
+		previous: string;
+		next: string;
 	};
 	shortcuts: {
 		title: string;
@@ -202,6 +207,8 @@ const en: Messages = {
 		removeFavorite: 'Remove from favorites',
 		workflows: 'Workflows',
 		workflowsSubtitle: 'Multi-step PDF jobs in one guided flow',
+		guides: 'Guides',
+		guidesSubtitle: 'Step-by-step tutorials for popular PDF tasks',
 		recentFiles: 'Continue with a recent file',
 		clearRecentFiles: 'Clear local files',
 		resumeFile: 'Open'
@@ -390,7 +397,10 @@ const en: Messages = {
 		title: 'Guides & tutorials',
 		subtitle: 'Step-by-step help for popular PDF tasks',
 		readGuide: 'Read guide',
-		backToGuides: '← All guides'
+		backToGuides: '← All guides',
+		onThisPage: 'On this page',
+		previous: 'Previous',
+		next: 'Next'
 	},
 	shortcuts: {
 		title: 'Keyboard shortcuts',
@@ -451,6 +461,8 @@ const sk: Messages = {
 		removeFavorite: 'Odstrániť z obľúbených',
 		workflows: 'Workflowy',
 		workflowsSubtitle: 'Viacero krokov v jednom vedenom toku',
+		guides: 'Návody',
+		guidesSubtitle: 'Postupné tutoriály pre obľúbené PDF úlohy',
 		recentFiles: 'Pokračovať s nedávnym súborom',
 		clearRecentFiles: 'Vymazať lokálne súbory',
 		resumeFile: 'Otvoriť'
@@ -685,7 +697,10 @@ const sk: Messages = {
 		title: 'Návody a tutoriály',
 		subtitle: 'Postup pre obľúbené PDF úlohy',
 		readGuide: 'Prečítať návod',
-		backToGuides: '← Všetky návody'
+		backToGuides: '← Všetky návody',
+		onThisPage: 'Na tejto stránke',
+		previous: 'Predchádzajúce',
+		next: 'Ďalej'
 	},
 	shortcuts: {
 		title: 'Klávesové skratky',

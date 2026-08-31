@@ -1,12 +1,29 @@
 ---
 title: Poradniki i tutoriale
-description: Krok po kroku dla popularnych zadań PDF — 100% w przeglądarce.
+description: Instrukcje krok po kroku dla popularnych zadań PDF — 100% w przeglądarce.
 ---
 
-Witaj w poradnikach WeLovePDF. Wszystkie narzędzia działają lokalnie w przeglądarce.
+Witamy w **poradnikach WeLovePDF**. Każde narzędzie działa lokalnie w przeglądarce — bez wysyłania plików i bez konta.
+
+> **Nowy użytkownik?:** Zacznij od [Wprowadzenia](/pl/guides/getting-started).
+
+## Wprowadzenie
+
+- [Jak działa WeLovePDF](/pl/guides/getting-started)
+- [Prywatność i bezpieczeństwo](/pl/guides/getting-started/privacy)
 
 ## Popularne poradniki
 
-- [Jak połączyć pliki PDF za darmo](/pl/guides/merge-pdf-free)
-- [Podpisz PDF certyfikatem .p12 / .pfx](/pl/guides/pdf-digital-sign-p12)
-- [Kompresuj PDF bez wysyłania](/pl/guides/compress-pdf-online)
+- [Połącz PDF za darmo](/pl/guides/merge-pdf-free)
+- [Podziel PDF](/pl/guides/split-pdf-free)
+- [Kompresuj bez wysyłania](/pl/guides/compress-pdf-online)
+- [Podpis cyfrowy .p12 / .pfx](/pl/guides/pdf-digital-sign-p12)
+- [Widoczny podpis](/pl/guides/sign-pdf-guide)
+- [Chroń PDF hasłem](/pl/guides/protect-pdf-guide)
+- [OCR ze skanów](/pl/guides/ocr-pdf-guide)
+
+## Workflow
+
+- [Secure PDF workflow](/pl/guides/secure-pdf-workflow)
+
+Wybierz poradnik z panelu bocznego lub otwórz narzędzie ze strony głównej.

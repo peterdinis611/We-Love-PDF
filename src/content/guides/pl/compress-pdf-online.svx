@@ -1,13 +1,28 @@
 ---
-title: Kompresuj PDF bez wysyłania
-description: Zmniejsz PDF w przeglądarce — pliki zostają u Ciebie.
+title: Compress a PDF without uploading
+description: Reduce PDF file size in your browser — metadata cleanup and strong compression modes.
 relatedTool: compress-pdf
 ---
 
-## Kroki
+Shrink PDFs before email or upload limits — without sending files to a cloud service.
 
-1. Otwórz **Kompresuj PDF** w WeLovePDF.
-2. Wybierz plik PDF.
-3. Wybierz tryb Light lub Strong.
-4. Porównaj rozmiar przed i po.
-5. Pobierz zoptymalizowany PDF.
+## Steps
+
+1. Open **Compress PDF**.
+2. Upload your document.
+3. Pick a mode:
+   - **Light** — structure optimization and metadata cleanup (best for text PDFs)
+   - **Strong** — rasterizes pages for maximum size reduction (best for scans)
+4. Download the compressed file and compare sizes.
+
+## Tips
+
+> **Strong mode:** Strong compression converts pages to images — text may not stay selectable. Use Light mode when you need searchable text.
+
+- Scanned PDFs compress more with **Strong** mode.
+- Always preview important documents after compression.
+
+## Related
+
+- [Secure PDF workflow](/guides/secure-pdf-workflow) — compress before password protection
+- [Remove metadata](/tools/remove-metadata) — strip hidden document info

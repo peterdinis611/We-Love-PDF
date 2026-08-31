@@ -1,0 +1,28 @@
+---
+title: Úvod do WeLovePDF
+description: Ako fungujú PDF nástroje v prehliadači a prečo vaše súbory zostávajú súkromné.
+---
+
+WeLovePDF sú **bezplatné PDF nástroje, ktoré bežia celé vo vašom prehliadači**. Bez účtu, bez nahrávania na server.
+
+## Ako to funguje
+
+1. Otvoríte nástroj (napríklad **Spojiť PDF**).
+2. Vyberiete alebo pretiahnete súbory zo zariadenia.
+3. Spracovanie prebieha lokálne cez WebAssembly a JavaScript knižnice.
+4. Stiahnete výsledok — súbory neopustia počítač.
+
+> **Offline režim:** Po načítaní stránky nástroja mnohé operácie fungujú aj bez siete.
+
+## Čo môžete robiť
+
+- **Organizovať** — spájať, deliť, otáčať, presúvať strany
+- **Optimalizovať** — komprimovať, zploštiť, odstrániť metadáta
+- **Konvertovať** — PDF ↔ obrázky, Word, Excel a ďalšie
+- **Upravovať a podpisovať** — vodoznak, anotácie, podpis, redakcia
+- **Zabezpečiť** — heslom, odomknutie, digitálne certifikáty
+
+## Ďalšie kroky
+
+- [Súkromie a bezpečnosť](/sk/guides/getting-started/privacy)
+- [Spojiť PDF](/sk/guides/merge-pdf-free) alebo nástroje na [homepage](/sk)

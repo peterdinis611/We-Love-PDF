@@ -1,0 +1,29 @@
+---
+title: OCR — extract text from scanned PDFs
+description: Run OCR in your browser to make scanned PDFs searchable or export text.
+relatedTool: ocr-pdf
+---
+
+Turn image-based PDF pages into **searchable text** or export plain text / tables.
+
+## Steps
+
+1. Open **OCR PDF**.
+2. Upload a scanned or image-based PDF.
+3. Select OCR languages (English, Slovak, Czech, German, Polish, …).
+4. Optionally limit the page range.
+5. Run OCR and download:
+   - Searchable PDF, or
+   - Plain text / Excel (when available)
+
+## Tips
+
+> **Tip:** Higher-resolution scans produce better OCR accuracy. Re-scan at 300 DPI if results are poor.
+
+- OCR runs locally — large documents may take time on slower devices.
+- For mixed documents, process only the scanned page ranges.
+
+## Related
+
+- [PDF to Excel](/tools/pdf-to-excel) — table extraction
+- [Compress PDF](/guides/compress-pdf-online) — shrink scans before sharing

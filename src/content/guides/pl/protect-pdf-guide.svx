@@ -1,0 +1,27 @@
+---
+title: Protect a PDF with a password
+description: Encrypt PDF files with a password — free, private, in-browser.
+relatedTool: protect-pdf
+---
+
+Lock sensitive PDFs with **password encryption** before sharing.
+
+## Steps
+
+1. Open **Protect PDF**.
+2. Upload the document.
+3. Set a user password (required to open the file).
+4. Optionally set an owner password and restrict printing or copying.
+5. Download the encrypted PDF.
+
+## Tips
+
+> **Remember your password:** We cannot recover lost passwords — encryption happens locally and we never see your secrets.
+
+- Use **Unlock PDF** if you need to remove a password you know.
+- Combine with [Secure PDF workflow](/guides/secure-pdf-workflow) for merge → compress → protect.
+
+## Related
+
+- [Unlock PDF](/tools/unlock-pdf)
+- [Remove metadata](/tools/remove-metadata)

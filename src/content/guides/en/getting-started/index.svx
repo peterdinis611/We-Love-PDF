@@ -1,0 +1,32 @@
+---
+title: Getting started with WeLovePDF
+description: Learn how browser-based PDF tools work and why your files stay private.
+---
+
+WeLovePDF is a collection of **free PDF tools that run entirely in your browser**. No account, no server upload, no waiting in a queue.
+
+## How it works
+
+1. You open a tool (for example **Merge PDF**).
+2. You select or drop files on your device.
+3. Processing happens locally using WebAssembly and JavaScript PDF libraries.
+4. You download the result — files never leave your computer.
+
+> **Offline-friendly:** Once a tool page is loaded, many operations work without a network connection. We also precache core tool pages for faster repeat visits.
+
+## What you can do
+
+- **Organize** — merge, split, rotate, reorder pages
+- **Optimize** — compress, flatten, remove metadata
+- **Convert** — PDF ↔ images, Word, Excel, and more
+- **Edit & sign** — watermark, annotate, sign, redact
+- **Secure** — password-protect, unlock, digital certificates
+
+## Workflows vs single tools
+
+**Workflows** chain multiple steps (for example merge → compress → protect) in one guided screen. **Tools** focus on one job with full control over options.
+
+## Next steps
+
+- Read [Privacy & security](/guides/getting-started/privacy)
+- Try [Merge PDF](/guides/merge-pdf-free) or open tools from the [homepage](/)

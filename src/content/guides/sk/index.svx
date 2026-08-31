@@ -1,14 +1,29 @@
 ---
 title: Návody a tutoriály
-description: Postup pre obľúbené PDF úlohy — 100 % v prehliadači.
+description: Postupné návody pre obľúbené PDF úlohy — 100 % v prehliadači.
 ---
 
-Vitajte v návodoch WeLovePDF. Všetky nástroje bežia lokálne v prehliadači — bez nahrávania a účtov.
+Vitajte v **návodoch WeLovePDF**. Každý nástroj beží lokálne v prehliadači — bez nahrávania a bez účtu.
+
+> **Začínate?:** Prečítajte si [Úvod](/sk/guides/getting-started), ako prehliadačové spracovanie PDF chráni vaše súbory.
+
+## Úvod
+
+- [Ako WeLovePDF funguje](/sk/guides/getting-started)
+- [Súkromie a bezpečnosť](/sk/guides/getting-started/privacy)
 
 ## Obľúbené návody
 
-- [Ako zlúčiť PDF zadarmo](/sk/guides/merge-pdf-free)
-- [Podpísať PDF certifikátom .p12 / .pfx](/sk/guides/pdf-digital-sign-p12)
-- [Komprimovať PDF bez nahrávania](/sk/guides/compress-pdf-online)
+- [Spojiť PDF zadarmo](/sk/guides/merge-pdf-free)
+- [Rozdeliť PDF na časti](/sk/guides/split-pdf-free)
+- [Komprimovať bez nahrávania](/sk/guides/compress-pdf-online)
+- [Podpísať certifikátom .p12 / .pfx](/sk/guides/pdf-digital-sign-p12)
+- [Pridať viditeľný podpis](/sk/guides/sign-pdf-guide)
+- [Chrániť PDF heslom](/sk/guides/protect-pdf-guide)
+- [OCR — text zo skenov](/sk/guides/ocr-pdf-guide)
+
+## Workflowy
+
+- [Bezpečný PDF workflow](/sk/guides/secure-pdf-workflow) — spojiť, komprimovať a chrániť heslom
 
 Vyberte návod v bočnom paneli alebo otvorte nástroj z homepage.

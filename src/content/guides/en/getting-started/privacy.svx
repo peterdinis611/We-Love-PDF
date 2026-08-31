@@ -1,0 +1,34 @@
+---
+title: Privacy & security
+description: Why WeLovePDF processes files in your browser and what that means for sensitive documents.
+---
+
+WeLovePDF is built around one principle: **your files should stay on your device**.
+
+## No server uploads
+
+When you merge, compress, or sign a PDF on WeLovePDF:
+
+- File bytes are read in your browser
+- Processing uses in-memory APIs (PDFium, pdf-lib, and similar libraries)
+- Output is generated locally and offered as a download
+
+We do not receive your document contents on our servers for these tools.
+
+> **Network requests:** The website itself loads over HTTPS (HTML, JavaScript, WASM). Analytics (Plausible) records page views, not file contents. Service workers may cache static assets for speed.
+
+## Digital signatures
+
+For **Digital Sign PDF**, your `.p12` / `.pfx` certificate and password are used only in the browser to create a PKCS#7 signature. Private keys are not sent to us.
+
+## Sensitive documents
+
+For highly confidential PDFs:
+
+- Use a trusted device and up-to-date browser
+- Close other tabs/extensions you do not trust
+- Prefer **digital signing** over plain text signatures when legal proof matters
+
+## Local storage
+
+WeLovePDF may store **recent tool visits** and optionally **recent files** (IndexedDB, on your device only) to improve UX. You can clear recent files from the homepage.

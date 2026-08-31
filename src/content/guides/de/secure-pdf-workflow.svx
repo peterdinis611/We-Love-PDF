@@ -1,0 +1,34 @@
+---
+title: Secure PDF workflow
+description: Merge, compress, and password-protect PDFs in one guided flow.
+relatedTool: merge-pdf
+---
+
+The **Secure PDF** workflow chains three steps for sharing confidential documents safely.
+
+## Steps
+
+1. Open **Secure PDF** from the homepage or workflows section.
+2. **Merge** — add one or more PDFs and set page order.
+3. **Compress** — pick Light or Strong mode to reduce file size.
+4. **Protect** — set a password and optional permissions.
+5. Download the final secured PDF.
+
+## When to use this workflow
+
+> **Tip:** Use this when you need one file from many sources, smaller size for email, and password protection — without repeating setup on each tool.
+
+- Bundling reports before sending to a client
+- Archiving scans with encryption
+- Preparing HR or legal packets
+
+## Related workflows
+
+- [Prepare for send](/workflows/prepare-for-send) — compress and optimize for email
+- [Archive pack](/workflows/archive-pack) — merge, flatten, strip metadata
+
+## Individual tools
+
+- [Merge PDF](/guides/merge-pdf-free)
+- [Compress PDF](/guides/compress-pdf-online)
+- [Protect PDF](/guides/protect-pdf-guide)

@@ -49,7 +49,9 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			featureDarkTitle: 'Tmavý režim',
 			featureDarkDesc: 'Pohodlné používání ve dne i v noci.',
 			addFavorite: 'Přidat do oblíbených',
-			removeFavorite: 'Odebrat z oblíbených'
+			removeFavorite: 'Odebrat z oblíbených',
+			guides: 'Návody',
+			guidesSubtitle: 'Postupné tutoriály pro oblíbené PDF úkoly'
 		},
 		footer: {
 			tagline: 'nástrojů zdarma · 100 % v prohlížeči · bez nahrávání'
@@ -115,7 +117,10 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			title: 'Návody a tutoriály',
 			subtitle: 'Postup pro oblíbené PDF úkoly',
 			readGuide: 'Přečíst návod',
-			backToGuides: '← Všechny návody'
+			backToGuides: '← Všechny návody',
+			onThisPage: 'Na této stránce',
+			previous: 'Předchozí',
+			next: 'Další'
 		},
 		shortcuts: {
 			title: 'Klávesové zkratky',
@@ -172,7 +177,9 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			featureDarkTitle: 'Dunkelmodus',
 			featureDarkDesc: 'Angenehm bei Tag und Nacht.',
 			addFavorite: 'Zu Favoriten hinzufügen',
-			removeFavorite: 'Aus Favoriten entfernen'
+			removeFavorite: 'Aus Favoriten entfernen',
+			guides: 'Anleitungen',
+			guidesSubtitle: 'Schritt-für-Schritt-Tutorials für beliebte PDF-Aufgaben'
 		},
 		footer: {
 			tagline: 'kostenlose Tools · 100 % im Browser · keine Uploads'
@@ -238,7 +245,10 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			title: 'Anleitungen & Tutorials',
 			subtitle: 'Schritt-für-Schritt-Hilfe für beliebte PDF-Aufgaben',
 			readGuide: 'Anleitung lesen',
-			backToGuides: '← Alle Anleitungen'
+			backToGuides: '← Alle Anleitungen',
+			onThisPage: 'Auf dieser Seite',
+			previous: 'Zurück',
+			next: 'Weiter'
 		},
 		shortcuts: {
 			title: 'Tastenkürzel',
@@ -295,7 +305,9 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			featureDarkTitle: 'Tryb ciemny',
 			featureDarkDesc: 'Wygodnie w dzień i w nocy.',
 			addFavorite: 'Dodaj do ulubionych',
-			removeFavorite: 'Usuń z ulubionych'
+			removeFavorite: 'Usuń z ulubionych',
+			guides: 'Poradniki',
+			guidesSubtitle: 'Samouczki krok po kroku dla popularnych zadań PDF'
 		},
 		footer: {
 			tagline: 'darmowe narzędzia · 100% w przeglądarce · bez uploadów'
@@ -361,7 +373,10 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			title: 'Poradniki i tutoriale',
 			subtitle: 'Krok po kroku dla popularnych zadań PDF',
 			readGuide: 'Czytaj poradnik',
-			backToGuides: '← Wszystkie poradniki'
+			backToGuides: '← Wszystkie poradniki',
+			onThisPage: 'Na tej stronie',
+			previous: 'Poprzedni',
+			next: 'Następny'
 		},
 		shortcuts: {
 			title: 'Skróty klawiszowe',

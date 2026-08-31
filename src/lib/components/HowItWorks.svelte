@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { PdfTool } from '$lib/tools';
 	import { getHowItWorks } from '$lib/how-it-works';
+	import { guidePath, guideSlugForTool } from '$lib/guides';
 	import ToolPanel from '$lib/components/ToolPanel.svelte';
 	import { msg } from '$lib/i18n';
 	import type { Locale } from '$lib/i18n/locale';
-	import { ChevronDown, CircleHelp } from '@lucide/svelte';
+	import { BookOpen, ChevronDown, CircleHelp } from '@lucide/svelte';
 
 	let { tool, locale = 'en' }: { tool: PdfTool; locale?: Locale } = $props();
 
@@ -12,6 +13,7 @@
 	const steps = $derived(getHowItWorks(tool));
 	const m = $derived(msg(locale));
 	const panelId = $derived(`how-it-works-${tool.slug}`);
+	const relatedGuide = $derived(guideSlugForTool(tool.slug));
 </script>
 
 <ToolPanel>
@@ -37,5 +39,16 @@
 				</li>
 			{/each}
 		</ol>
+		{#if relatedGuide}
+			<p class="mt-4 border-t border-border/60 pt-3">
+				<a
+					href={guidePath(relatedGuide, locale)}
+					class="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+				>
+					<BookOpen class="size-4" />
+					{m.guides.readGuide}
+				</a>
+			</p>
+		{/if}
 	{/if}
 </ToolPanel>

@@ -1,0 +1,29 @@
+---
+title: How to split a PDF for free
+description: Extract pages or divide a PDF into multiple files — private, in-browser.
+relatedTool: split-pdf
+---
+
+Split one PDF into separate documents or pull out specific page ranges.
+
+## Steps
+
+1. Open **Split PDF** on WeLovePDF.
+2. Upload your PDF.
+3. Choose a mode:
+   - **Extract pages** — pick ranges like `1-3, 5, 8-10`
+   - **Split every N pages** — automatic chunks
+   - **Split into single pages** — one file per page
+4. Click **Split PDF** and download a ZIP of results.
+
+## Tips
+
+> **Info:** Password-protected PDFs must be unlocked first using **Unlock PDF**.
+
+- Page ranges use comma-separated segments (`1-3, 5`).
+- Large documents may take longer — processing stays local.
+
+## Related
+
+- [Merge PDF](/guides/merge-pdf-free) — combine split parts again
+- [Organize PDF](/tools/organize-pdf) — reorder or delete pages visually

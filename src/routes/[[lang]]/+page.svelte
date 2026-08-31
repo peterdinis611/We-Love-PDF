@@ -18,8 +18,9 @@
 	} from '$lib/recent-files';
 	import { setPendingFile } from '$lib/pending-file';
 	import { workflows } from '$lib/workflows';
+	import { featuredGuides } from '$lib/guides';
 	import { formatFileSize } from '$lib/pdf/operations';
-	import { site, websiteJsonLd } from '$lib/seo';
+	import { site, websiteJsonLd, organizationJsonLd } from '$lib/seo';
 	import { msg, localizeTools } from '$lib/i18n';
 	import { categoryLabel } from '$lib/i18n/messages';
 	import { toolPath, localizedPath } from '$lib/i18n/locale';
@@ -41,7 +42,8 @@
 		X,
 		Command,
 		Workflow,
-		ArrowRight
+		ArrowRight,
+		BookOpen
 	} from '@lucide/svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -130,6 +132,8 @@
 		})
 	);
 
+	const guideCards = $derived(featuredGuides(locale));
+
 	const filtered = $derived(
 		localizedTools.filter((t) => {
 			const matchesQuery =
@@ -215,7 +219,7 @@
 		description: m.hero.subtitle,
 		path: localizedPath('/', locale)
 	}}
-	jsonLd={websiteJsonLd()}
+	jsonLd={[websiteJsonLd(), organizationJsonLd()]}
 	{locale}
 />
 
@@ -332,6 +336,35 @@
 					<div class="min-w-0">
 						<p class="font-medium group-hover:text-primary">{wf.title}</p>
 						<p class="text-xs text-muted-foreground">{wf.subtitle}</p>
+					</div>
+				</a>
+			{/each}
+		</div>
+	</div>
+
+	<div class="mb-10">
+		<div class="mb-4 flex flex-wrap items-end justify-between gap-2">
+			<div>
+				<h2 class="text-lg font-semibold">{m.home.guides}</h2>
+				<p class="text-sm text-muted-foreground">{m.home.guidesSubtitle}</p>
+			</div>
+			<Button href={localizedPath('/guides', locale)} variant="outline" size="sm">
+				<BookOpen class="size-3.5" />
+				{m.guides.title}
+			</Button>
+		</div>
+		<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+			{#each guideCards as guide (guide.url)}
+				<a
+					href={guide.url}
+					class="group flex items-start gap-3 rounded-xl border border-border/60 p-4 transition hover:border-primary/40 hover:bg-muted/40"
+				>
+					<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+						<BookOpen class="size-5" />
+					</div>
+					<div class="min-w-0">
+						<p class="font-medium group-hover:text-primary">{guide.title}</p>
+						<p class="line-clamp-2 text-xs text-muted-foreground">{guide.description}</p>
 					</div>
 				</a>
 			{/each}

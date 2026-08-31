@@ -79,6 +79,53 @@ Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.or
 - **[fflate](https://github.com/101arrowz/fflate)** — ZIP downloads for batch and image export
 - **[Vitest](https://vitest.dev/)** + **[Playwright](https://playwright.dev/)** for tests
 
+## Guides & documentation
+
+Step-by-step tutorials live at **`/guides`** (localized: `/sk/guides`, `/cs/guides`, …).
+
+Built with **[fumadocs-svelte](https://github.com/jis3r/fumadocs-svelte)** + **mdsvex** (`.svx` files):
+
+```
+src/content/guides/
+├── en/                    # English (default URLs: /guides/…)
+│   ├── index.svx
+│   ├── getting-started/
+│   │   ├── index.svx
+│   │   └── privacy.svx
+│   ├── merge-pdf-free.svx
+│   └── …
+├── sk/                    # Slovak (/sk/guides/…)
+└── cs/, de/, pl/
+```
+
+| Piece | Location |
+|-------|----------|
+| Content | `src/content/guides/{locale}/**/*.svx` |
+| Source adapter | `src/lib/guides/source.ts` — `createFileSystemSource` |
+| Layout | `src/lib/components/guides/GuidesDocsLayout.svelte` |
+| Route | `src/routes/[[lang]]/guides/[...slug]/` |
+| Tool ↔ guide map | `src/lib/guides/registry.ts` |
+
+### Writing a guide
+
+Create `src/content/guides/en/my-topic.svx`:
+
+```markdown
+---
+title: My guide title
+description: Short summary for SEO
+relatedTool: merge-pdf
+---
+
+## Steps
+
+1. …
+
+> **Tip:** Helpful note for readers.
+```
+
+Copy or translate to other locale folders. Slugs are derived automatically for sitemap and prerender.
+
 ## Recent features
 
 - **Word / PowerPoint to PDF** — mammoth (.docx) and PPTX text extraction
@@ -166,10 +213,13 @@ src/
 │   │   ├── operations.ts # pdf-lib operations
 │   │   ├── convert.ts    # Text/HTML/Markdown conversion
 │   │   └── security.ts   # Encryption helpers
-│   ├── tools.ts          # Tool registry
-│   └── tool-components.ts
+│   ├── guides/           # Fumadocs source + registry
+│   ├── components/guides/# Docs layout, TOC, callouts
+│   └── tool-seo.ts       # Per-tool SEO + FAQ
+├── content/guides/       # .svx guide content (5 locales)
 ├── routes/
-│   ├── +page.svelte      # Homepage
+│   ├── [[lang]]/+page.svelte
+│   ├── [[lang]]/guides/[...slug]/
 │   └── tools/[slug]/     # Dynamic tool pages
 └── __tests__/
     ├── unit/             # Vitest tests

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="WeLovePDF  free PDF tools in your browser">
+	<defs>
+		<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" stop-color="#991b1b"/>
+			<stop offset="100%" stop-color="#dc2626"/>
+		</linearGradient>
+		<filter id="grain" x="0" y="0" width="100%" height="100%">
+			<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+			<feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.06 0"/>
+		</filter>
+	</defs>
+	<rect width="1200" height="630" fill="url(#bg)"/>
+	<rect width="1200" height="630" filter="url(#grain)" opacity="0.35"/>
+	<rect x="72" y="72" width="96" height="96" rx="20" fill="#fff" opacity="0.12"/>
+	<text x="120" y="138" text-anchor="middle" fill="#fff" font-family="system-ui, sans-serif" font-size="34" font-weight="800">PDF</text>
+	<text x="200" y="138" fill="#fff" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" letter-spacing="-1">WeLovePDF</text>
+	<text x="200" y="210" fill="#fecaca" font-family="system-ui, sans-serif" font-size="34" font-weight="500">Free PDF tools  100% in your browser</text>
+	<text x="200" y="270" fill="#fee2e2" font-family="system-ui, sans-serif" font-size="24" opacity="0.9">Merge · Split · Compress · Sign · Convert · OCR</text>
+	<rect x="200" y="320" width="280" height="4" fill="#fff" opacity="0.35"/>
+	<text x="200" y="370" fill="#fff" font-family="system-ui, sans-serif" font-size="22" opacity="0.85">Private. No uploads. No signup.</text>
+</svg>

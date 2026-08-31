@@ -1,13 +1,27 @@
 ---
-title: Podepsat PDF certifikátem .p12 / .pfx
-description: Přidejte digitální podpis PKCS#7 — zpracování lokálně.
+title: Sign a PDF with a .p12 / .pfx certificate
+description: Apply a PKCS#7 digital signature using your own certificate — private, in-browser.
 relatedTool: digital-sign-pdf
 ---
 
-## Postup
+Create a **cryptographic digital signature** — not just visible text — using your certificate file.
 
-1. Exportujte certifikát jako `.p12` nebo `.pfx`.
-2. Otevřete **Digitální podpis** na WeLovePDF.
-3. Nahrajte PDF a certifikát.
-4. Zadejte heslo certifikátu.
-5. Stáhněte podepsané PDF.
+## Steps
+
+1. Open **Digital Sign PDF**.
+2. Upload the PDF to sign.
+3. Upload your `.p12` or `.pfx` certificate.
+4. Enter the certificate password (used locally only).
+5. Download the signed PDF.
+
+## Tips
+
+> **vs. Sign PDF:** **Sign PDF** adds a visible signature image or text. **Digital Sign PDF** embeds a PKCS#7 signature verifiable in Adobe Acrobat.
+
+- Adobe verifies signature structure; trust depends on your certificate authority.
+- Keep certificate files secure — they never leave your browser during signing.
+
+## Related
+
+- [Sign PDF guide](/guides/sign-pdf-guide) — visible signature overlay
+- [Protect PDF](/guides/protect-pdf-guide) — password encryption

@@ -3,12 +3,24 @@ import { LOCALES, localizedPath, type Locale } from '$lib/i18n/locale';
 
 const modules = import.meta.glob<RawSvxModule>('/src/content/guides/**/*.svx', { eager: true });
 
-/** Guide slugs (without locale / index) for sitemap & prerender. */
-export const GUIDE_SLUGS = [
-	'merge-pdf-free',
-	'pdf-digital-sign-p12',
-	'compress-pdf-online'
-] as const;
+/** Derive guide slug paths from English content (e.g. `merge-pdf-free`, `getting-started/privacy`). */
+export function deriveGuideSlugs(): string[] {
+	const slugs = new Set<string>();
+	for (const path of Object.keys(modules)) {
+		if (!path.startsWith('/src/content/guides/en/')) continue;
+		const relative = path.replace('/src/content/guides/en/', '').replace(/\.svx$/, '');
+		if (relative === 'index') continue;
+		if (relative.endsWith('/index')) {
+			slugs.add(relative.replace(/\/index$/, ''));
+			continue;
+		}
+		slugs.add(relative);
+	}
+	return [...slugs].sort();
+}
+
+/** @deprecated Use deriveGuideSlugs() — kept for imports that expect a static list. */
+export const GUIDE_SLUGS = deriveGuideSlugs() as readonly string[];
 
 export type GuideSlug = (typeof GUIDE_SLUGS)[number];
 
@@ -22,7 +34,6 @@ export function createGuidesSource(locale: Locale) {
 		}
 	}
 
-	// Fallback to English if a locale folder is empty / missing a page
 	if (Object.keys(localeModules).length === 0 && locale !== 'en') {
 		return createGuidesSource('en');
 	}
@@ -38,11 +49,17 @@ export function guidePath(slug: string, locale: Locale): string {
 	return localizedPath(`/guides/${slug}`, locale);
 }
 
+export function listGuidePages(locale: Locale) {
+	return createGuidesSource(locale).getPages();
+}
+
 /** Prerender entries for rest param under [[lang]]/guides/[...slug] */
 export function guidePrerenderEntries(): { lang?: string; slug: string }[] {
-	const paths = ['', ...GUIDE_SLUGS];
+	const enPages = createGuidesSource('en').getPages();
+	const slugPaths = enPages.map((page) => page.slug.join('/'));
+
 	return LOCALES.flatMap((locale) =>
-		paths.map((slug) => {
+		['', ...slugPaths].map((slug) => {
 			const entry: { lang?: string; slug: string } = { slug };
 			if (locale !== 'en') entry.lang = locale;
 			return entry;

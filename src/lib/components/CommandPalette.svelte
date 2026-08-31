@@ -8,13 +8,15 @@
 	import { workflows } from '$lib/workflows';
 	import { msg, localizeTools } from '$lib/i18n';
 	import { toolPath, localizedPath } from '$lib/i18n/locale';
+	import { guideSearchItems } from '$lib/guides';
 	import type { Locale } from '$lib/i18n/locale';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { Search, Command, Workflow } from '@lucide/svelte';
+	import { Search, Command, Workflow, BookOpen } from '@lucide/svelte';
 
 	type PaletteItem =
 		| { kind: 'tool'; tool: PdfTool }
-		| { kind: 'workflow'; slug: string; title: string; subtitle: string; path: string };
+		| { kind: 'workflow'; slug: string; title: string; subtitle: string; path: string }
+		| { kind: 'guide'; slug: string; title: string; subtitle: string; url: string };
 
 	let {
 		open = false,
@@ -49,6 +51,16 @@
 		})
 	);
 
+	const guideItems = $derived(
+		guideSearchItems(locale).map((guide) => ({
+			kind: 'guide' as const,
+			slug: guide.url,
+			title: guide.title,
+			subtitle: guide.description,
+			url: guide.url
+		}))
+	);
+
 	let query = $state('');
 	let activeIndex = $state(0);
 	let inputEl = $state<HTMLInputElement | null>(null);
@@ -72,7 +84,13 @@
 				w.subtitle.toLowerCase().includes(q) ||
 				w.slug.includes(q)
 		);
-		return [...wfs, ...toolItems];
+		const guides: PaletteItem[] = guideItems.filter(
+			(g) =>
+				!q ||
+				g.title.toLowerCase().includes(q) ||
+				g.subtitle.toLowerCase().includes(q)
+		);
+		return [...wfs, ...guides, ...toolItems];
 	});
 
 	$effect(() => {
@@ -99,6 +117,7 @@
 	function pick(item: PaletteItem) {
 		close();
 		if (item.kind === 'tool') goto(toolPath(item.tool.slug, locale));
+		else if (item.kind === 'guide') goto(item.url);
 		else goto(localizedPath(item.path, locale));
 	}
 
@@ -169,7 +188,7 @@
 				{#if filtered.length === 0}
 					<li class="px-3 py-6 text-center text-sm text-muted-foreground">{m.commandPalette.noResults}</li>
 				{:else}
-					{#each filtered as item, i (item.kind === 'tool' ? item.tool.slug : item.slug)}
+					{#each filtered as item, i (item.kind === 'tool' ? item.tool.slug : item.kind === 'guide' ? item.url : item.slug)}
 						<li role="option" aria-selected={i === activeIndex}>
 							<button
 								type="button"
@@ -189,6 +208,16 @@
 									<div class="min-w-0 flex-1">
 										<p class="truncate font-medium">{item.tool.name}</p>
 										<p class="truncate text-xs text-muted-foreground">{item.tool.description}</p>
+									</div>
+								{:else if item.kind === 'guide'}
+									<div
+										class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary"
+									>
+										<BookOpen class="size-4" />
+									</div>
+									<div class="min-w-0 flex-1">
+										<p class="truncate font-medium">{item.title}</p>
+										<p class="truncate text-xs text-muted-foreground">{item.subtitle}</p>
 									</div>
 								{:else}
 									<div

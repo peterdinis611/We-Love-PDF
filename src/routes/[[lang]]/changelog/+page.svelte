@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { breadcrumbJsonLd, site } from '$lib/seo';
 	import ChangelogItemCard from '$lib/components/ChangelogItemCard.svelte';
 	import ChangelogFeaturedTools from '$lib/components/ChangelogFeaturedTools.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -40,13 +41,19 @@
 		description: page.subtitle,
 		path: localizedPath('/changelog', locale)
 	}}
-	jsonLd={{
-		'@context': 'https://schema.org',
-		'@type': 'WebPage',
-		name: page.title,
-		description: page.subtitle,
-		isPartOf: { '@type': 'WebSite', name: 'WeLovePDF' }
-	}}
+	jsonLd={[
+		{
+			'@context': 'https://schema.org',
+			'@type': 'WebPage',
+			name: page.title,
+			description: page.subtitle,
+			isPartOf: { '@type': 'WebSite', name: site.name, url: site.url }
+		},
+		breadcrumbJsonLd([
+			{ name: site.name, path: localizedPath('/', locale) },
+			{ name: page.title, path: localizedPath('/changelog', locale) }
+		])
+	]}
 	{locale}
 />
 

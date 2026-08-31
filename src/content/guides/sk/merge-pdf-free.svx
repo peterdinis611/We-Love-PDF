@@ -1,15 +1,24 @@
 ---
-title: Ako zlúčiť PDF zadarmo
-description: Spojte viac PDF v prehliadači — bez nahrávania a registrácie.
+title: Ako spojiť PDF súbory zadarmo
+description: Spojte viacero PDF v prehliadači — bez nahrávania a bez účtu.
 relatedTool: merge-pdf
 ---
 
-Spojte viac PDF v prehliadači — bez nahrávania a registrácie.
+Spojte viacero PDF súborov priamo v prehliadači.
 
 ## Postup
 
-1. Otvorte nástroj **Spojiť PDF** na WeLovePDF.
-2. Vyberte dva alebo viac PDF súborov, prípadne ich pretiahnite do zóny.
-3. Zoraďte súbory podľa potreby — poradie určuje poradie strán.
+1. Otvorte nástroj **Spojiť PDF**.
+2. Vyberte dva alebo viac PDF alebo ich pretiahnite do drop zóny.
+3. Usporiadajte poradie súborov — určuje poradie strán.
 4. Voliteľne zapnite prázdne strany medzi dokumentmi.
-5. Kliknite na **Spojiť PDF** a okamžite stiahnite výsledok.
+5. Kliknite **Spojiť PDF** a stiahnite výsledok.
+
+## Tipy
+
+> **Tip:** Súbory neopustia zariadenie. Z homepage drop zóny prejdete rovno do Spojiť PDF.
+
+## Súvisiace
+
+- [Rozdeliť PDF](/sk/guides/split-pdf-free)
+- [Komprimovať PDF](/sk/guides/compress-pdf-online)
