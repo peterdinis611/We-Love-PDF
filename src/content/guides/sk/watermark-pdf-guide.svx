@@ -1,0 +1,23 @@
+---
+title: Ako pridať vodoznak do PDF
+description: Textový alebo obrázkový vodoznak na každú stranu — zadarmo, súkromne v prehliadači.
+relatedTool: watermark-pdf
+---
+
+Označte koncepty, dôverné dokumenty alebo pridajte logo.
+
+## Postup
+
+1. Otvorte **Vodoznak PDF**.
+2. Nahrajte dokument.
+3. Zvoľte text alebo obrázok a nastavte priehľadnosť, pozíciu a rotáciu.
+4. Aplikujte na všetky strany a stiahnite.
+
+## Tipy
+
+> **Tip:** Diagonálny polopriehľadný text je ideálny pre koncepty.
+
+## Súvisiace
+
+- [Chrániť PDF](/sk/guides/protect-pdf-guide)
+- [Batch PDF](/sk/guides/batch-pdf-guide)

@@ -1,0 +1,24 @@
+---
+title: Export PDF to PDF/A for archiving
+description: Create a PDF/A-ready archival file — flatten, clean metadata, mark conformance.
+relatedTool: pdf-to-pdfa
+---
+
+PDF/A is designed for long-term storage. WeLovePDF exports a **PDF/A-ready** file in your browser.
+
+## Steps
+
+1. Open **PDF to PDF/A**.
+2. Upload your document.
+3. Choose PDF/A-2b (recommended) or PDF/A-1b.
+4. Keep **Flatten forms** enabled, then export and download.
+
+## Tips
+
+> **Important:** Browser export is best-effort. Validate with a PDF/A preflight tool before formal archival submission.
+
+## Related
+
+- [Archive pack workflow](/workflows/archive-pack)
+- [Remove metadata](/tools/remove-metadata)
+- [Fix PDF](/guides/fix-pdf-guide)

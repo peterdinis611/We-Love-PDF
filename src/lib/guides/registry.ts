@@ -6,7 +6,13 @@ export const TOOL_TO_GUIDE: Record<string, string> = {
 	'split-pdf': 'split-pdf-free',
 	'ocr-pdf': 'ocr-pdf-guide',
 	'sign-pdf': 'sign-pdf-guide',
-	'protect-pdf': 'protect-pdf-guide'
+	'protect-pdf': 'protect-pdf-guide',
+	'organize-pdf': 'organize-pdf-guide',
+	'watermark-pdf': 'watermark-pdf-guide',
+	'batch-pdf': 'batch-pdf-guide',
+	'compare-pdf': 'compare-pdf-guide',
+	'fix-pdf': 'fix-pdf-guide',
+	'pdf-to-pdfa': 'pdfa-export-guide'
 };
 
 export function guideSlugForTool(toolSlug: string): string | undefined {

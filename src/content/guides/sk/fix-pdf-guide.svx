@@ -1,0 +1,23 @@
+---
+title: Ako opraviť poškodené PDF
+description: Opravte štruktúru PDF v prehliadači — bez nahrávania na server.
+relatedTool: fix-pdf
+---
+
+Niektoré PDF sa neotvoria kvôli poškodenej xref tabuľke. Opraviť PDF vytvorí čistý dokument z čitateľných strán.
+
+## Postup
+
+1. Otvorte **Opraviť PDF**.
+2. Nahrajte poškodený súbor.
+3. Kliknite **Opraviť PDF**.
+4. Stiahnite opravený súbor a otvorte ho v prehliadači.
+
+## Tipy
+
+> **Warning:** Ak samotný obsah strán nie je čitateľný, oprava ho nevymyslí. Skúste najprv Fix PDF; ak zlyhá, exportujte z pôvodnej aplikácie.
+
+## Súvisiace
+
+- [PDF do PDF/A](/sk/guides/pdfa-export-guide)
+- [Komprimovať PDF](/sk/guides/compress-pdf-online)

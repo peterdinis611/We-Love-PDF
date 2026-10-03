@@ -45,5 +45,13 @@ export const toolsPl: Record<string, { name: string; description: string }> = {
 	'pdf-to-excel': { name: 'PDF do Excela', description: 'Wyodrębnij tabele i tekst do pliku .xlsx.' },
 	'pdf-to-csv': { name: 'PDF do CSV', description: 'Wyodrębnij tekst tabelaryczny do CSV.' },
 	'ocr-pdf': { name: 'OCR PDF', description: 'Uczyń skany przeszukiwalnymi (Tesseract w przeglądarce).' },
-	'create-pdf-form': { name: 'Utwórz formularz PDF', description: 'Dodaj wypełnialne pola tekstowe i checkboxy.' }
+	'create-pdf-form': { name: 'Utwórz formularz PDF', description: 'Dodaj wypełnialne pola tekstowe i checkboxy.' },
+	'fix-pdf': {
+		name: 'Napraw PDF',
+		description: 'Napraw uszkodzone PDF przez przebudowę struktury dokumentu.'
+	},
+	'pdf-to-pdfa': {
+		name: 'PDF do PDF/A',
+		description: 'Eksport archiwalnego PDF/A — spłaszczenie, czyszczenie metadanych, oznaczenie zgodności.'
+	}
 };

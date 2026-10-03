@@ -1,0 +1,23 @@
+---
+title: How to watermark a PDF
+description: Add text or image watermarks to every page — free, private, in your browser.
+relatedTool: watermark-pdf
+---
+
+Stamp drafts, confidential labels, or logos across your PDF pages.
+
+## Steps
+
+1. Open **Watermark PDF**.
+2. Upload the document.
+3. Choose text or image watermark and adjust opacity, position, and rotation.
+4. Apply to all pages (or a range) and download.
+
+## Tips
+
+> **Tip:** Use a semi-transparent diagonal text watermark for drafts so content stays readable.
+
+## Related
+
+- [Protect PDF](/guides/protect-pdf-guide)
+- [Batch PDF](/guides/batch-pdf-guide)

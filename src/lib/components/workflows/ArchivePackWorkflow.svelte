@@ -16,10 +16,10 @@
 		downloadBlob,
 		ensurePdfFilename,
 		formatFileSize,
-		removeAllMetadata,
 		type PdfFile
 	} from '$lib/pdf/operations';
 	import { mergePdfs } from '$lib/pdf/heavy';
+	import { exportPdfA } from '$lib/pdf/pdfa';
 
 	const pdfEngine = usePdfEngineContext();
 
@@ -117,10 +117,13 @@
 		try {
 			const blob = new Blob([flattenedBytes.slice()], { type: 'application/pdf' });
 			const f = new File([blob], 'flattened.pdf', { type: 'application/pdf' });
-			const result = await removeAllMetadata(f);
+			const { bytes } = await exportPdfA(f, {
+				preflattened: flattenedBytes,
+				conformance: 'PDF/A-2b'
+			});
 			const name = ensurePdfFilename(outputName);
-			downloadBlob(result, name);
-			success = `${wf.download}: ${name} (${formatFileSize(result.length)})`;
+			downloadBlob(bytes, name);
+			success = `${wf.download}: ${name} — PDF/A-ready (${formatFileSize(bytes.length)})`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Cleanup failed.';
 		} finally {

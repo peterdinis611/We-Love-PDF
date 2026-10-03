@@ -1,0 +1,23 @@
+---
+title: Ako organizovať strany PDF
+description: Presuňte, otočte alebo odstráňte strany PDF v prehliadači — zadarmo a súkromne.
+relatedTool: organize-pdf
+---
+
+Usporiadajte strany vizuálne pred zdieľaním alebo archiváciou.
+
+## Postup
+
+1. Otvorte **Organizovať PDF**.
+2. Nahrajte PDF — zobrazia sa miniatúry strán.
+3. Pretiahnite strany, otočte ich alebo odstráňte nechcené.
+4. Stiahnite usporiadané PDF.
+
+## Tipy
+
+> **Tip:** Najprv spojte viac súborov a potom usporiadajte výsledok.
+
+## Súvisiace
+
+- [Spojiť PDF](/sk/guides/merge-pdf-free)
+- [Rozdeliť PDF](/sk/guides/split-pdf-free)

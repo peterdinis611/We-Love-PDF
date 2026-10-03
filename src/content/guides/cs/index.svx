@@ -17,9 +17,15 @@ Vítejte v **návodech WeLovePDF**. Každý nástroj běží lokálně v prohlí
 - [Sloučit PDF zdarma](/cs/guides/merge-pdf-free)
 - [Rozdělit PDF](/cs/guides/split-pdf-free)
 - [Komprimovat bez nahrávání](/cs/guides/compress-pdf-online)
+- [Organizovat strany](/cs/guides/organize-pdf-guide)
+- [Vodoznak](/cs/guides/watermark-pdf-guide)
+- [Hromadné zpracování](/cs/guides/batch-pdf-guide)
+- [Porovnat PDF](/cs/guides/compare-pdf-guide)
+- [Opravit PDF](/cs/guides/fix-pdf-guide)
+- [Export PDF/A](/cs/guides/pdfa-export-guide)
 - [Digitální podpis .p12 / .pfx](/cs/guides/pdf-digital-sign-p12)
 - [Viditelný podpis](/cs/guides/sign-pdf-guide)
-- [Chrániť PDF heslem](/cs/guides/protect-pdf-guide)
+- [Chránit PDF heslem](/cs/guides/protect-pdf-guide)
 - [OCR ze skenů](/cs/guides/ocr-pdf-guide)
 
 ## Workflowy

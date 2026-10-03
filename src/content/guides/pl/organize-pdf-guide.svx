@@ -1,0 +1,24 @@
+---
+title: How to organize PDF pages
+description: Reorder, rotate, and delete PDF pages in your browser — free and private.
+relatedTool: organize-pdf
+---
+
+Rearrange pages visually before you share or archive a document.
+
+## Steps
+
+1. Open **Organize PDF**.
+2. Upload your PDF — page thumbnails appear in a grid.
+3. Drag pages to reorder, rotate individual pages, or delete unwanted ones.
+4. Download the reorganized PDF.
+
+## Tips
+
+> **Tip:** Merge multiple files first, then organize the combined document for the final page order.
+
+## Related
+
+- [Merge PDF](/guides/merge-pdf-free)
+- [Split PDF](/guides/split-pdf-free)
+- [Batch PDF](/guides/batch-pdf-guide)

@@ -1,0 +1,23 @@
+---
+title: Ako porovnať dve PDF
+description: Nájdite textové a vizuálne rozdiely medzi verziami — súkromne v prehliadači.
+relatedTool: compare-pdf
+---
+
+Porovnajte revízie vedľa seba bez nahrávania do cloudu.
+
+## Postup
+
+1. Otvorte **Porovnať PDF**.
+2. Nahrajte pôvodné a upravené PDF.
+3. Skontrolujte textové rozdiely a prípadne vizuálny diff.
+4. Použite zvýraznenia na rozhodnutie, čo sa zmenilo.
+
+## Tipy
+
+> **Tip:** Pri skenoch najprv spustite OCR, aby bolo s čím porovnávať text.
+
+## Súvisiace
+
+- [OCR PDF](/sk/guides/ocr-pdf-guide)
+- [Organizovať PDF](/sk/guides/organize-pdf-guide)

@@ -1,0 +1,24 @@
+---
+title: How to batch-process PDFs
+description: Compress, rotate, watermark, or protect many PDFs at once and download a ZIP.
+relatedTool: batch-pdf
+---
+
+Run the same action on multiple PDFs without opening each file separately.
+
+## Steps
+
+1. Open **Batch PDF**.
+2. Add two or more PDF files.
+3. Choose an action (compress, rotate, watermark, protect, flatten, remove metadata).
+4. Adjust options, then process — download a ZIP of results.
+
+## Tips
+
+> **Tip:** Drop several files on the homepage to jump straight into Batch or Merge with smart suggestions.
+
+## Related
+
+- [Compress PDF](/guides/compress-pdf-online)
+- [Watermark PDF](/guides/watermark-pdf-guide)
+- [Secure PDF workflow](/guides/secure-pdf-workflow)

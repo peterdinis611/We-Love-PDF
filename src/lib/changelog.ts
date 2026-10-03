@@ -5,6 +5,8 @@ import { getTool, tools, type PdfTool } from '$lib/tools';
 
 /** Tools marked as new in the UI (badge + changelog featured). */
 export const NEW_TOOL_SLUGS = [
+	'fix-pdf',
+	'pdf-to-pdfa',
 	'pdf-to-png',
 	'csv-to-pdf',
 	'json-to-pdf',

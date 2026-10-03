@@ -1,0 +1,23 @@
+---
+title: Export PDF do PDF/A na archiváciu
+description: Vytvorte PDF/A-ready archívny súbor — flatten, čisté metadáta, označenie konformity.
+relatedTool: pdf-to-pdfa
+---
+
+PDF/A je určené na dlhodobé uloženie. WeLovePDF exportuje **PDF/A-ready** súbor v prehliadači.
+
+## Postup
+
+1. Otvorte **PDF do PDF/A**.
+2. Nahrajte dokument.
+3. Zvoľte PDF/A-2b (odporúčané) alebo PDF/A-1b.
+4. Nechajte zapnuté flatten formulárov a stiahnite export.
+
+## Tipy
+
+> **Important:** Export v prehliadači je best-effort. Pred oficiálnym odovzdaním overte súbor PDF/A preflight nástrojom.
+
+## Súvisiace
+
+- [Archive pack](/sk/workflows/archive-pack)
+- [Opraviť PDF](/sk/guides/fix-pdf-guide)

@@ -1,0 +1,23 @@
+---
+title: How to fix a damaged PDF
+description: Repair broken PDF structure in your browser — rebuild pages without uploading.
+relatedTool: fix-pdf
+---
+
+Some PDFs fail to open because of broken cross-reference tables or bad incremental updates. Fix PDF rebuilds a clean document from readable pages.
+
+## Steps
+
+1. Open **Fix PDF**.
+2. Upload the damaged file.
+3. Click **Fix PDF** — pages are copied into a fresh structure.
+4. Download the repaired file and open it in your viewer.
+
+## Tips
+
+> **Warning:** If the page content itself is unreadable, repair cannot invent missing data. Try Fix PDF first; if that fails, re-export from the original app.
+
+## Related
+
+- [PDF to PDF/A](/guides/pdfa-export-guide)
+- [Compress PDF](/guides/compress-pdf-online)

@@ -1,0 +1,23 @@
+---
+title: Ako hromadne spracovať PDF
+description: Komprimujte, otáčajte, vodoznakujte alebo chráňte viac PDF naraz a stiahnite ZIP.
+relatedTool: batch-pdf
+---
+
+Spustite rovnakú akciu na viacerých PDF bez otvárania každého súboru.
+
+## Postup
+
+1. Otvorte **Batch PDF**.
+2. Pridajte dva alebo viac súborov.
+3. Zvoľte akciu (komprimácia, otočenie, vodoznak, ochrana, flatten, metadáta).
+4. Spracujte a stiahnite ZIP s výsledkami.
+
+## Tipy
+
+> **Tip:** Pretiahnite viac súborov na homepage — smart návrhy vás nasmerujú na Batch alebo Spojiť.
+
+## Súvisiace
+
+- [Komprimovať PDF](/sk/guides/compress-pdf-online)
+- [Vodoznak](/sk/guides/watermark-pdf-guide)

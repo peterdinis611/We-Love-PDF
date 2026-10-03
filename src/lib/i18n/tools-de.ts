@@ -45,5 +45,13 @@ export const toolsDe: Record<string, { name: string; description: string }> = {
 	'pdf-to-excel': { name: 'PDF zu Excel', description: 'Tabellen und Text in eine .xlsx-Datei extrahieren.' },
 	'pdf-to-csv': { name: 'PDF zu CSV', description: 'Tabellarischen Text in eine CSV-Datei extrahieren.' },
 	'ocr-pdf': { name: 'OCR PDF', description: 'Gescannte PDFs durchsuchbar machen (Tesseract im Browser).' },
-	'create-pdf-form': { name: 'PDF-Formular erstellen', description: 'Ausfüllbare Textfelder und Checkboxen hinzufügen.' }
+	'create-pdf-form': { name: 'PDF-Formular erstellen', description: 'Ausfüllbare Textfelder und Checkboxen hinzufügen.' },
+	'fix-pdf': {
+		name: 'PDF reparieren',
+		description: 'Beschädigte PDFs durch Neuaufbau der Dokumentstruktur reparieren.'
+	},
+	'pdf-to-pdfa': {
+		name: 'PDF zu PDF/A',
+		description: 'Archiv-PDF/A exportieren — flatten, Metadaten bereinigen, Konformität markieren.'
+	}
 };

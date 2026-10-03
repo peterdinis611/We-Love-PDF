@@ -600,6 +600,14 @@ const sk: Messages = {
 		'pdf-info': { name: 'Info o PDF', description: 'Zobrazte metadáta a vlastnosti dokumentu.' },
 		'edit-metadata': { name: 'Upraviť metadáta', description: 'Zmeňte názov, autora a ďalšie vlastnosti.' },
 		'remove-metadata': { name: 'Odstrániť metadáta', description: 'Vymažte metadáta pre súkromie.' },
+		'fix-pdf': {
+			name: 'Opraviť PDF',
+			description: 'Opravte poškodené PDF obnovením štruktúry dokumentu.'
+		},
+		'pdf-to-pdfa': {
+			name: 'PDF do PDF/A',
+			description: 'Exportujte archívne PDF/A — flatten, čisté metadáta a označenie konformity.'
+		},
 		'images-to-pdf': { name: 'Obrázky do PDF', description: 'Konvertujte JPG a PNG do jedného PDF.' },
 		'pdf-to-jpg': { name: 'PDF do JPG', description: 'Konvertujte strany PDF na obrázky JPG/PNG.' },
 		'pdf-to-png': { name: 'PDF do PNG', description: 'Konvertujte strany PDF na PNG v ZIP archíve.' },

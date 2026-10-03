@@ -1,0 +1,23 @@
+---
+title: How to compare two PDFs
+description: Spot text and visual differences between PDF versions — private, in your browser.
+relatedTool: compare-pdf
+---
+
+Review revisions side by side without uploading documents to a cloud service.
+
+## Steps
+
+1. Open **Compare PDF**.
+2. Upload the original PDF and the revised PDF.
+3. Review text differences per page, then switch to visual diff if needed.
+4. Use the highlights to decide what changed.
+
+## Tips
+
+> **Tip:** For scanned documents, run OCR first so text comparison has content to work with.
+
+## Related
+
+- [OCR PDF](/guides/ocr-pdf-guide)
+- [Organize PDF](/guides/organize-pdf-guide)

@@ -64,7 +64,7 @@
 	let favoriteSlugs = $state<string[]>([]);
 	let recentFiles = $state<Omit<RecentFileRecord, 'bytes'>[]>([]);
 	let heroDragging = $state(false);
-	let droppedFile = $state<File | null>(null);
+	let droppedFiles = $state<File[] | null>(null);
 
 	function isPdfFile(file: File) {
 		return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
@@ -82,8 +82,8 @@
 	function onHeroDrop(e: DragEvent) {
 		e.preventDefault();
 		heroDragging = false;
-		const file = Array.from(e.dataTransfer?.files ?? []).find(isPdfFile);
-		if (file) droppedFile = file;
+		const pdfs = Array.from(e.dataTransfer?.files ?? []).filter(isPdfFile);
+		if (pdfs.length) droppedFiles = pdfs;
 	}
 
 	const searchDebouncer = useDebouncer((q: string) => {
@@ -223,8 +223,8 @@
 	{locale}
 />
 
-{#if droppedFile}
-	<HomeHeroDrop file={droppedFile} {locale} ondismiss={() => (droppedFile = null)} />
+{#if droppedFiles?.length}
+	<HomeHeroDrop files={droppedFiles} {locale} ondismiss={() => (droppedFiles = null)} />
 {/if}
 
 <!-- Hero -->

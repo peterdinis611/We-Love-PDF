@@ -9,6 +9,7 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import RecipeBar from '$lib/components/RecipeBar.svelte';
+	import PageThumbnail from '$lib/components/PageThumbnail.svelte';
 	import { compressionRatio, downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { compressPdf as compressPdfHeavy } from '$lib/pdf/heavy';
 	import { compressPdfRaster } from '$lib/pdf/compress-raster';
@@ -34,11 +35,14 @@
 		readNumberParam('scale', getToolPreset<number>('compress-pdf', 'scale', 1.5))
 	);
 	let processing = $state(false);
+	let previewing = $state(false);
 	let progressCurrent = $state(0);
 	let progressMax = $state(0);
 	let error = $state('');
 	let success = $state('');
 	let result = $state<{ original: number; compressed: number } | null>(null);
+	let previewBytes = $state<Uint8Array | null>(null);
+	let previewFile = $state<File | null>(null);
 	let lastDownload = $state<{ bytes: Uint8Array; name: string } | null>(null);
 	let abort: AbortController | null = null;
 
@@ -51,6 +55,17 @@
 		setToolPreset('compress-pdf', 'mode', mode);
 		setToolPreset('compress-pdf', 'quality', quality);
 		setToolPreset('compress-pdf', 'scale', scaleFactor);
+	});
+
+	$effect(() => {
+		// Invalidate preview when settings or source change
+		mode;
+		quality;
+		scaleFactor;
+		file;
+		previewBytes = null;
+		previewFile = null;
+		result = null;
 	});
 
 	onMount(() => {
@@ -67,6 +82,54 @@
 		if (typeof params.scale === 'number') scaleFactor = params.scale;
 	}
 
+	async function runCompress(): Promise<Uint8Array> {
+		if (!file) throw new Error('No file');
+		if (mode === 'light') {
+			return compressPdfHeavy(file);
+		}
+		if (!pdfEngine.engine) throw new Error('PDF engine not ready');
+		return compressPdfRaster(file, pdfEngine.engine as never, {
+			quality,
+			scaleFactor,
+			signal: abort?.signal,
+			onProgress: ({ page, total }) => {
+				progressCurrent = page;
+				progressMax = total;
+			}
+		});
+	}
+
+	async function handlePreview() {
+		if (!file) return;
+		if (mode === 'strong' && !pdfEngine.engine) return;
+
+		previewing = true;
+		processing = true;
+		error = '';
+		success = '';
+		abort = new AbortController();
+		progressCurrent = 0;
+		progressMax = 0;
+
+		try {
+			const bytes = await runCompress();
+			previewBytes = bytes;
+			previewFile = new File([bytes.slice()], 'preview.pdf', { type: 'application/pdf' });
+			result = { original: file.size, compressed: bytes.length };
+		} catch (e) {
+			if (e instanceof DOMException && e.name === 'AbortError') {
+				error = 'Compression cancelled.';
+			} else {
+				error = e instanceof Error ? e.message : 'Failed to preview compression.';
+			}
+		} finally {
+			previewing = false;
+			processing = false;
+			abort = null;
+			progressCurrent = 0;
+		}
+	}
+
 	async function handleCompress() {
 		if (!file) return;
 		if (mode === 'strong' && !pdfEngine.engine) return;
@@ -74,26 +137,16 @@
 		processing = true;
 		error = '';
 		success = '';
-		result = null;
 		lastDownload = null;
 		progressCurrent = 0;
 		progressMax = 0;
 		abort = new AbortController();
 
 		try {
-			let bytes: Uint8Array;
-			if (mode === 'light') {
-				bytes = await compressPdfHeavy(file);
-			} else {
-				bytes = await compressPdfRaster(file, pdfEngine.engine as never, {
-					quality,
-					scaleFactor,
-					signal: abort.signal,
-					onProgress: ({ page, total }) => {
-						progressCurrent = page;
-						progressMax = total;
-					}
-				});
+			const bytes = previewBytes ?? (await runCompress());
+			if (!previewBytes) {
+				previewBytes = bytes;
+				previewFile = new File([bytes.slice()], 'preview.pdf', { type: 'application/pdf' });
 			}
 			result = { original: file.size, compressed: bytes.length };
 			const name = ensurePdfFilename(outputName);
@@ -129,6 +182,8 @@
 			onremove={() => {
 				file = null;
 				result = null;
+				previewBytes = null;
+				previewFile = null;
 				success = '';
 			}}
 		/>
@@ -217,6 +272,23 @@
 						</div>
 					</div>
 				{/if}
+
+				{#if previewFile && file && pdfEngine.engine}
+					<div class="grid gap-3 sm:grid-cols-2">
+						<div>
+							<p class="mb-2 text-center text-xs font-medium text-muted-foreground">Before (page 1)</p>
+							<div class="overflow-hidden rounded-lg border border-border/60 bg-muted/30">
+								<PageThumbnail {file} pageIndex={0} scale={0.45} class="mx-auto" />
+							</div>
+						</div>
+						<div>
+							<p class="mb-2 text-center text-xs font-medium text-muted-foreground">After (page 1)</p>
+							<div class="overflow-hidden rounded-lg border border-border/60 bg-muted/30">
+								<PageThumbnail file={previewFile} pageIndex={0} scale={0.45} class="mx-auto" />
+							</div>
+						</div>
+					</div>
+				{/if}
 			</div>
 		</ToolPanel>
 
@@ -228,19 +300,27 @@
 			/>
 		{/if}
 
-		<div class="flex gap-2">
+		<div class="flex flex-wrap gap-2">
 			{#if processing && mode === 'strong'}
 				<Button type="button" variant="outline" onclick={handleCancel}>Cancel</Button>
 			{/if}
-			<div class="flex-1">
+			<Button
+				type="button"
+				variant="outline"
+				disabled={processing || (mode === 'strong' && (pdfEngine.isLoading || !pdfEngine.engine))}
+				onclick={handlePreview}
+			>
+				{previewing ? 'Previewing…' : previewBytes ? 'Refresh preview' : 'Preview'}
+			</Button>
+			<div class="min-w-[12rem] flex-1">
 				<ToolAction
 					disabled={processing ||
 						(mode === 'strong' && (pdfEngine.isLoading || !pdfEngine.engine))}
 					loading={processing || (mode === 'strong' && pdfEngine.isLoading)}
-					loadingText={processing ? 'Compressing…' : 'Loading engine…'}
+					loadingText={processing ? (previewing ? 'Previewing…' : 'Compressing…') : 'Loading engine…'}
 					onclick={handleCompress}
 				>
-					Compress PDF
+					{previewBytes ? 'Download compressed' : 'Compress PDF'}
 				</ToolAction>
 			</div>
 		</div>

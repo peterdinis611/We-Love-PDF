@@ -45,5 +45,13 @@ export const toolsCs: Record<string, { name: string; description: string }> = {
 	'pdf-to-excel': { name: 'PDF do Excelu', description: 'Extrahujte tabulky a text do .xlsx.' },
 	'pdf-to-csv': { name: 'PDF do CSV', description: 'Extrahujte tabulkový text do CSV.' },
 	'ocr-pdf': { name: 'OCR PDF', description: 'Ze skenu udělejte prohledávatelné PDF (Tesseract v prohlížeči).' },
-	'create-pdf-form': { name: 'Vytvořit PDF formulář', description: 'Přidejte vyplnitelná textová pole a checkboxy.' }
+	'create-pdf-form': { name: 'Vytvořit PDF formulář', description: 'Přidejte vyplnitelná textová pole a checkboxy.' },
+	'fix-pdf': {
+		name: 'Opravit PDF',
+		description: 'Opravte poškozené PDF obnovením struktury dokumentu.'
+	},
+	'pdf-to-pdfa': {
+		name: 'PDF do PDF/A',
+		description: 'Exportujte archivní PDF/A — flatten, čistá metadata a označení konformity.'
+	}
 };

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getAppLocale } from '$lib/i18n/context';
 	import { msg } from '$lib/i18n';
-	import { consumePendingFile } from '$lib/pending-file';
+	import { consumePendingFiles } from '$lib/pending-file';
 	import PdfFileStats from '$lib/components/PdfFileStats.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Upload } from '@lucide/svelte';
@@ -83,8 +83,10 @@
 
 	onMount(() => {
 		if (!loadPending) return;
-		const pending = consumePendingFile();
-		if (pending && fileFilter(pending)) onfiles([pending]);
+		const pending = consumePendingFiles().filter(fileFilter);
+		if (pending.length) {
+			onfiles(multiple ? pending : pending.slice(0, 1));
+		}
 		return () => clearTimeout(rejectTimer);
 	});
 </script>

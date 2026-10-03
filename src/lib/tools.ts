@@ -144,6 +144,35 @@ export const tools: PdfTool[] = [
 		available: true
 	},
 	{
+		slug: 'fix-pdf',
+		name: 'Fix PDF',
+		description: 'Repair damaged PDFs by rebuilding page structure — private, in your browser.',
+		category: 'optimize',
+		icon: 'fix',
+		color: 'bg-lime-600',
+		available: true,
+		howItWorks: [
+			'Upload a PDF that fails to open in some viewers or shows corruption errors.',
+			'We copy every readable page into a fresh document and rebuild object streams.',
+			'Download the repaired PDF — original metadata is preserved when possible.'
+		]
+	},
+	{
+		slug: 'pdf-to-pdfa',
+		name: 'PDF to PDF/A',
+		description:
+			'Export a PDF/A-ready archival file — flatten, clean metadata, and mark conformance.',
+		category: 'optimize',
+		icon: 'archive',
+		color: 'bg-stone-600',
+		available: true,
+		howItWorks: [
+			'Upload the PDF you want to archive.',
+			'Optionally flatten forms and annotations, then rebuild with archival metadata.',
+			'Download a PDF/A-ready file and validate with a preflight tool for formal submission.'
+		]
+	},
+	{
 		slug: 'images-to-pdf',
 		name: 'Images to PDF',
 		description: 'Convert JPG and PNG images into a single PDF document.',
