@@ -49,7 +49,19 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'pdf-to-excel': () => import('$lib/components/tools/PdfToExcelTool.svelte'),
 	'pdf-to-csv': () => import('$lib/components/tools/PdfToCsvTool.svelte'),
 	'ocr-pdf': () => import('$lib/components/tools/OcrTool.svelte'),
-	'create-pdf-form': () => import('$lib/components/tools/FormBuilderTool.svelte')
+	'create-pdf-form': () => import('$lib/components/tools/FormBuilderTool.svelte'),
+	'extract-images': () => import('$lib/components/tools/ExtractImagesTool.svelte'),
+	'nup-pdf': () => import('$lib/components/tools/NupTool.svelte'),
+	'header-footer-pdf': () => import('$lib/components/tools/HeaderFooterTool.svelte'),
+	'remove-blank-pages': () => import('$lib/components/tools/RemoveBlankPagesTool.svelte'),
+	'resize-pdf': () => import('$lib/components/tools/ResizePdfTool.svelte'),
+	'pdf-to-pptx': () => import('$lib/components/tools/PdfToPptxTool.svelte'),
+	'deskew-pdf': () => import('$lib/components/tools/DeskewTool.svelte'),
+	'sanitize-pdf': () => import('$lib/components/tools/SanitizePdfTool.svelte'),
+	'stamp-pdf': () => import('$lib/components/tools/StampTool.svelte'),
+	'pdf-to-markdown': () => import('$lib/components/tools/PdfToMarkdownTool.svelte'),
+	'pdf-to-svg': () => import('$lib/components/tools/PdfToSvgTool.svelte'),
+	'pdf-attachments': () => import('$lib/components/tools/AttachmentsTool.svelte')
 };
 
 export const engineTools = new Set([
@@ -75,7 +87,12 @@ export const engineTools = new Set([
 	'annotate-pdf',
 	'pdf-to-excel',
 	'pdf-to-csv',
-	'ocr-pdf'
+	'ocr-pdf',
+	'extract-images',
+	'pdf-to-pptx',
+	'deskew-pdf',
+	'pdf-to-markdown',
+	'pdf-to-svg'
 ]);
 
 export async function loadToolComponent(slug: string): Promise<Component | null> {

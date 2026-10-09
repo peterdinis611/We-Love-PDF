@@ -5,6 +5,18 @@ import { getTool, tools, type PdfTool } from '$lib/tools';
 
 /** Tools marked as new in the UI (badge + changelog featured). */
 export const NEW_TOOL_SLUGS = [
+	'extract-images',
+	'nup-pdf',
+	'header-footer-pdf',
+	'remove-blank-pages',
+	'resize-pdf',
+	'pdf-to-pptx',
+	'deskew-pdf',
+	'sanitize-pdf',
+	'stamp-pdf',
+	'pdf-to-markdown',
+	'pdf-to-svg',
+	'pdf-attachments',
 	'fix-pdf',
 	'pdf-to-pdfa',
 	'pdf-to-png',

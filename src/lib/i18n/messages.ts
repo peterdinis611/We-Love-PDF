@@ -138,6 +138,34 @@ export type Messages = {
 			readyFlatten: string;
 			readyClean: string;
 		};
+		invoicePack: {
+			title: string;
+			subtitle: string;
+			stepMerge: string;
+			stepStamp: string;
+			stepProtect: string;
+			stampHint: string;
+			password: string;
+			confirm: string;
+			needPassword: string;
+		};
+		printPrep: {
+			title: string;
+			subtitle: string;
+			stepClean: string;
+			stepNup: string;
+			stepNumbers: string;
+			cleanHint: string;
+			nupLabel: string;
+		};
+		scanToArchive: {
+			title: string;
+			subtitle: string;
+			stepDeskew: string;
+			stepCompress: string;
+			stepPdfa: string;
+			deskewHint: string;
+		};
 	};
 	guides: {
 		title: string;
@@ -391,6 +419,34 @@ const en: Messages = {
 			stepClean: 'Remove metadata',
 			readyFlatten: 'flatten forms & annotations',
 			readyClean: 'strip metadata and download'
+		},
+		invoicePack: {
+			title: 'Invoice pack',
+			subtitle: 'Merge → PAID stamp → Password protect',
+			stepMerge: 'Merge invoices',
+			stepStamp: 'Stamp PAID',
+			stepProtect: 'Protect & download',
+			stampHint: 'Adds a green PAID stamp across all pages.',
+			password: 'Password',
+			confirm: 'Confirm password',
+			needPassword: 'Enter a password to protect the pack.'
+		},
+		printPrep: {
+			title: 'Print prep',
+			subtitle: 'Fit to A4 → N-up → Page numbers',
+			stepClean: 'Fit & clean',
+			stepNup: 'N-up layout',
+			stepNumbers: 'Page numbers & download',
+			cleanHint: 'Resizes to A4 and removes blank pages when possible.',
+			nupLabel: 'Pages per sheet'
+		},
+		scanToArchive: {
+			title: 'Scan to archive',
+			subtitle: 'Deskew → Strong compress → PDF/A',
+			stepDeskew: 'Deskew & contrast',
+			stepCompress: 'Compress',
+			stepPdfa: 'PDF/A export',
+			deskewHint: 'Boosts contrast on scans, then compresses and marks PDF/A-ready.'
 		}
 	},
 	guides: {
@@ -641,7 +697,55 @@ const sk: Messages = {
 		'pdf-to-excel': { name: 'PDF do Excelu', description: 'Extrahujte tabuľky a text do .xlsx.' },
 		'pdf-to-csv': { name: 'PDF do CSV', description: 'Extrahujte tabuľkový text do CSV.' },
 		'ocr-pdf': { name: 'OCR PDF', description: 'Urobte zo skenu vyhľadávateľné PDF (Tesseract v prehliadači).' },
-		'create-pdf-form': { name: 'Vytvoriť PDF formulár', description: 'Pridajte vyplniteľné textové polia a checkboxy.' }
+		'create-pdf-form': { name: 'Vytvoriť PDF formulár', description: 'Pridajte vyplniteľné textové polia a checkboxy.' },
+		'extract-images': {
+			name: 'Extrahovať obrázky',
+			description: 'Vytiahnite vložené obrázky z PDF alebo exportujte strany ako JPEG — stiahnutie ZIP.'
+		},
+		'nup-pdf': {
+			name: 'N-up / Brožúra',
+			description: '2-up, 4-up, 9-up rozloženia alebo booklet imposition na tlač.'
+		},
+		'header-footer-pdf': {
+			name: 'Hlavička a päta',
+			description: 'Pridajte hlavičky, päty a voliteľné čísla strán na každú stranu.'
+		},
+		'remove-blank-pages': {
+			name: 'Odstrániť prázdne strany',
+			description: 'Nájdite a odstráňte prázdne strany zo skenov alebo exportov.'
+		},
+		'resize-pdf': {
+			name: 'Zmeniť veľkosť PDF',
+			description: 'Prispôsobte strany na A4, Letter, A3 alebo A5 — ideálne pred tlačou.'
+		},
+		'pdf-to-pptx': {
+			name: 'PDF do PowerPointu',
+			description: 'Každú stranu PDF preveďte na snímku PowerPointu (s voliteľnými poznámkami).'
+		},
+		'deskew-pdf': {
+			name: 'Deskew PDF',
+			description: 'Vyrovnajte skosené skeny a zvýšte kontrast — súkromne v prehliadači.'
+		},
+		'sanitize-pdf': {
+			name: 'Vyčistiť PDF',
+			description: 'Odstráňte JS, OpenAction, anotácie a citlivé metadáta pred zdieľaním.'
+		},
+		'stamp-pdf': {
+			name: 'Pečiatka PDF',
+			description: 'Pridajte CONFIDENTIAL, DRAFT, APPROVED, PAID a ďalšie diagonálne pečiatky.'
+		},
+		'pdf-to-markdown': {
+			name: 'PDF do Markdown',
+			description: 'Extrahujte text strán do čistého Markdown súboru.'
+		},
+		'pdf-to-svg': {
+			name: 'PDF do SVG',
+			description: 'Exportujte stranu (alebo všetky) ako SVG s vloženým vysokým rozlíšením.'
+		},
+		'pdf-attachments': {
+			name: 'Prílohy PDF',
+			description: 'Vložte súbory do PDF alebo odstráňte existujúce prílohy.'
+		}
 	},
 	workspace: workspaceSk,
 	commandPalette: {
@@ -699,6 +803,34 @@ const sk: Messages = {
 			stepClean: 'Odstrániť metadáta',
 			readyFlatten: 'zploštiť formuláre a anotácie',
 			readyClean: 'odstrániť metadáta a stiahnuť'
+		},
+		invoicePack: {
+			title: 'Balík faktúr',
+			subtitle: 'Spojiť → pečiatka PAID → heslo',
+			stepMerge: 'Spojiť faktúry',
+			stepStamp: 'Pečiatka PAID',
+			stepProtect: 'Chrániť a stiahnuť',
+			stampHint: 'Pridá zelenú pečiatku PAID na všetky strany.',
+			password: 'Heslo',
+			confirm: 'Potvrdiť heslo',
+			needPassword: 'Zadajte heslo na ochranu balíka.'
+		},
+		printPrep: {
+			title: 'Príprava tlače',
+			subtitle: 'A4 → N-up → čísla strán',
+			stepClean: 'Upraviť a vyčistiť',
+			stepNup: 'N-up rozloženie',
+			stepNumbers: 'Čísla strán a stiahnutie',
+			cleanHint: 'Prispôsobí na A4 a odstráni prázdne strany, ak je to možné.',
+			nupLabel: 'Strán na hárok'
+		},
+		scanToArchive: {
+			title: 'Sken do archívu',
+			subtitle: 'Deskew → silná kompresia → PDF/A',
+			stepDeskew: 'Deskew a kontrast',
+			stepCompress: 'Komprimovať',
+			stepPdfa: 'Export PDF/A',
+			deskewHint: 'Zvýši kontrast skenu, komprimuje a označí ako PDF/A-ready.'
 		}
 	},
 	guides: {

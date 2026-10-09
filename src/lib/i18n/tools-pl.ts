@@ -53,5 +53,53 @@ export const toolsPl: Record<string, { name: string; description: string }> = {
 	'pdf-to-pdfa': {
 		name: 'PDF do PDF/A',
 		description: 'Eksport archiwalnego PDF/A — spłaszczenie, czyszczenie metadanych, oznaczenie zgodności.'
+	},
+	'extract-images': {
+		name: 'Wyodrębnij obrazy',
+		description: 'Wyciągnij osadzone obrazy z PDF lub eksportuj strony jako JPEG — pobieranie ZIP.'
+	},
+	'nup-pdf': {
+		name: 'N-up / Broszura',
+		description: 'Układy 2-up, 4-up, 9-up lub impozycja broszury do druku.'
+	},
+	'header-footer-pdf': {
+		name: 'Nagłówek i stopka',
+		description: 'Dodaj nagłówki, stopki i opcjonalne numery stron na każdej stronie.'
+	},
+	'remove-blank-pages': {
+		name: 'Usuń puste strony',
+		description: 'Wykryj i usuń puste strony ze skanów lub eksportów.'
+	},
+	'resize-pdf': {
+		name: 'Zmień rozmiar PDF',
+		description: 'Dopasuj strony do A4, Letter, A3 lub A5 — idealne przed drukiem.'
+	},
+	'pdf-to-pptx': {
+		name: 'PDF do PowerPointa',
+		description: 'Każdą stronę PDF zamień na slajd PowerPointa (z opcjonalnymi notatkami).'
+	},
+	'deskew-pdf': {
+		name: 'Wyrównaj PDF',
+		description: 'Wyprostuj krzywe skany i zwiększ kontrast — prywatnie w przeglądarce.'
+	},
+	'sanitize-pdf': {
+		name: 'Wyczyść PDF',
+		description: 'Usuń JS, OpenAction, adnotacje i wrażliwe metadane przed udostępnieniem.'
+	},
+	'stamp-pdf': {
+		name: 'Pieczątka PDF',
+		description: 'Dodaj CONFIDENTIAL, DRAFT, APPROVED, PAID i inne ukośne pieczątki.'
+	},
+	'pdf-to-markdown': {
+		name: 'PDF do Markdown',
+		description: 'Wyodrębnij tekst stron do czystego pliku Markdown.'
+	},
+	'pdf-to-svg': {
+		name: 'PDF do SVG',
+		description: 'Eksportuj stronę (lub wszystkie) jako SVG z osadzoną wysoką rozdzielczością.'
+	},
+	'pdf-attachments': {
+		name: 'Załączniki PDF',
+		description: 'Osadź pliki w PDF lub usuń istniejące załączniki.'
 	}
 };

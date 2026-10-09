@@ -53,5 +53,53 @@ export const toolsDe: Record<string, { name: string; description: string }> = {
 	'pdf-to-pdfa': {
 		name: 'PDF zu PDF/A',
 		description: 'Archiv-PDF/A exportieren — flatten, Metadaten bereinigen, Konformität markieren.'
+	},
+	'extract-images': {
+		name: 'Bilder extrahieren',
+		description: 'Eingebettete Bilder aus PDF ziehen oder Seiten als JPEG exportieren — ZIP-Download.'
+	},
+	'nup-pdf': {
+		name: 'N-up / Broschüre',
+		description: '2-up-, 4-up-, 9-up-Layouts oder Broschüren-Imposition für den Druck.'
+	},
+	'header-footer-pdf': {
+		name: 'Kopf- & Fußzeile',
+		description: 'Kopfzeilen, Fußzeilen und optionale Seitenzahlen auf jeder Seite.'
+	},
+	'remove-blank-pages': {
+		name: 'Leere Seiten entfernen',
+		description: 'Leere Seiten aus Scans oder Exporten erkennen und entfernen.'
+	},
+	'resize-pdf': {
+		name: 'PDF-Größe ändern',
+		description: 'Seiten an A4, Letter, A3 oder A5 anpassen — ideal vor dem Druck.'
+	},
+	'pdf-to-pptx': {
+		name: 'PDF zu PowerPoint',
+		description: 'Jede PDF-Seite als PowerPoint-Folie (mit optionalen Notizen).'
+	},
+	'deskew-pdf': {
+		name: 'PDF ausrichten',
+		description: 'Schräge Scans begradigen und Kontrast erhöhen — privat im Browser.'
+	},
+	'sanitize-pdf': {
+		name: 'PDF bereinigen',
+		description: 'JS, OpenAction, Anmerkungen und sensible Metadaten vor dem Teilen entfernen.'
+	},
+	'stamp-pdf': {
+		name: 'PDF stempeln',
+		description: 'CONFIDENTIAL, DRAFT, APPROVED, PAID und weitere Diagonalstempel.'
+	},
+	'pdf-to-markdown': {
+		name: 'PDF zu Markdown',
+		description: 'Seitentext in eine saubere Markdown-Datei extrahieren.'
+	},
+	'pdf-to-svg': {
+		name: 'PDF zu SVG',
+		description: 'Eine Seite (oder alle) als SVG mit hochauflösenden Bildern exportieren.'
+	},
+	'pdf-attachments': {
+		name: 'PDF-Anhänge',
+		description: 'Dateien in ein PDF einbetten oder vorhandene Anhänge entfernen.'
 	}
 };

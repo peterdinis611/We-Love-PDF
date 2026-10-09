@@ -209,6 +209,38 @@
 			d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"
 		/>
 	</svg>
+{:else if icon === 'nup'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z" />
+	</svg>
+{:else if icon === 'header'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M4 4h16v3H4V4zm0 13h16v3H4v-3zm2-8h12v6H6V9z" />
+	</svg>
+{:else if icon === 'resize'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M9 9H3v2h4v4h2V9zm12 0h-6v6h2v-4h4V9zM9 21v-6H7v4H3v2h6zm12 0h-6v-2h4v-4h2v6z" />
+	</svg>
+{:else if icon === 'deskew'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M7.34 6.41L.86 12.9l6.49 6.48 6.49-6.48-6.5-6.49zM21.14 12.9l-6.49-6.49-1.41 1.41 5.08 5.08-5.08 5.08 1.41 1.41 6.49-6.49z" />
+	</svg>
+{:else if icon === 'stamp'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M12 2a5 5 0 00-5 5v3H5a3 3 0 000 6h14a3 3 0 000-6h-2V7a5 5 0 00-5-5zm-3 5a3 3 0 116 0v3H9V7zM5 18h14v4H5v-4z" />
+	</svg>
+{:else if icon === 'svg'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M3 5h18v2H3V5zm2 4h14v10H5V9zm2 2v6h10v-6H7z" />
+	</svg>
+{:else if icon === 'attach'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M16.5 6v11.5a4 4 0 11-8 0V5a2.5 2.5 0 015 0v10.5a1 1 0 11-2 0V6H10v9.5a2.5 2.5 0 105 0V5a4 4 0 10-8 0v12.5a5.5 5.5 0 1011 0V6h-1.5z" />
+	</svg>
+{:else if icon === 'markdown'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M22 5H2v14h20V5zM8 15H6l-2-3v3H2V9h2l2 3V9h2v6zm5 0h-2V9h2v6zm7-5h-2V9h-2v1h-2v2h2v1h2v-1h2v3h-6V9h6v1z" />
+	</svg>
 {:else}
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path

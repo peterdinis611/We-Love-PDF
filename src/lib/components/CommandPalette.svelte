@@ -5,7 +5,7 @@
 	import { trapFocus } from '$lib/focus-trap';
 	import ToolIcon from '$lib/components/ToolIcon.svelte';
 	import { tools, type PdfTool } from '$lib/tools';
-	import { workflows } from '$lib/workflows';
+	import { workflowCardCopy, workflows } from '$lib/workflows';
 	import { msg, localizeTools } from '$lib/i18n';
 	import { toolPath, localizedPath } from '$lib/i18n/locale';
 	import { guideSearchItems } from '$lib/guides';
@@ -33,14 +33,7 @@
 
 	const workflowItems = $derived(
 		workflows.map((w) => {
-			const copy =
-				w.slug === 'secure-pdf'
-					? m.workflows.secure
-					: w.slug === 'prepare-for-send'
-						? m.workflows.prepareForSend
-						: w.slug === 'scan-cleanup'
-							? m.workflows.scanCleanup
-							: m.workflows.archivePack;
+			const copy = workflowCardCopy(m.workflows, w.slug);
 			return {
 				kind: 'workflow' as const,
 				slug: w.slug,

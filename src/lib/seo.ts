@@ -177,7 +177,10 @@ function sitemapSeeds(): SitemapSeed[] {
 		{ basePath: '/workflows/secure-pdf', changefreq: 'monthly', priority: 0.7 },
 		{ basePath: '/workflows/prepare-for-send', changefreq: 'monthly', priority: 0.7 },
 		{ basePath: '/workflows/scan-cleanup', changefreq: 'monthly', priority: 0.7 },
-		{ basePath: '/workflows/archive-pack', changefreq: 'monthly', priority: 0.7 }
+		{ basePath: '/workflows/archive-pack', changefreq: 'monthly', priority: 0.7 },
+		{ basePath: '/workflows/invoice-pack', changefreq: 'monthly', priority: 0.7 },
+		{ basePath: '/workflows/print-prep', changefreq: 'monthly', priority: 0.7 },
+		{ basePath: '/workflows/scan-to-archive', changefreq: 'monthly', priority: 0.7 }
 	];
 
 	const toolSeeds = tools

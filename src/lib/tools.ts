@@ -175,13 +175,13 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'images-to-pdf',
 		name: 'Images to PDF',
-		description: 'Convert JPG and PNG images into a single PDF document.',
+		description: 'Convert JPG, PNG, and WebP images into a single PDF document.',
 		category: 'convert',
 		icon: 'images',
 		color: 'bg-teal-500',
 		available: true,
 		multiple: true,
-		accept: 'image/jpeg,image/png,.jpg,.jpeg,.png'
+		accept: 'image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp'
 	},
 	{
 		slug: 'pdf-to-jpg',
@@ -488,6 +488,115 @@ export const tools: PdfTool[] = [
 		icon: 'form',
 		color: 'bg-cyan-700',
 		available: true
+	},
+	{
+		slug: 'extract-images',
+		name: 'Extract Images',
+		description: 'Pull embedded images from a PDF or export pages as JPEGs — ZIP download.',
+		category: 'convert',
+		icon: 'images',
+		color: 'bg-fuchsia-600',
+		available: true
+	},
+	{
+		slug: 'nup-pdf',
+		name: 'N-up / Booklet',
+		description: '2-up, 4-up, 9-up layouts or saddle-stitch booklet imposition for print.',
+		category: 'organize',
+		icon: 'nup',
+		color: 'bg-violet-600',
+		available: true
+	},
+	{
+		slug: 'header-footer-pdf',
+		name: 'Header & Footer',
+		description: 'Add centered headers, footers, and optional page numbers to every page.',
+		category: 'edit',
+		icon: 'header',
+		color: 'bg-sky-700',
+		available: true
+	},
+	{
+		slug: 'remove-blank-pages',
+		name: 'Remove Blank Pages',
+		description: 'Detect and drop empty pages left over from scans or exports.',
+		category: 'organize',
+		icon: 'delete',
+		color: 'bg-orange-600',
+		available: true
+	},
+	{
+		slug: 'resize-pdf',
+		name: 'Resize PDF',
+		description: 'Fit or stretch pages to A4, Letter, A3, or A5 — great before printing.',
+		category: 'organize',
+		icon: 'resize',
+		color: 'bg-amber-600',
+		available: true
+	},
+	{
+		slug: 'pdf-to-pptx',
+		name: 'PDF to PowerPoint',
+		description: 'Convert each PDF page into a PowerPoint slide (with optional notes).',
+		category: 'convert',
+		icon: 'powerpoint',
+		color: 'bg-orange-500',
+		available: true
+	},
+	{
+		slug: 'deskew-pdf',
+		name: 'Deskew PDF',
+		description: 'Straighten skewed scans and boost contrast — private, in-browser.',
+		category: 'optimize',
+		icon: 'deskew',
+		color: 'bg-lime-700',
+		available: true
+	},
+	{
+		slug: 'sanitize-pdf',
+		name: 'Sanitize PDF',
+		description: 'Strip JS, OpenAction, annotations, and sensitive metadata for safer sharing.',
+		category: 'security',
+		icon: 'scrub',
+		color: 'bg-slate-700',
+		available: true
+	},
+	{
+		slug: 'stamp-pdf',
+		name: 'Stamp PDF',
+		description: 'Add CONFIDENTIAL, DRAFT, APPROVED, PAID and other diagonal stamps.',
+		category: 'edit',
+		icon: 'stamp',
+		color: 'bg-rose-700',
+		available: true
+	},
+	{
+		slug: 'pdf-to-markdown',
+		name: 'PDF to Markdown',
+		description: 'Extract page text into a clean Markdown file.',
+		category: 'convert',
+		icon: 'markdown',
+		color: 'bg-zinc-700',
+		available: true
+	},
+	{
+		slug: 'pdf-to-svg',
+		name: 'PDF to SVG',
+		description: 'Export a page (or all pages) as SVG with embedded high-res imagery.',
+		category: 'convert',
+		icon: 'svg',
+		color: 'bg-emerald-700',
+		available: true
+	},
+	{
+		slug: 'pdf-attachments',
+		name: 'PDF Attachments',
+		description: 'Embed files into a PDF or strip existing attachments.',
+		category: 'edit',
+		icon: 'attach',
+		color: 'bg-indigo-700',
+		available: true,
+		multiple: true
 	}
 ];
 

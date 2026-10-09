@@ -23,10 +23,10 @@
 
 	function addFiles(newFiles: File[]) {
 		const images = newFiles.filter(
-			(f) => f.type.startsWith('image/') || /\.(jpe?g|png)$/i.test(f.name)
+			(f) => f.type.startsWith('image/') || /\.(jpe?g|png|webp)$/i.test(f.name)
 		);
 		if (!images.length) {
-			error = 'Please select JPG or PNG images.';
+			error = 'Please select JPG, PNG, or WebP images.';
 			return;
 		}
 		files = [
@@ -63,11 +63,11 @@
 <div class="space-y-6">
 	<FileDropzone
 		multiple
-		accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+		accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
 		label={ws.dropzone.selectImages}
 		hint={ws.dropzone.orDropImages}
 		onfiles={addFiles}
-		fileFilter={(f) => f.type.startsWith('image/') || /\.(jpe?g|png)$/i.test(f.name)}
+		fileFilter={(f) => f.type.startsWith('image/') || /\.(jpe?g|png|webp)$/i.test(f.name)}
 	/>
 
 	{#if files.length > 0}

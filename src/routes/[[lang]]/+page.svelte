@@ -17,7 +17,7 @@
 		type RecentFileRecord
 	} from '$lib/recent-files';
 	import { setPendingFile } from '$lib/pending-file';
-	import { workflows } from '$lib/workflows';
+	import { workflowCardCopy, workflows } from '$lib/workflows';
 	import { featuredGuides } from '$lib/guides';
 	import { formatFileSize } from '$lib/pdf/operations';
 	import { site, websiteJsonLd, organizationJsonLd } from '$lib/seo';
@@ -120,14 +120,7 @@
 
 	const workflowCards = $derived(
 		workflows.map((w) => {
-			const copy =
-				w.slug === 'secure-pdf'
-					? m.workflows.secure
-					: w.slug === 'prepare-for-send'
-						? m.workflows.prepareForSend
-						: w.slug === 'scan-cleanup'
-							? m.workflows.scanCleanup
-							: m.workflows.archivePack;
+			const copy = workflowCardCopy(m.workflows, w.slug);
 			return { ...w, title: copy.title, subtitle: copy.subtitle };
 		})
 	);

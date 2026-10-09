@@ -154,6 +154,21 @@ export async function organizePdf(file: File, pageOrder: number[]): Promise<Uint
 	return newDoc.save();
 }
 
+async function webpToPngBytes(file: File): Promise<Uint8Array> {
+	const bmp = await createImageBitmap(file);
+	const canvas = document.createElement('canvas');
+	canvas.width = bmp.width;
+	canvas.height = bmp.height;
+	const ctx = canvas.getContext('2d');
+	if (!ctx) throw new Error('Canvas unavailable for WebP conversion.');
+	ctx.drawImage(bmp, 0, 0);
+	bmp.close();
+	const blob = await new Promise<Blob>((resolve, reject) => {
+		canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('WebP conversion failed'))), 'image/png');
+	});
+	return new Uint8Array(await blob.arrayBuffer());
+}
+
 export async function imagesToPdf(
 	files: File[],
 	options: { pageSize?: 'fit' | 'a4' | 'letter'; margin?: number } = {}
@@ -170,12 +185,20 @@ export async function imagesToPdf(
 			file.type === 'image/jpeg' ||
 			name.endsWith('.jpg') ||
 			name.endsWith('.jpeg');
+		const isWebp = file.type === 'image/webp' || name.endsWith('.webp');
 
-		if (!isPng && !isJpg) {
-			throw new Error(`Unsupported image format: ${file.name}. Use JPG or PNG.`);
+		if (!isPng && !isJpg && !isWebp) {
+			throw new Error(`Unsupported image format: ${file.name}. Use JPG, PNG, or WebP.`);
 		}
 
-		const image = isPng ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+		let imageBytes: Uint8Array = new Uint8Array(bytes);
+		let embedAsPng = isPng;
+		if (isWebp) {
+			imageBytes = await webpToPngBytes(file);
+			embedAsPng = true;
+		}
+
+		const image = embedAsPng ? await doc.embedPng(imageBytes) : await doc.embedJpg(imageBytes);
 		const scaled = image.scale(1);
 		let { width, height } = scaled;
 

@@ -53,5 +53,53 @@ export const toolsCs: Record<string, { name: string; description: string }> = {
 	'pdf-to-pdfa': {
 		name: 'PDF do PDF/A',
 		description: 'Exportujte archivní PDF/A — flatten, čistá metadata a označení konformity.'
+	},
+	'extract-images': {
+		name: 'Extrahovat obrázky',
+		description: 'Vytáhněte vložené obrázky z PDF nebo exportujte strany jako JPEG — stažení ZIP.'
+	},
+	'nup-pdf': {
+		name: 'N-up / Brožura',
+		description: '2-up, 4-up, 9-up rozložení nebo booklet imposition pro tisk.'
+	},
+	'header-footer-pdf': {
+		name: 'Záhlaví a zápatí',
+		description: 'Přidejte záhlaví, zápatí a volitelná čísla stran na každou stránku.'
+	},
+	'remove-blank-pages': {
+		name: 'Odstranit prázdné strany',
+		description: 'Najděte a odstraňte prázdné strany ze skenů nebo exportů.'
+	},
+	'resize-pdf': {
+		name: 'Změnit velikost PDF',
+		description: 'Přizpůsobte strany na A4, Letter, A3 nebo A5 — ideální před tiskem.'
+	},
+	'pdf-to-pptx': {
+		name: 'PDF do PowerPointu',
+		description: 'Každou stranu PDF převeďte na snímek PowerPointu (s volitelnými poznámkami).'
+	},
+	'deskew-pdf': {
+		name: 'Deskew PDF',
+		description: 'Vyrovnejte zkosené skeny a zvyšte kontrast — soukromě v prohlížeči.'
+	},
+	'sanitize-pdf': {
+		name: 'Vyčistit PDF',
+		description: 'Odstraňte JS, OpenAction, anotace a citlivá metadata před sdílením.'
+	},
+	'stamp-pdf': {
+		name: 'Razítko PDF',
+		description: 'Přidejte CONFIDENTIAL, DRAFT, APPROVED, PAID a další diagonální razítka.'
+	},
+	'pdf-to-markdown': {
+		name: 'PDF do Markdown',
+		description: 'Extrahujte text stran do čistého Markdown souboru.'
+	},
+	'pdf-to-svg': {
+		name: 'PDF do SVG',
+		description: 'Exportujte stránku (nebo všechny) jako SVG s vloženým vysokým rozlišením.'
+	},
+	'pdf-attachments': {
+		name: 'Přílohy PDF',
+		description: 'Vložte soubory do PDF nebo odstraňte existující přílohy.'
 	}
 };
