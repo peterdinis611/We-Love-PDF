@@ -166,6 +166,40 @@ export type Messages = {
 			stepPdfa: string;
 			deskewHint: string;
 		};
+		contractReady: {
+			title: string;
+			subtitle: string;
+			stepMerge: string;
+			stepNumbers: string;
+			stepSign: string;
+			stepProtect: string;
+			numbersHint: string;
+			signature: string;
+			needSignature: string;
+			password: string;
+			confirm: string;
+		};
+		sharePack: {
+			title: string;
+			subtitle: string;
+			stepCompress: string;
+			stepSanitize: string;
+			stepWatermark: string;
+			stepCheck: string;
+			sanitizeHint: string;
+			watermarkLabel: string;
+			stillEncrypted: string;
+			notEncrypted: string;
+		};
+		legalBind: {
+			title: string;
+			subtitle: string;
+			stepBates: string;
+			stepStamp: string;
+			stepFlatten: string;
+			prefixLabel: string;
+			stampHint: string;
+		};
 	};
 	guides: {
 		title: string;
@@ -447,6 +481,40 @@ const en: Messages = {
 			stepCompress: 'Compress',
 			stepPdfa: 'PDF/A export',
 			deskewHint: 'Boosts contrast on scans, then compresses and marks PDF/A-ready.'
+		},
+		contractReady: {
+			title: 'Contract ready',
+			subtitle: 'Merge → Page numbers → Sign → Protect',
+			stepMerge: 'Merge',
+			stepNumbers: 'Page numbers',
+			stepSign: 'Sign',
+			stepProtect: 'Protect & download',
+			numbersHint: 'Adds fraction-style page numbers at the bottom center.',
+			signature: 'Signature text',
+			needSignature: 'Enter a signature name.',
+			password: 'Password',
+			confirm: 'Confirm password'
+		},
+		sharePack: {
+			title: 'Share pack',
+			subtitle: 'Compress → Sanitize → Watermark → Unlock check',
+			stepCompress: 'Compress',
+			stepSanitize: 'Sanitize',
+			stepWatermark: 'Watermark',
+			stepCheck: 'Check & download',
+			sanitizeHint: 'Strips active content and sensitive metadata before sharing.',
+			watermarkLabel: 'Watermark text',
+			stillEncrypted: 'Warning: file is still encrypted.',
+			notEncrypted: 'Unlocked — ready to share.'
+		},
+		legalBind: {
+			title: 'Legal bind',
+			subtitle: 'Bates → CONFIDENTIAL stamp → Flatten',
+			stepBates: 'Bates numbers',
+			stepStamp: 'Stamp CONFIDENTIAL',
+			stepFlatten: 'Flatten & download',
+			prefixLabel: 'Bates prefix',
+			stampHint: 'Applies a red CONFIDENTIAL diagonal stamp on every page.'
 		}
 	},
 	guides: {
@@ -745,6 +813,54 @@ const sk: Messages = {
 		'pdf-attachments': {
 			name: 'Prílohy PDF',
 			description: 'Vložte súbory do PDF alebo odstráňte existujúce prílohy.'
+		},
+		'drawn-sign-pdf': {
+			name: 'Kreslený / obrázkový podpis',
+			description: 'Nakreslite podpis myšou alebo nahrajte PNG/JPEG podpis.'
+		},
+		'bates-pdf': {
+			name: 'Bates číslovanie',
+			description: 'Právne/archívne Bates pečiatky s prefixom a nulovým dopĺňaním.'
+		},
+		'page-labels-pdf': {
+			name: 'Štítky strán',
+			description: 'Nastavte štítky strán v prehliadači (i, ii, 1…) pre úvod a telo.'
+		},
+		'split-bookmarks': {
+			name: 'Rozdeliť podľa záložiek',
+			description: 'Rozdeľte PDF podľa obsahu/záložiek — stiahnutie ZIP.'
+		},
+		'pdf-links': {
+			name: 'Odkazy PDF',
+			description: 'Zoznam URI odkazov, export CSV a hromadná výmena URL.'
+		},
+		'invoice-zip': {
+			name: 'ZIP balík faktúr',
+			description: 'Opečiatkujte PAID a zabalte do ZIP podľa metadát PDF.'
+		},
+		'extract-form-fields': {
+			name: 'Extrahovať polia formulára',
+			description: 'Exportujte názvy a hodnoty AcroForm polí do CSV alebo JSON.'
+		},
+		'merge-by-pattern': {
+			name: 'Spojiť podľa vzoru',
+			description: 'Spojte len súbory podľa vzoru mena, napr. *_invoice.pdf.'
+		},
+		'heic-to-pdf': {
+			name: 'HEIC do PDF',
+			description: 'Konvertujte HEIC/HEIF fotky (aj JPG/PNG/WebP) do PDF.'
+		},
+		'pdf-to-epub': {
+			name: 'PDF do EPUB',
+			description: 'Každú stranu PDF ako EPUB kapitolu s obrázkom a textom.'
+		},
+		'remove-js-pdf': {
+			name: 'Odstrániť JavaScript',
+			description: 'Odstráňte OpenAction, JS a Launch — ponechajte formuláre a osnovu.'
+		},
+		'permissions-diff': {
+			name: 'Porovnanie oprávnení',
+			description: 'Porovnajte šifrovanie a oprávnenia pred a po odomknutí.'
 		}
 	},
 	workspace: workspaceSk,
@@ -831,6 +947,40 @@ const sk: Messages = {
 			stepCompress: 'Komprimovať',
 			stepPdfa: 'Export PDF/A',
 			deskewHint: 'Zvýši kontrast skenu, komprimuje a označí ako PDF/A-ready.'
+		},
+		contractReady: {
+			title: 'Zmluva pripravená',
+			subtitle: 'Spojiť → čísla strán → podpis → ochrana',
+			stepMerge: 'Spojiť',
+			stepNumbers: 'Čísla strán',
+			stepSign: 'Podpísať',
+			stepProtect: 'Chrániť a stiahnuť',
+			numbersHint: 'Pridá čísla strán v tvare zlomku na spodok stredu.',
+			signature: 'Text podpisu',
+			needSignature: 'Zadajte meno podpisu.',
+			password: 'Heslo',
+			confirm: 'Potvrdiť heslo'
+		},
+		sharePack: {
+			title: 'Balík na zdieľanie',
+			subtitle: 'Komprimovať → vyčistiť → vodoznak → kontrola',
+			stepCompress: 'Komprimovať',
+			stepSanitize: 'Vyčistiť',
+			stepWatermark: 'Vodoznak',
+			stepCheck: 'Skontrolovať a stiahnuť',
+			sanitizeHint: 'Odstráni aktívny obsah a citlivé metadáta pred zdieľaním.',
+			watermarkLabel: 'Text vodoznaku',
+			stillEncrypted: 'Upozornenie: súbor je stále šifrovaný.',
+			notEncrypted: 'Odomknuté — pripravené na zdieľanie.'
+		},
+		legalBind: {
+			title: 'Právna väzba',
+			subtitle: 'Bates → pečiatka CONFIDENTIAL → zploštiť',
+			stepBates: 'Bates čísla',
+			stepStamp: 'Pečiatka CONFIDENTIAL',
+			stepFlatten: 'Zploštiť a stiahnuť',
+			prefixLabel: 'Bates prefix',
+			stampHint: 'Pridá červenú diagonálnu pečiatku CONFIDENTIAL na každú stranu.'
 		}
 	},
 	guides: {

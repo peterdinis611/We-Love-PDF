@@ -14,12 +14,30 @@
 	let file = $state<File | null>(null);
 	let mode = $state<'2' | '4' | '9' | 'booklet'>('2');
 	let target = $state<keyof typeof PAGE_TARGETS>('a4');
+	let printPreset = $state<'none' | 'duplex-long' | 'duplex-short' | 'range'>('none');
+	let pageRange = $state('');
 	let outputName = $state('nup.pdf');
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
 	let lastBytes = $state<Uint8Array | null>(null);
 	const locale = getAppLocale();
+
+	function applyPrintPreset(preset: typeof printPreset) {
+		printPreset = preset;
+		if (preset === 'duplex-long') {
+			mode = '2';
+			target = 'a4';
+			outputName = 'print-duplex-long.pdf';
+		} else if (preset === 'duplex-short') {
+			mode = '2';
+			target = 'letter';
+			outputName = 'print-duplex-short.pdf';
+		} else if (preset === 'range') {
+			mode = 'booklet';
+			outputName = 'print-booklet.pdf';
+		}
+	}
 
 	async function handle() {
 		if (!file) return;
@@ -34,7 +52,15 @@
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(bytes, name);
 			lastBytes = bytes;
-			success = `Downloaded ${name} (${formatFileSize(bytes.length)})`;
+			const hint =
+				printPreset === 'duplex-long'
+					? ' Tip: in the print dialog choose duplex / long-edge.'
+					: printPreset === 'duplex-short'
+						? ' Tip: in the print dialog choose duplex / short-edge.'
+						: printPreset === 'range' && pageRange.trim()
+							? ` Tip: print pages ${pageRange.trim()} from the booklet.`
+							: '';
+			success = `Downloaded ${name} (${formatFileSize(bytes.length)}).${hint}`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to create N-up PDF.';
 		} finally {
@@ -50,6 +76,34 @@
 		<FileListItem name={file.name} size={file.size} onremove={() => (file = null)} />
 		<ToolPanel>
 			<div class="space-y-4">
+				<div>
+					<p class="mb-2 text-sm font-medium">Print presets</p>
+					<div class="flex flex-wrap gap-2">
+						{#each [
+							['none', 'Custom'],
+							['duplex-long', 'Duplex long-edge'],
+							['duplex-short', 'Duplex short-edge'],
+							['range', 'Booklet pack']
+						] as [value, label]}
+							<button
+								type="button"
+								class="rounded-full px-3 py-1.5 text-xs font-medium transition {printPreset === value
+									? 'bg-primary text-primary-foreground'
+									: 'bg-secondary text-secondary-foreground'}"
+								onclick={() => applyPrintPreset(value as typeof printPreset)}
+							>
+								{label}
+							</button>
+						{/each}
+					</div>
+					{#if printPreset === 'range'}
+						<input
+							class="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+							placeholder="Optional page range note e.g. 1-8"
+							bind:value={pageRange}
+						/>
+					{/if}
+				</div>
 				<div>
 					<p class="mb-2 text-sm font-medium">Layout</p>
 					<div class="flex flex-wrap gap-2">

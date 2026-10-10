@@ -8,6 +8,7 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import PasswordInput from '$lib/components/PasswordInput.svelte';
+	import MultiFileQueue, { type QueueItem } from '$lib/components/MultiFileQueue.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import {
 		addWatermark,
@@ -60,6 +61,7 @@
 	let confirm = $state('');
 	let processing = $state(false);
 	let progressCurrent = $state(0);
+	let queue = $state<QueueItem[]>([]);
 	let error = $state('');
 	let success = $state('');
 
@@ -181,6 +183,12 @@
 		error = '';
 		success = '';
 		progressCurrent = 0;
+		queue = files.map((f) => ({
+			id: f.id,
+			name: f.name,
+			size: f.size,
+			status: 'pending' as const
+		}));
 
 		try {
 			const used = new Set<string>();
@@ -189,9 +197,28 @@
 			for (let i = 0; i < files.length; i++) {
 				progressCurrent = i + 1;
 				const item = files[i];
-				const result = await processFile(item.file, operation);
-				const outName = uniqueZipName(outputNameFromInput(item.name, suffixFor(operation)), used);
-				entries.push({ name: outName, data: result });
+				queue = queue.map((q, qi) =>
+					qi === i ? { ...q, status: 'running', progress: Math.round(((i) / files.length) * 100) } : q
+				);
+				try {
+					const result = await processFile(item.file, operation);
+					const outName = uniqueZipName(outputNameFromInput(item.name, suffixFor(operation)), used);
+					entries.push({ name: outName, data: result });
+					queue = queue.map((q, qi) =>
+						qi === i ? { ...q, status: 'done', message: 'ok', progress: 100 } : q
+					);
+				} catch (fileErr) {
+					queue = queue.map((q, qi) =>
+						qi === i
+							? {
+									...q,
+									status: 'error',
+									message: fileErr instanceof Error ? fileErr.message : 'Failed'
+								}
+							: q
+					);
+					throw fileErr;
+				}
 			}
 
 			const zipSize = await downloadZip(entries, `batch-${operation}.zip`);
@@ -295,6 +322,10 @@
 				</p>
 			</div>
 		</ToolPanel>
+
+		{#if queue.length && (processing || queue.some((q) => q.status !== 'pending'))}
+			<MultiFileQueue items={queue} title="Batch progress" />
+		{/if}
 
 		{#if processing && files.length > 1}
 			<ProgressBar

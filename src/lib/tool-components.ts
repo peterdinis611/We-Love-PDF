@@ -61,7 +61,19 @@ export const toolLoaders: Record<string, () => Promise<{ default: Component }>> 
 	'stamp-pdf': () => import('$lib/components/tools/StampTool.svelte'),
 	'pdf-to-markdown': () => import('$lib/components/tools/PdfToMarkdownTool.svelte'),
 	'pdf-to-svg': () => import('$lib/components/tools/PdfToSvgTool.svelte'),
-	'pdf-attachments': () => import('$lib/components/tools/AttachmentsTool.svelte')
+	'pdf-attachments': () => import('$lib/components/tools/AttachmentsTool.svelte'),
+	'drawn-sign-pdf': () => import('$lib/components/tools/DrawnSignTool.svelte'),
+	'bates-pdf': () => import('$lib/components/tools/BatesTool.svelte'),
+	'page-labels-pdf': () => import('$lib/components/tools/PageLabelsTool.svelte'),
+	'split-bookmarks': () => import('$lib/components/tools/SplitBookmarksTool.svelte'),
+	'pdf-links': () => import('$lib/components/tools/LinksTool.svelte'),
+	'invoice-zip': () => import('$lib/components/tools/InvoiceZipTool.svelte'),
+	'extract-form-fields': () => import('$lib/components/tools/FormExtractTool.svelte'),
+	'merge-by-pattern': () => import('$lib/components/tools/MergePatternTool.svelte'),
+	'heic-to-pdf': () => import('$lib/components/tools/HeicToPdfTool.svelte'),
+	'pdf-to-epub': () => import('$lib/components/tools/PdfToEpubTool.svelte'),
+	'remove-js-pdf': () => import('$lib/components/tools/RemoveJsTool.svelte'),
+	'permissions-diff': () => import('$lib/components/tools/PermissionsDiffTool.svelte')
 };
 
 export const engineTools = new Set([
@@ -92,7 +104,11 @@ export const engineTools = new Set([
 	'pdf-to-pptx',
 	'deskew-pdf',
 	'pdf-to-markdown',
-	'pdf-to-svg'
+	'pdf-to-svg',
+	'split-bookmarks',
+	'pdf-links',
+	'pdf-to-epub',
+	'permissions-diff'
 ]);
 
 export async function loadToolComponent(slug: string): Promise<Component | null> {

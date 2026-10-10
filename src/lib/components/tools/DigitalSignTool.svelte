@@ -11,6 +11,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { signPdfWithCertificate } from '$lib/pdf/digital-sign';
+	import { requestTimestampToken } from '$lib/pdf/tsa';
 	import { Shield } from '@lucide/svelte';
 
 	const locale = getAppLocale();
@@ -23,6 +24,7 @@
 	let signerName = $state('');
 	let location = $state('');
 	let contactInfo = $state('');
+	let requestTsa = $state(false);
 	let outputName = $state('signed.pdf');
 	let processing = $state(false);
 	let error = $state('');
@@ -57,7 +59,17 @@
 
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(result, name);
-			success = `Downloaded ${name} — PKCS#7 digital signature applied (${formatFileSize(result.length)})`;
+			let extra = '';
+			if (requestTsa) {
+				const tsa = await requestTimestampToken(result);
+				if (tsa.ok && tsa.token) {
+					downloadBlob(tsa.token, name.replace(/\.pdf$/i, '.tsr'), 'application/timestamp-reply');
+					extra = ` ${tsa.message}`;
+				} else {
+					extra = ` ${tsa.message}`;
+				}
+			}
+			success = `Downloaded ${name} — PKCS#7 digital signature applied (${formatFileSize(result.length)}).${extra}`;
 		} catch (e) {
 			error =
 				e instanceof Error
@@ -127,9 +139,13 @@
 				<label for="sign-contact" class="mb-1 block text-sm font-medium">Contact info (optional)</label>
 				<Input id="sign-contact" bind:value={contactInfo} placeholder="email@example.com" />
 			</div>
+			<label class="flex items-center gap-2 text-sm">
+				<input type="checkbox" bind:checked={requestTsa} class="rounded border-border accent-primary" />
+				Request FreeTSA timestamp (.tsr companion file)
+			</label>
 			<OutputFilename bind:value={outputName} />
 			<p class="text-xs text-muted-foreground">
-				Verification depends on your certificate authority. Self-signed certificates show as signed but not trusted in Adobe Reader. For qualified signatures (eIDAS), use a certificate from your national trust provider.
+				Verification depends on your certificate authority. Self-signed certificates show as signed but not trusted in Adobe Reader. For qualified signatures (eIDAS), use a certificate from your national trust provider. TSA sends only a hash of the signed PDF.
 			</p>
 		</div>
 	</ToolPanel>

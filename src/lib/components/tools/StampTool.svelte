@@ -7,21 +7,32 @@
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import ContinueChain from '$lib/components/ContinueChain.svelte';
+	import RecipeBar from '$lib/components/RecipeBar.svelte';
 	import { downloadBlob, ensurePdfFilename, formatFileSize } from '$lib/pdf/operations';
 	import { stampPdf } from '$lib/pdf/layout-ops';
 	import { getAppLocale } from '$lib/i18n/context';
+	import { getToolPreset, setToolPreset } from '$lib/tool-presets';
 
 	const PRESETS = ['CONFIDENTIAL', 'DRAFT', 'APPROVED', 'PAID', 'COPY', 'VOID'] as const;
 
 	let file = $state<File | null>(null);
-	let text = $state<string>('CONFIDENTIAL');
-	let color = $state<'red' | 'blue' | 'gray' | 'green'>('red');
+	let text = $state<string>(getToolPreset('stamp-pdf', 'text', 'CONFIDENTIAL'));
+	let color = $state<'red' | 'blue' | 'gray' | 'green'>(
+		getToolPreset('stamp-pdf', 'color', 'red' as const)
+	);
 	let outputName = $state('stamped.pdf');
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
 	let lastBytes = $state<Uint8Array | null>(null);
 	const locale = getAppLocale();
+
+	$effect(() => {
+		setToolPreset('stamp-pdf', 'text', text);
+		setToolPreset('stamp-pdf', 'color', color);
+	});
+
+	const recipeParams = $derived({ text, color });
 
 	async function handle() {
 		if (!file || !text.trim()) return;
@@ -82,6 +93,14 @@
 					</div>
 				</div>
 				<OutputFilename bind:value={outputName} />
+				<RecipeBar
+					toolSlug="stamp-pdf"
+					params={recipeParams}
+					onApply={(p) => {
+						if (typeof p.text === 'string') text = p.text;
+						if (typeof p.color === 'string') color = p.color as typeof color;
+					}}
+				/>
 			</div>
 		</ToolPanel>
 		<ToolAction disabled={processing} loading={processing} loadingText="Stamping…" onclick={handle}>

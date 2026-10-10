@@ -7,6 +7,8 @@
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
+	import RecipeBar from '$lib/components/RecipeBar.svelte';
+	import ContinueChain from '$lib/components/ContinueChain.svelte';
 	import {
 		addWatermark,
 		downloadBlob,
@@ -14,16 +16,31 @@
 		formatFileSize,
 		type WatermarkPosition
 	} from '$lib/pdf/operations';
+	import { getAppLocale } from '$lib/i18n/context';
+	import { getToolPreset, setToolPreset } from '$lib/tool-presets';
 
+	const locale = getAppLocale();
 	let file = $state<File | null>(null);
-	let text = $state('CONFIDENTIAL');
-	let opacity = $state(0.25);
-	let fontSize = $state(48);
-	let position = $state<WatermarkPosition>('diagonal');
+	let text = $state(getToolPreset('watermark-pdf', 'text', 'CONFIDENTIAL'));
+	let opacity = $state(getToolPreset('watermark-pdf', 'opacity', 0.25));
+	let fontSize = $state(getToolPreset('watermark-pdf', 'fontSize', 48));
+	let position = $state<WatermarkPosition>(
+		getToolPreset('watermark-pdf', 'position', 'diagonal' as WatermarkPosition)
+	);
 	let outputName = $state('watermarked.pdf');
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
+	let lastBytes = $state<Uint8Array | null>(null);
+
+	$effect(() => {
+		setToolPreset('watermark-pdf', 'text', text);
+		setToolPreset('watermark-pdf', 'opacity', opacity);
+		setToolPreset('watermark-pdf', 'fontSize', fontSize);
+		setToolPreset('watermark-pdf', 'position', position);
+	});
+
+	const recipeParams = $derived({ text, opacity, fontSize, position });
 
 	async function handleWatermark() {
 		if (!file || !text.trim()) return;
@@ -34,6 +51,7 @@
 			const result = await addWatermark(file, text.trim(), { opacity, fontSize, position });
 			const name = ensurePdfFilename(outputName);
 			downloadBlob(result, name);
+			lastBytes = result;
 			success = `Downloaded ${name} (${formatFileSize(result.length)})`;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to add watermark.';
@@ -84,12 +102,23 @@
 					<input id="fontSize" type="range" min="24" max="96" step="4" bind:value={fontSize} class="w-full accent-primary" />
 				</div>
 				<OutputFilename bind:value={outputName} />
+				<RecipeBar
+					toolSlug="watermark-pdf"
+					params={recipeParams}
+					onApply={(p) => {
+						if (typeof p.text === 'string') text = p.text;
+						if (typeof p.opacity === 'number') opacity = p.opacity;
+						if (typeof p.fontSize === 'number') fontSize = p.fontSize;
+						if (typeof p.position === 'string') position = p.position as WatermarkPosition;
+					}}
+				/>
 			</div>
 		</ToolPanel>
 		<ToolAction disabled={processing || !text.trim()} loading={processing} loadingText="Adding watermark…" onclick={handleWatermark}>
 			Add watermark
 		</ToolAction>
 		<ToolSuccess message={success} />
+		<ContinueChain bytes={lastBytes} filename={outputName} {locale} />
 	{/if}
 	<Alert message={error} />
 </div>

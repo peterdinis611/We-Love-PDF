@@ -597,6 +597,118 @@ export const tools: PdfTool[] = [
 		color: 'bg-indigo-700',
 		available: true,
 		multiple: true
+	},
+	{
+		slug: 'drawn-sign-pdf',
+		name: 'Draw / Image Sign',
+		description: 'Draw a signature with your mouse or upload a PNG/JPEG signature image.',
+		category: 'edit',
+		icon: 'drawsign',
+		color: 'bg-rose-600',
+		available: true
+	},
+	{
+		slug: 'bates-pdf',
+		name: 'Bates Numbering',
+		description: 'Legal/archive Bates stamps with prefix, zero-padding, and page position.',
+		category: 'edit',
+		icon: 'bates',
+		color: 'bg-stone-700',
+		available: true
+	},
+	{
+		slug: 'page-labels-pdf',
+		name: 'Page Labels',
+		description: 'Set viewer page labels (i, ii, 1…) for front matter and body.',
+		category: 'organize',
+		icon: 'labels',
+		color: 'bg-cyan-700',
+		available: true
+	},
+	{
+		slug: 'split-bookmarks',
+		name: 'Split by Bookmarks',
+		description: 'Split a PDF into sections using its outline/bookmarks — ZIP download.',
+		category: 'organize',
+		icon: 'bookmarks',
+		color: 'bg-violet-700',
+		available: true
+	},
+	{
+		slug: 'pdf-links',
+		name: 'Extract / Edit Links',
+		description: 'List URI links, export CSV, and bulk find/replace URLs in annotations.',
+		category: 'edit',
+		icon: 'links',
+		color: 'bg-blue-700',
+		available: true
+	},
+	{
+		slug: 'invoice-zip',
+		name: 'Invoice ZIP Pack',
+		description: 'Stamp invoices PAID and pack into a ZIP named from PDF metadata.',
+		category: 'organize',
+		icon: 'invoice',
+		color: 'bg-emerald-700',
+		available: true,
+		multiple: true
+	},
+	{
+		slug: 'extract-form-fields',
+		name: 'Extract Form Fields',
+		description: 'Export AcroForm field names and values to CSV or JSON.',
+		category: 'convert',
+		icon: 'formextract',
+		color: 'bg-teal-700',
+		available: true
+	},
+	{
+		slug: 'merge-by-pattern',
+		name: 'Merge by Pattern',
+		description: 'Merge only files matching a filename pattern like *_invoice.pdf.',
+		category: 'organize',
+		icon: 'pattern',
+		color: 'bg-indigo-600',
+		available: true,
+		multiple: true
+	},
+	{
+		slug: 'heic-to-pdf',
+		name: 'HEIC to PDF',
+		description: 'Convert iPhone HEIC/HEIF photos (plus JPG/PNG/WebP) into a PDF.',
+		category: 'convert',
+		icon: 'heic',
+		color: 'bg-pink-700',
+		available: true,
+		multiple: true,
+		accept: 'image/heic,image/heif,image/jpeg,image/png,image/webp,.heic,.heif'
+	},
+	{
+		slug: 'pdf-to-epub',
+		name: 'PDF to EPUB',
+		description: 'Turn each PDF page into an EPUB chapter with image + text.',
+		category: 'convert',
+		icon: 'epub',
+		color: 'bg-orange-700',
+		available: true
+	},
+	{
+		slug: 'remove-js-pdf',
+		name: 'Remove JavaScript',
+		description: 'Strip OpenAction, JS, Launch actions — keep forms and outlines.',
+		category: 'security',
+		icon: 'nojscode',
+		color: 'bg-red-800',
+		available: true
+	},
+	{
+		slug: 'permissions-diff',
+		name: 'Permissions Diff',
+		description: 'Compare encryption and permission flags before vs after unlock.',
+		category: 'security',
+		icon: 'diff',
+		color: 'bg-slate-800',
+		available: true
 	}
 ];
 

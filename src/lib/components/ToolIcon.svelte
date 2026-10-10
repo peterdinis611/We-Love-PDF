@@ -241,6 +241,54 @@
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path d="M22 5H2v14h20V5zM8 15H6l-2-3v3H2V9h2l2 3V9h2v6zm5 0h-2V9h2v6zm7-5h-2V9h-2v1h-2v2h2v1h2v-1h2v3h-6V9h6v1z" />
 	</svg>
+{:else if icon === 'drawsign'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+	</svg>
+{:else if icon === 'bates'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M3 5h18v2H3V5zm0 6h12v2H3v-2zm0 6h18v2H3v-2z" />
+	</svg>
+{:else if icon === 'labels'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M17.63 5.84C17.27 5.33 16.67 5 16 5H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h11c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z" />
+	</svg>
+{:else if icon === 'bookmarks'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+	</svg>
+{:else if icon === 'links'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M3.9 12a5 5 0 017.05-4.55l1.42-1.42A7 7 0 002.48 13.4l1.42-1.4zm16.2 0a5 5 0 01-7.05 4.55l-1.42 1.42A7 7 0 0021.52 10.6l-1.42 1.4zM8.5 11.5h7v2h-7v-2z" />
+	</svg>
+{:else if icon === 'invoice'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M19 3H5c-1.1 0-2 .9-2 2v16l4-2 3 2 3-2 3 2 4-2V5c0-1.1-.9-2-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z" />
+	</svg>
+{:else if icon === 'formextract'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 14H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+	</svg>
+{:else if icon === 'pattern'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M4 6h16v2H4V6zm0 5h10v2H4v-2zm0 5h16v2H4v-2zm14-6l4 3-4 3v-6z" />
+	</svg>
+{:else if icon === 'heic'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+	</svg>
+{:else if icon === 'epub'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" />
+	</svg>
+{:else if icon === 'nojscode'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4zM3 19h18v2H3v-2z" />
+	</svg>
+{:else if icon === 'diff'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path d="M9 4v2H7v2h2v2h2V8h2V6h-2V4H9zm6 8v2h-2v2h2v2h2v-2h2v-2h-2v-2h-2zM3 3h8v8H3V3zm10 10h8v8h-8v-8z" />
+	</svg>
 {:else}
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path

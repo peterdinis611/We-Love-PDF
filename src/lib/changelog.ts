@@ -5,6 +5,18 @@ import { getTool, tools, type PdfTool } from '$lib/tools';
 
 /** Tools marked as new in the UI (badge + changelog featured). */
 export const NEW_TOOL_SLUGS = [
+	'drawn-sign-pdf',
+	'bates-pdf',
+	'page-labels-pdf',
+	'split-bookmarks',
+	'pdf-links',
+	'invoice-zip',
+	'extract-form-fields',
+	'merge-by-pattern',
+	'heic-to-pdf',
+	'pdf-to-epub',
+	'remove-js-pdf',
+	'permissions-diff',
 	'extract-images',
 	'nup-pdf',
 	'header-footer-pdf',
