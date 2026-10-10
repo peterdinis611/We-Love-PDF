@@ -4,9 +4,31 @@ A fast, privacy-friendly PDF toolkit built with SvelteKit. Merge, split, convert
 
 Inspired by iLovePDF-style workflows, powered by [pdf-lib](https://pdf-lib.js.org/) and [EmbedPDF](https://www.embedpdf.com/).
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="WeLovePDF homepage — every PDF tool you need" width="800" />
+  <br />
+  <em>Homepage — 70+ free tools, 100% in-browser</em>
+</p>
+
+| Merge PDF | Protect PDF |
+|:---:|:---:|
+| <img src="docs/screenshots/merge-pdf.png" alt="Merge PDF tool" width="400" /> | <img src="docs/screenshots/protect-pdf.png" alt="Protect PDF tool" width="400" /> |
+| Draw / Image Sign | Contract-ready workflow |
+| <img src="docs/screenshots/drawn-sign.png" alt="Draw signature tool" width="400" /> | <img src="docs/screenshots/workflow-contract.png" alt="Contract ready workflow" width="400" /> |
+
+<p align="center">
+  <img src="docs/screenshots/changelog.png" alt="What's new changelog" width="800" />
+  <br />
+  <em>What's new — recent tools and product updates</em>
+</p>
+
+Source files: [`docs/screenshots/`](docs/screenshots/).
+
 ## Features
 
-**42 tools** across five categories:
+**70+ tools** across five categories:
 
 ### Organize PDF
 | Tool | Route |
