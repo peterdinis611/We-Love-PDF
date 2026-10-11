@@ -21,10 +21,10 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			guides: 'Návody'
 		},
 		hero: {
-			badge: 'nástrojů zdarma · 100 % v prohlížeči',
-			title: 'Všechny PDF nástroje, které potřebujete',
+			badge: 'nástrojů zdarma, celkem v prohlížeči',
+			title: 'WeLovePDF',
 			subtitle:
-				'Slučování, rozdělování, komprese, podpis, vodoznak, šifrování — rychle, soukromě a zcela zdarma.',
+				'Slučování, rozdělování, podpis a komprese bez nahrávání. Přetáhněte PDF na tuto stránku — soubory zůstanou u vás.',
 			ctaMerge: 'Sloučit PDF',
 			ctaView: 'Zobrazit PDF',
 			ctaCompress: 'Komprimovat',
@@ -41,13 +41,13 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			favorites: 'Oblíbené',
 			recent: 'Nedávno použité',
 			all: 'Vše',
-			whyTitle: 'Proč WeLovePDF?',
-			featurePrivateTitle: '100 % soukromé',
-			featurePrivateDesc: 'Vše se zpracovává lokálně. Žádné nahrávání, žádný server.',
-			featureFastTitle: 'Bleskově rychlé',
-			featureFastDesc: 'Okamžité výsledky díky moderním PDF enginům v prohlížeči.',
-			featureDarkTitle: 'Tmavý režim',
-			featureDarkDesc: 'Pohodlné používání ve dne i v noci.',
+			whyTitle: 'Navrženo pro kartu, kterou už máte otevřenou',
+			featurePrivateTitle: 'Zůstane na tomto zařízení',
+			featurePrivateDesc: 'Zpracování běží lokálně. Nic se nenahrává na server.',
+			featureFastTitle: 'Připravené, když je soubor',
+			featureFastDesc: 'Otevřete nástroj, vložte PDF, stáhněte výsledek — bez fronty na účet.',
+			featureDarkTitle: 'Funguje i po první návštěvě',
+			featureDarkDesc: 'Nainstalujte jako aplikaci a pracujte i bez sítě.',
 			addFavorite: 'Přidat do oblíbených',
 			removeFavorite: 'Odebrat z oblíbených',
 			guides: 'Návody',
@@ -98,9 +98,13 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			hint: 'Tip: stiskněte ⌘K kdykoli'
 		},
 		homeDrop: {
-			title: 'Pustit PDF sem',
-			subtitle: 'Vyberte, co chcete udělat',
-			dismiss: 'Zavřít'
+			title: 'Přetáhněte PDF sem',
+			subtitle: 'Pak vyberte nástroj — nic neopustí tento prohlížeč.',
+			dismiss: 'Zavřít',
+			ticketLabel: 'Připraveno ke zpracování',
+			analyzing: 'Načítám soubor…',
+			releaseHint: 'Pusťte a vyberte nástroj',
+			browseCta: 'nebo klikněte a vyberte'
 		},
 		workflow: {
 			title: 'Bezpečný PDF workflow',
@@ -149,10 +153,10 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			guides: 'Anleitungen'
 		},
 		hero: {
-			badge: 'kostenlose Tools · 100 % im Browser',
-			title: 'Alle PDF-Tools, die Sie brauchen',
+			badge: 'kostenlose Tools, komplett im Browser',
+			title: 'WeLovePDF',
 			subtitle:
-				'Zusammenfügen, Teilen, Komprimieren, Signieren — schnell, privat und komplett kostenlos.',
+				'Zusammenfügen, Teilen, Signieren und Komprimieren ohne Upload. PDF hierher ziehen — Dateien bleiben bei Ihnen.',
 			ctaMerge: 'PDF zusammenfügen',
 			ctaView: 'PDF ansehen',
 			ctaCompress: 'Komprimieren',
@@ -169,13 +173,13 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			favorites: 'Favoriten',
 			recent: 'Zuletzt verwendet',
 			all: 'Alle',
-			whyTitle: 'Warum WeLovePDF?',
-			featurePrivateTitle: '100 % privat',
-			featurePrivateDesc: 'Alles lokal. Keine Uploads, keine Server.',
-			featureFastTitle: 'Blitzschnell',
-			featureFastDesc: 'Sofortige Ergebnisse dank moderner Browser-PDF-Engines.',
-			featureDarkTitle: 'Dunkelmodus',
-			featureDarkDesc: 'Angenehm bei Tag und Nacht.',
+			whyTitle: 'Für den Tab, den Sie schon offen haben',
+			featurePrivateTitle: 'Bleibt auf diesem Gerät',
+			featurePrivateDesc: 'Verarbeitung lokal. Nichts wird auf einen Server hochgeladen.',
+			featureFastTitle: 'Bereit, wenn die Datei da ist',
+			featureFastDesc: 'Tool öffnen, PDF ablegen, Ergebnis laden — ohne Konto-Warteschlange.',
+			featureDarkTitle: 'Funktioniert nach dem ersten Besuch',
+			featureDarkDesc: 'Als App installieren und auch ohne Netz weiterarbeiten.',
 			addFavorite: 'Zu Favoriten hinzufügen',
 			removeFavorite: 'Aus Favoriten entfernen',
 			guides: 'Anleitungen',
@@ -227,8 +231,12 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 		},
 		homeDrop: {
 			title: 'PDF hier ablegen',
-			subtitle: 'Wählen Sie eine Aktion',
-			dismiss: 'Schließen'
+			subtitle: 'Als Nächstes ein Werkzeug wählen — nichts verlässt diesen Browser.',
+			dismiss: 'Schließen',
+			ticketLabel: 'Bereit zur Verarbeitung',
+			analyzing: 'Datei wird gelesen…',
+			releaseHint: 'Loslassen und Werkzeug wählen',
+			browseCta: 'oder klicken zum Auswählen'
 		},
 		workflow: {
 			title: 'Sicheres PDF-Workflow',
@@ -277,10 +285,10 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			guides: 'Poradniki'
 		},
 		hero: {
-			badge: 'darmowe narzędzia · 100% w przeglądarce',
-			title: 'Wszystkie narzędzia PDF, których potrzebujesz',
+			badge: 'darmowe narzędzia, w całości w przeglądarce',
+			title: 'WeLovePDF',
 			subtitle:
-				'Łączenie, dzielenie, kompresja, podpis, znak wodny — szybko, prywatnie i za darmo.',
+				'Łączenie, dzielenie, podpis i kompresja bez wysyłania. Upuść PDF na tej stronie — pliki zostają u Ciebie.',
 			ctaMerge: 'Połącz PDF',
 			ctaView: 'Podgląd PDF',
 			ctaCompress: 'Kompresuj',
@@ -297,13 +305,13 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 			favorites: 'Ulubione',
 			recent: 'Ostatnio używane',
 			all: 'Wszystkie',
-			whyTitle: 'Dlaczego WeLovePDF?',
-			featurePrivateTitle: '100% prywatne',
-			featurePrivateDesc: 'Wszystko lokalnie. Bez uploadów, bez serwerów.',
-			featureFastTitle: 'Błyskawiczne',
-			featureFastDesc: 'Natychmiastowe wyniki dzięki nowoczesnym silnikom PDF w przeglądarce.',
-			featureDarkTitle: 'Tryb ciemny',
-			featureDarkDesc: 'Wygodnie w dzień i w nocy.',
+			whyTitle: 'Zbudowane pod kartę, którą już masz otwartą',
+			featurePrivateTitle: 'Zostaje na tym urządzeniu',
+			featurePrivateDesc: 'Przetwarzanie lokalnie. Nic nie trafia na serwer.',
+			featureFastTitle: 'Gotowe, gdy plik jest',
+			featureFastDesc: 'Otwórz narzędzie, upuść PDF, pobierz wynik — bez kolejki do konta.',
+			featureDarkTitle: 'Działa po pierwszej wizycie',
+			featureDarkDesc: 'Zainstaluj jako aplikację i pracuj także bez sieci.',
 			addFavorite: 'Dodaj do ulubionych',
 			removeFavorite: 'Usuń z ulubionych',
 			guides: 'Poradniki',
@@ -355,8 +363,12 @@ export const localeOverlays: Partial<Record<Locale, DeepPartial<Messages>>> = {
 		},
 		homeDrop: {
 			title: 'Upuść PDF tutaj',
-			subtitle: 'Wybierz akcję',
-			dismiss: 'Zamknij'
+			subtitle: 'Następnie wybierz narzędzie — nic nie opuszcza tej przeglądarki.',
+			dismiss: 'Zamknij',
+			ticketLabel: 'Gotowe do przetworzenia',
+			analyzing: 'Odczytywanie pliku…',
+			releaseHint: 'Puść i wybierz narzędzie',
+			browseCta: 'lub kliknij, aby wybrać'
 		},
 		workflow: {
 			title: 'Bezpieczny workflow PDF',

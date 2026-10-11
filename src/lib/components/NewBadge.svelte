@@ -6,6 +6,6 @@
 	let { locale = 'en' }: { locale?: Locale } = $props();
 </script>
 
-<Badge variant="default" class="bg-primary text-[10px] uppercase tracking-wide">
+<Badge variant="default" class="bg-primary px-1.5 py-0 text-[10px] font-medium normal-case tracking-normal" style="border-radius: 2px;">
 	{msg(locale).tool.new}
 </Badge>

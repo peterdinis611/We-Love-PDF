@@ -95,6 +95,10 @@ export type Messages = {
 		title: string;
 		subtitle: string;
 		dismiss: string;
+		ticketLabel: string;
+		analyzing: string;
+		releaseHint: string;
+		browseCta: string;
 	};
 	workflow: {
 		title: string;
@@ -238,10 +242,10 @@ const en: Messages = {
 		guides: 'Guides'
 	},
 	hero: {
-		badge: 'free tools · 100% in-browser',
-		title: 'Every PDF tool you need',
+		badge: 'free tools, entirely in the browser',
+		title: 'WeLovePDF',
 		subtitle:
-			'Merge, split, compress, sign, watermark, encrypt — fast, private, and completely free. Your files never leave your device.',
+			'Merge, split, sign, and compress without uploading. Drop a PDF on this page to start — files stay on your device.',
 		ctaMerge: 'Merge PDF',
 		ctaView: 'View PDF',
 		ctaCompress: 'Compress',
@@ -258,13 +262,13 @@ const en: Messages = {
 		noResultsHint: 'Try a different keyword or category',
 		resetFilters: 'Reset filters',
 		all: 'All',
-		whyTitle: 'Why WeLovePDF?',
-		featurePrivateTitle: '100% Private',
-		featurePrivateDesc: 'All processing happens locally. No uploads, no servers.',
-		featureFastTitle: 'Lightning Fast',
-		featureFastDesc: 'Instant results powered by modern browser PDF engines.',
-		featureDarkTitle: 'Dark Mode',
-		featureDarkDesc: 'Comfortable viewing day or night with theme switching.',
+		whyTitle: 'Built for the tab you already have open',
+		featurePrivateTitle: 'Stays on this device',
+		featurePrivateDesc: 'Processing runs locally. Nothing is uploaded to a server.',
+		featureFastTitle: 'Ready when the file is',
+		featureFastDesc: 'Open a tool, drop a PDF, download the result — no account queue.',
+		featureDarkTitle: 'Works after first visit',
+		featureDarkDesc: 'Install as an app and keep working when the network drops.',
 		addFavorite: 'Add to favorites',
 		removeFavorite: 'Remove from favorites',
 		workflows: 'Workflows',
@@ -276,7 +280,7 @@ const en: Messages = {
 		resumeFile: 'Open'
 	},
 	footer: {
-		tagline: 'free tools · 100% in-browser · no uploads'
+		tagline: 'free tools, 100% in-browser, no uploads'
 	},
 	tool: {
 		copyShareLink: 'Copy share link',
@@ -405,9 +409,13 @@ const en: Messages = {
 		hint: 'Tip: press ⌘K anytime'
 	},
 	homeDrop: {
-		title: 'Drop your PDF here',
-		subtitle: 'Choose what to do next',
-		dismiss: 'Dismiss'
+		title: 'Drop a PDF here',
+		subtitle: 'Pick a tool next — nothing leaves this browser.',
+		dismiss: 'Dismiss',
+		ticketLabel: 'Ready to process',
+		analyzing: 'Reading the file…',
+		releaseHint: 'Release to choose a tool',
+		browseCta: 'or click to browse'
 	},
 	workflow: {
 		title: 'Secure PDF workflow',
@@ -554,10 +562,10 @@ const sk: Messages = {
 		guides: 'Návody'
 	},
 	hero: {
-		badge: 'nástrojov zadarmo · 100 % v prehliadači',
-		title: 'Všetky PDF nástroje, ktoré potrebujete',
+		badge: 'nástrojov zadarmo, celkom v prehliadači',
+		title: 'WeLovePDF',
 		subtitle:
-			'Spájanie, rozdeľovanie, kompresia, podpis, vodoznak, šifrovanie — rýchlo, súkromne a úplne zadarmo. Súbory nikdy neopustia vaše zariadenie.',
+			'Spájanie, rozdeľovanie, podpis a kompresia bez nahrávania. Presuňte PDF na túto stránku — súbory ostanú u vás.',
 		ctaMerge: 'Spojiť PDF',
 		ctaView: 'Zobraziť PDF',
 		ctaCompress: 'Komprimovať',
@@ -574,13 +582,13 @@ const sk: Messages = {
 		noResultsHint: 'Skúste iné kľúčové slovo alebo kategóriu',
 		resetFilters: 'Resetovať filtre',
 		all: 'Všetko',
-		whyTitle: 'Prečo WeLovePDF?',
-		featurePrivateTitle: '100 % súkromné',
-		featurePrivateDesc: 'Všetko sa spracováva lokálne. Žiadne nahrávanie, žiadny server.',
-		featureFastTitle: 'Bleskovo rýchle',
-		featureFastDesc: 'Okamžité výsledky vďaka moderným PDF enginom v prehliadači.',
-		featureDarkTitle: 'Tmavý režim',
-		featureDarkDesc: 'Pohodlné používanie cez deň aj v noci.',
+		whyTitle: 'Navrhnuté pre kartu, ktorú už máte otvorenú',
+		featurePrivateTitle: 'Zostane na tomto zariadení',
+		featurePrivateDesc: 'Spracovanie beží lokálne. Nič sa nenahráva na server.',
+		featureFastTitle: 'Pripravené, keď je súbor',
+		featureFastDesc: 'Otvorte nástroj, vložte PDF, stiahnite výsledok — bez fronty na účet.',
+		featureDarkTitle: 'Funguje aj po prvej návšteve',
+		featureDarkDesc: 'Nainštalujte ako aplikáciu a pracujte aj bez siete.',
 		addFavorite: 'Pridať medzi obľúbené',
 		removeFavorite: 'Odstrániť z obľúbených',
 		workflows: 'Workflowy',
@@ -592,7 +600,7 @@ const sk: Messages = {
 		resumeFile: 'Otvoriť'
 	},
 	footer: {
-		tagline: 'nástrojov zadarmo · 100 % v prehliadači · bez nahrávania'
+		tagline: 'nástrojov zadarmo, 100 % v prehliadači, bez nahrávania'
 	},
 	tool: {
 		copyShareLink: 'Kopírovať odkaz',
@@ -871,9 +879,13 @@ const sk: Messages = {
 		hint: 'Tip: stlačte ⌘K kedykoľvek'
 	},
 	homeDrop: {
-		title: 'Pustite PDF sem',
-		subtitle: 'Vyberte, čo chcete urobiť',
-		dismiss: 'Zavrieť'
+		title: 'Presuňte PDF sem',
+		subtitle: 'Potom vyberte nástroj — nič neopustí tento prehliadač.',
+		dismiss: 'Zavrieť',
+		ticketLabel: 'Pripravené na spracovanie',
+		analyzing: 'Čítam súbor…',
+		releaseHint: 'Pustite a vyberte nástroj',
+		browseCta: 'alebo kliknite a vyberte'
 	},
 	workflow: {
 		title: 'Bezpečný PDF workflow',

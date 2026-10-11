@@ -5,6 +5,8 @@ export type WorkspaceMessages = {
 		selectPdfs: string;
 		orDropPdf: string;
 		orDropPdfs: string;
+		releaseToLoad: string;
+		releaseToAdd: string;
 		selectWord: string;
 		orDropWord: string;
 		selectExcel: string;
@@ -110,6 +112,8 @@ export const workspaceEn: WorkspaceMessages = {
 		selectPdfs: 'Select PDF files',
 		orDropPdf: 'or drop a PDF here',
 		orDropPdfs: 'or drop PDFs here',
+		releaseToLoad: 'Release to load',
+		releaseToAdd: 'Release to add files',
 		selectWord: 'Select Word file',
 		orDropWord: 'or drop a .docx file',
 		selectExcel: 'Select Excel file',
@@ -215,6 +219,8 @@ export const workspaceSk: WorkspaceMessages = {
 		selectPdfs: 'Vybrať PDF súbory',
 		orDropPdf: 'alebo pretiahnite PDF sem',
 		orDropPdfs: 'alebo pretiahnite PDF súbory sem',
+		releaseToLoad: 'Pustite pre načítanie',
+		releaseToAdd: 'Pustite pre pridanie súborov',
 		selectWord: 'Vybrať Word súbor',
 		orDropWord: 'alebo pretiahnite .docx súbor',
 		selectExcel: 'Vybrať Excel súbor',
@@ -320,6 +326,8 @@ export const workspaceCs: WorkspaceMessages = {
 		selectPdfs: 'Vybrat PDF soubory',
 		orDropPdf: 'nebo přetáhněte PDF sem',
 		orDropPdfs: 'nebo přetáhněte PDF soubory sem',
+		releaseToLoad: 'Pusťte pro načtení',
+		releaseToAdd: 'Pusťte pro přidání souborů',
 		selectWord: 'Vybrat Word soubor',
 		orDropWord: 'nebo přetáhněte .docx soubor',
 		selectExcel: 'Vybrat Excel soubor',
@@ -425,6 +433,8 @@ export const workspaceDe: WorkspaceMessages = {
 		selectPdfs: 'PDF-Dateien auswählen',
 		orDropPdf: 'oder PDF hier ablegen',
 		orDropPdfs: 'oder PDFs hier ablegen',
+		releaseToLoad: 'Loslassen zum Laden',
+		releaseToAdd: 'Loslassen zum Hinzufügen',
 		selectWord: 'Word-Datei auswählen',
 		orDropWord: 'oder .docx-Datei ablegen',
 		selectExcel: 'Excel-Datei auswählen',
@@ -530,6 +540,8 @@ export const workspacePl: WorkspaceMessages = {
 		selectPdfs: 'Wybierz pliki PDF',
 		orDropPdf: 'lub upuść PDF tutaj',
 		orDropPdfs: 'lub upuść pliki PDF tutaj',
+		releaseToLoad: 'Puść, aby wczytać',
+		releaseToAdd: 'Puść, aby dodać pliki',
 		selectWord: 'Wybierz plik Word',
 		orDropWord: 'lub upuść plik .docx',
 		selectExcel: 'Wybierz plik Excel',

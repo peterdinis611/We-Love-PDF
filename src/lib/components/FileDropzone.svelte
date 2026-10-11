@@ -4,8 +4,7 @@
 	import { msg } from '$lib/i18n';
 	import { consumePendingFiles } from '$lib/pending-file';
 	import PdfFileStats from '$lib/components/PdfFileStats.svelte';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import { Upload } from '@lucide/svelte';
+	import { FileUp } from '@lucide/svelte';
 
 	interface Props {
 		multiple?: boolean;
@@ -41,6 +40,7 @@
 	let rejectMessage = $state('');
 	let rejectTimer: ReturnType<typeof setTimeout> | undefined;
 	let inputEl: HTMLInputElement;
+	let dragDepth = 0;
 
 	function showReject() {
 		rejectMessage = ws.dropzone.rejectInvalid;
@@ -70,8 +70,20 @@
 
 	function onDrop(e: DragEvent) {
 		e.preventDefault();
+		dragDepth = 0;
 		dragging = false;
 		handleFiles(e.dataTransfer?.files ?? null);
+	}
+
+	function onDragEnter(e: DragEvent) {
+		e.preventDefault();
+		dragDepth += 1;
+		dragging = true;
+	}
+
+	function onDragLeave() {
+		dragDepth = Math.max(0, dragDepth - 1);
+		if (dragDepth === 0) dragging = false;
 	}
 
 	function onKeydown(e: KeyboardEvent) {
@@ -92,26 +104,29 @@
 </script>
 
 <div class="space-y-2">
-	<Card.Root
+	<div
 		role="button"
 		tabindex={0}
 		aria-label={dropLabel}
 		aria-describedby={rejectMessage ? `${hintId} ${rejectId}` : hintId}
 		aria-dropeffect={dragging ? 'copy' : 'none'}
-		class="cursor-pointer border-2 border-dashed transition-colors {dragging
-			? 'border-primary bg-primary/5'
+		class="drop-plate crop-sheet relative cursor-pointer bg-card outline-none transition-[transform,box-shadow,background-color] duration-200 ease-out focus-visible:ring-2 focus-visible:ring-[var(--register)] focus-visible:ring-offset-2 focus-visible:ring-offset-background {dragging
+			? 'drop-plate-active'
 			: rejectMessage
-				? 'border-destructive/50 hover:border-destructive/60'
-				: 'border-border hover:border-primary/40 hover:bg-muted/30'}"
+				? 'drop-plate-reject'
+				: 'hover:bg-[color-mix(in_oklab,var(--register)_4%,var(--card))]'}"
 		ondrop={onDrop}
-		ondragover={(e) => {
-			e.preventDefault();
-			dragging = true;
-		}}
-		ondragleave={() => (dragging = false)}
+		ondragenter={onDragEnter}
+		ondragover={(e) => e.preventDefault()}
+		ondragleave={onDragLeave}
 		onclick={openPicker}
 		onkeydown={onKeydown}
 	>
+		<span class="crop-mark crop-mark-tl" class:crop-live={dragging}></span>
+		<span class="crop-mark crop-mark-tr" class:crop-live={dragging}></span>
+		<span class="crop-mark crop-mark-bl" class:crop-live={dragging}></span>
+		<span class="crop-mark crop-mark-br" class:crop-live={dragging}></span>
+
 		<input
 			bind:this={inputEl}
 			type="file"
@@ -122,25 +137,120 @@
 			aria-hidden="true"
 			onchange={(e) => handleFiles(e.currentTarget.files)}
 		/>
-		<Card.Content class="flex flex-col items-center px-8 py-12 text-center">
+
+		<div class="relative z-10 flex flex-col gap-5 px-6 py-8 sm:flex-row sm:items-center sm:gap-6 sm:px-8 sm:py-9">
 			<div
-				class="mb-4 flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary"
+				class="drop-glyph relative flex size-14 shrink-0 items-center justify-center text-primary {dragging
+					? 'text-[var(--register)]'
+					: ''}"
+				aria-hidden="true"
 			>
-				<Upload class="size-6" aria-hidden="true" />
+				<span class="paper-stack"></span>
+				<span class="paper-stack paper-stack-2"></span>
+				<span
+					class="relative z-[1] flex size-12 items-center justify-center border border-border bg-card text-current shadow-[2px_3px_0_color-mix(in_oklab,var(--ink)_10%,transparent)]"
+					style="border-radius: 2px;"
+				>
+					<FileUp class="size-5" />
+				</span>
 			</div>
-			<p class="mb-1 font-semibold">{dropLabel}</p>
-			<p id={hintId} class="text-sm text-muted-foreground">{dropHint}</p>
-			{#if previewFile}
-				<div class="mt-3 rounded-lg bg-muted/50 px-3 py-2">
-					<p class="truncate text-xs font-medium">{previewFile.name}</p>
-					<PdfFileStats file={previewFile} />
-				</div>
-			{/if}
-		</Card.Content>
-	</Card.Root>
+
+			<div class="min-w-0 flex-1 text-left">
+				<p class="font-display text-lg font-bold tracking-tight">
+					{#if dragging}
+						{multiple ? ws.dropzone.releaseToAdd : ws.dropzone.releaseToLoad}
+					{:else}
+						{dropLabel}
+					{/if}
+				</p>
+				<p id={hintId} class="mt-1 text-sm leading-relaxed text-muted-foreground">
+					{dropHint}
+				</p>
+				{#if previewFile}
+					<div
+						class="ticket mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-y border-dashed border-border py-2.5"
+					>
+						<p class="min-w-0 truncate text-sm font-medium">{previewFile.name}</p>
+						<PdfFileStats file={previewFile} />
+					</div>
+				{:else}
+					<div
+						class="mt-4 h-px w-full max-w-xs bg-[repeating-linear-gradient(90deg,var(--register)_0_5px,transparent_5px_10px)] opacity-50 transition-opacity {dragging
+							? 'opacity-100'
+							: ''}"
+					></div>
+				{/if}
+			</div>
+		</div>
+	</div>
+
 	{#if rejectMessage}
-		<p id={rejectId} class="text-center text-sm text-destructive" role="alert" aria-live="assertive">
+		<p id={rejectId} class="text-sm text-destructive" role="alert" aria-live="assertive">
 			{rejectMessage}
 		</p>
 	{/if}
 </div>
+
+<style>
+	.drop-plate {
+		box-shadow: 3px 4px 0 color-mix(in oklab, var(--ink) 10%, transparent);
+	}
+	.drop-plate-active {
+		transform: translate(-1px, -2px);
+		background: color-mix(in oklab, var(--register) 10%, var(--card));
+		box-shadow: 5px 7px 0 color-mix(in oklab, var(--register) 28%, transparent);
+	}
+	.drop-plate-reject {
+		box-shadow: 3px 4px 0 color-mix(in oklab, var(--signal) 35%, transparent);
+	}
+
+	.crop-live {
+		color: var(--signal);
+		animation: crop-pulse 0.7s ease-in-out infinite alternate;
+	}
+
+	.paper-stack,
+	.paper-stack-2 {
+		position: absolute;
+		inset: 6px 2px 2px 6px;
+		border: 1px solid var(--border);
+		background: color-mix(in oklab, var(--card) 85%, var(--muted));
+		border-radius: 2px;
+		transform: rotate(-4deg);
+		transition: transform 0.2s ease;
+	}
+	.paper-stack-2 {
+		inset: 4px 4px 4px 4px;
+		transform: rotate(3deg);
+		opacity: 0.7;
+	}
+	.drop-plate-active .paper-stack {
+		transform: rotate(-8deg) translate(-2px, -2px);
+	}
+	.drop-plate-active .paper-stack-2 {
+		transform: rotate(7deg) translate(2px, -1px);
+	}
+
+	@keyframes crop-pulse {
+		from {
+			opacity: 0.55;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.drop-plate,
+		.paper-stack,
+		.paper-stack-2 {
+			transition: none;
+		}
+		.drop-plate-active {
+			transform: none;
+		}
+		.crop-live {
+			animation: none;
+		}
+	}
+</style>

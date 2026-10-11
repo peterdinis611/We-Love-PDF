@@ -13,15 +13,16 @@
 	const homeHref = $derived(localizedPath('/', locale));
 </script>
 
-<header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+<header class="sticky top-0 z-50 border-b border-border/80 bg-background/90 backdrop-blur-md">
 	<div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-		<a href={homeHref} class="flex shrink-0 items-center gap-2.5">
+		<a href={homeHref} class="group flex shrink-0 items-center gap-2.5">
 			<div
-				class="flex size-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground shadow-sm"
+				class="flex size-8 items-center justify-center bg-primary text-[0.65rem] font-bold text-primary-foreground"
+				style="border-radius: 2px;"
 			>
 				PDF
 			</div>
-			<span class="text-lg font-bold tracking-tight">
+			<span class="font-display text-lg font-bold tracking-tight">
 				We<span class="text-primary">Love</span>PDF
 			</span>
 		</a>

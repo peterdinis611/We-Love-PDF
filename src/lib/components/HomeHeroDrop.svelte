@@ -6,7 +6,7 @@
 	import { toolPath } from '$lib/i18n/locale';
 	import type { Locale } from '$lib/i18n/locale';
 	import { suggestDropActions, type SmartDropAction } from '$lib/smart-drop';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { formatFileSize } from '$lib/pdf/operations';
 	import { trapFocus } from '$lib/focus-trap';
 	import {
 		FileText,
@@ -17,7 +17,8 @@
 		ScanText,
 		Layers,
 		Shield,
-		Wrench
+		Wrench,
+		ArrowRight
 	} from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
@@ -65,7 +66,7 @@
 
 	$effect(() => {
 		if (!dialogEl || loading) return;
-		const first = dialogEl.querySelector('button:not([aria-label])') as HTMLButtonElement | null;
+		const first = dialogEl.querySelector('[data-drop-action]') as HTMLButtonElement | null;
 		first?.focus();
 		return trapFocus(dialogEl, ondismiss);
 	});
@@ -83,58 +84,148 @@
 	const titleName = $derived(
 		files.length > 1 ? `${files.length} PDF files` : (files[0]?.name ?? '')
 	);
+	const sizeLabel = $derived(
+		files.length === 1 && files[0]
+			? formatFileSize(files[0].size)
+			: files.length > 1
+				? formatFileSize(files.reduce((n, f) => n + f.size, 0))
+				: ''
+	);
 </script>
 
 <div
-	class="fixed inset-0 z-[90] flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm"
+	class="fixed inset-0 z-[90] flex items-center justify-center bg-[color-mix(in_oklab,var(--ink)_45%,transparent)] p-4 backdrop-blur-[2px]"
 	role="presentation"
 	transition:fade={{ duration: 150 }}
 	onclick={(e) => e.target === e.currentTarget && ondismiss()}
 >
 	<div
 		bind:this={dialogEl}
-		class="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
+		class="crop-sheet job-ticket relative w-full max-w-md bg-card outline-none"
 		role="dialog"
 		aria-modal="true"
 		aria-label={m.homeDrop.title}
 		tabindex="-1"
-		in:fly={{ y: 12, duration: 200 }}
+		in:fly={{ y: 14, duration: 220 }}
 	>
+		<span class="crop-mark crop-mark-tl"></span>
+		<span class="crop-mark crop-mark-tr"></span>
+		<span class="crop-mark crop-mark-bl"></span>
+		<span class="crop-mark crop-mark-br"></span>
+
 		<button
 			type="button"
-			class="absolute top-3 right-3 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+			class="absolute top-3 right-3 z-20 p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+			style="border-radius: 2px;"
 			onclick={ondismiss}
 			aria-label={m.homeDrop.dismiss}
 		>
 			<X class="size-4" />
 		</button>
-		<h2 class="mb-1 text-lg font-semibold">{m.homeDrop.title}</h2>
-		<p class="mb-1 truncate text-sm text-muted-foreground">{titleName}</p>
-		<p class="mb-5 text-sm text-muted-foreground">{m.homeDrop.subtitle}</p>
 
-		{#if loading}
-			<p class="py-6 text-center text-sm text-muted-foreground">Analyzing…</p>
-		{:else}
-			<div class="grid gap-2">
-				{#each actions as action}
-					{@const Icon = iconMap[action.slug] ?? FileText}
-					<Button
-						variant={action.primary ? 'default' : 'outline'}
-						class="h-auto justify-start gap-3 py-3 text-left"
-						onclick={() => goToTool(action.slug)}
-					>
-						<Icon class="size-4 shrink-0" />
-						<span class="min-w-0">
-							<span class="block font-medium">{action.label}</span>
-							<span
-								class="block text-xs font-normal {action.primary
-									? 'text-primary-foreground/80'
-									: 'text-muted-foreground'}">{action.reason}</span
-							>
-						</span>
-					</Button>
-				{/each}
+		<div class="relative z-10 p-6 sm:p-7">
+			<p class="text-xs font-medium tracking-wide text-[var(--register)]">{m.homeDrop.ticketLabel}</p>
+			<h2 class="font-display mt-1 text-2xl font-bold tracking-tight">{m.homeDrop.title}</h2>
+			<p class="mt-1 text-sm text-muted-foreground">{m.homeDrop.subtitle}</p>
+
+			<div
+				class="mt-5 flex items-start gap-3 border-y border-dashed border-border py-3"
+			>
+				<div
+					class="flex size-10 shrink-0 items-center justify-center bg-primary text-[0.65rem] font-bold text-primary-foreground"
+					style="border-radius: 2px;"
+					aria-hidden="true"
+				>
+					PDF
+				</div>
+				<div class="min-w-0 flex-1">
+					<p class="truncate text-sm font-medium">{titleName}</p>
+					{#if sizeLabel}
+						<p class="text-xs tabular-nums text-muted-foreground">{sizeLabel}</p>
+					{/if}
+				</div>
 			</div>
-		{/if}
+
+			{#if loading}
+				<div class="flex items-center gap-3 py-8" aria-live="polite">
+					<span class="reg-spin" aria-hidden="true"></span>
+					<p class="text-sm text-muted-foreground">{m.homeDrop.analyzing}</p>
+				</div>
+			{:else}
+				<ul class="mt-1 divide-y divide-border border-b border-border">
+					{#each actions as action, i}
+						{@const Icon = iconMap[action.slug] ?? FileText}
+						<li>
+							<button
+								type="button"
+								data-drop-action
+								class="group flex w-full items-start gap-3 py-3.5 text-left transition-colors hover:bg-[color-mix(in_oklab,var(--register)_6%,transparent)] focus-visible:bg-[color-mix(in_oklab,var(--register)_8%,transparent)] {action.primary
+									? 'pl-0'
+									: ''}"
+								onclick={() => goToTool(action.slug)}
+								style="animation-delay: {i * 40}ms"
+							>
+								{#if action.primary}
+									<span
+										class="mt-0.5 w-1 shrink-0 self-stretch bg-primary"
+										aria-hidden="true"
+									></span>
+								{:else}
+									<span class="mt-0.5 w-1 shrink-0 self-stretch bg-transparent" aria-hidden="true"
+									></span>
+								{/if}
+								<span
+									class="mt-0.5 flex size-8 shrink-0 items-center justify-center {action.primary
+										? 'bg-primary text-primary-foreground'
+										: 'bg-muted text-foreground'}"
+									style="border-radius: 2px;"
+								>
+									<Icon class="size-3.5" />
+								</span>
+								<span class="min-w-0 flex-1">
+									<span class="font-display block text-sm font-bold tracking-tight group-hover:text-primary">
+										{action.label}
+									</span>
+									<span class="mt-0.5 block text-xs leading-snug text-muted-foreground">
+										{action.reason}
+									</span>
+								</span>
+								<ArrowRight
+									class="mt-1 size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+								/>
+							</button>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+		</div>
 	</div>
 </div>
+
+<style>
+	.job-ticket {
+		box-shadow: 6px 8px 0 color-mix(in oklab, var(--ink) 18%, transparent);
+	}
+
+	.reg-spin {
+		width: 1.1rem;
+		height: 1.1rem;
+		border: 2px solid color-mix(in oklab, var(--register) 25%, transparent);
+		border-top-color: var(--register);
+		border-radius: 999px;
+		animation: reg-spin 0.65s linear infinite;
+	}
+
+	@keyframes reg-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.reg-spin {
+			animation: none;
+			border-top-color: color-mix(in oklab, var(--register) 55%, transparent);
+		}
+	}
+</style>

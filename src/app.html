@@ -3,10 +3,16 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#dc2626" media="(prefers-color-scheme: light)" />
-		<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<meta name="text-scale" content="scale" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@600;700;800&display=swap"
+			rel="stylesheet"
+		/>
 		<script>
 			(function () {
 				const stored = localStorage.getItem('theme');
@@ -23,13 +29,15 @@
 				z-index: 9999;
 				display: grid;
 				place-items: center;
-				background: #fafafa;
-				color: #171717;
-				transition: opacity 0.22s ease, visibility 0.22s ease;
+				background: #f4f6f8;
+				color: #12161c;
+				transition:
+					opacity 0.22s ease,
+					visibility 0.22s ease;
 			}
 			html.dark #app-preload {
-				background: #0a0a0a;
-				color: #fafafa;
+				background: #0e1116;
+				color: #eef1f4;
 			}
 			#app-preload[data-hide='true'] {
 				opacity: 0;
@@ -47,25 +55,23 @@
 				place-items: center;
 				width: 2.75rem;
 				height: 2.75rem;
-				border-radius: 0.65rem;
-				background: #dc2626;
+				border-radius: 0.2rem;
+				background: #d0122d;
 				color: #fff;
-				font: 700 0.7rem/1 system-ui, sans-serif;
-				letter-spacing: 0.04em;
-				box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28);
+				font: 700 0.7rem/1 Syne, ui-sans-serif, system-ui, sans-serif;
+				letter-spacing: -0.02em;
 			}
 			#app-preload .spin {
 				width: 1.35rem;
 				height: 1.35rem;
 				border-radius: 999px;
 				border: 2px solid color-mix(in srgb, currentColor 18%, transparent);
-				border-top-color: #dc2626;
+				border-top-color: #0a8fa8;
 				animation: app-spin 0.7s linear infinite;
 			}
 			#app-preload .label {
-				font: 500 0.75rem/1.2 system-ui, sans-serif;
+				font: 500 0.8rem/1.2 'Atkinson Hyperlegible', ui-sans-serif, system-ui, sans-serif;
 				opacity: 0.55;
-				letter-spacing: 0.02em;
 			}
 			@keyframes app-spin {
 				to {
