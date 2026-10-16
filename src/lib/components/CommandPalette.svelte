@@ -130,7 +130,8 @@
 		close();
 		if (item.kind === 'tool') goto(toolPath(item.tool.slug, locale));
 		else if (item.kind === 'guide') goto(item.url);
-		else if (item.kind === 'batch') goto(toolPath(item.slugs[0], locale));
+		else if (item.kind === 'batch')
+			goto(`${toolPath('batch-chain', locale)}?chain=${encodeURIComponent(item.id)}`);
 		else goto(localizedPath(item.path, locale));
 	}
 

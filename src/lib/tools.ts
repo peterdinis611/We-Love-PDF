@@ -35,7 +35,7 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'split-pdf',
 		name: 'Split PDF',
-		description: 'Separate one page or a whole set for easy conversion into independent PDF files.',
+		description: 'Split by pages, ranges, or max file size (4 / 10 / 25 MB) for email limits.',
 		category: 'organize',
 		icon: 'split',
 		color: 'bg-orange-500',
@@ -264,7 +264,7 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'pdf-to-docx',
 		name: 'PDF to Word',
-		description: 'Extract PDF text into an editable Word (.docx) document.',
+		description: 'Convert PDF text into Word with table and heading detection.',
 		category: 'convert',
 		icon: 'docx',
 		color: 'bg-violet-600',
@@ -330,10 +330,28 @@ export const tools: PdfTool[] = [
 	{
 		slug: 'watermark-pdf',
 		name: 'Watermark PDF',
-		description: 'Add a text watermark to every page of your PDF document.',
+		description: 'Add a text or image/logo watermark to every page of your PDF.',
 		category: 'edit',
 		icon: 'watermark',
 		color: 'bg-indigo-500',
+		available: true
+	},
+	{
+		slug: 'edit-pdf',
+		name: 'Edit PDF',
+		description: 'Add text, images, rectangles, and lines onto PDF pages in your browser.',
+		category: 'edit',
+		icon: 'edit',
+		color: 'bg-rose-600',
+		available: true
+	},
+	{
+		slug: 'batch-chain',
+		name: 'Batch Chain',
+		description: 'Run a multi-step PDF pipeline (compress → protect, and more) in one go.',
+		category: 'organize',
+		icon: 'chain',
+		color: 'bg-slate-700',
 		available: true
 	},
 	{

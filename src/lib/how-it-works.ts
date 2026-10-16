@@ -13,8 +13,28 @@ const stepsBySlug: Record<string, string[]> = {
 	],
 	'pdf-to-docx': [
 		'Upload a PDF — text is extracted page by page.',
-		'Each page becomes a heading with paragraphs in the Word file.',
-		'Download the .docx — layout and images are not preserved.'
+		'Tables (column gaps / tabs) and simple headings are detected automatically.',
+		'Download the .docx — pixel-perfect layout and images are not preserved.'
+	],
+	'edit-pdf': [
+		'Upload a PDF and pick a page — click the preview to set position.',
+		'Add text, images, rectangles, or lines to the edit list.',
+		'Download the PDF with edits burned into the pages.'
+	],
+	'batch-chain': [
+		'Choose a pipeline (for example compress → protect).',
+		'Drop one PDF and fill any options the chain needs (password, stamp text).',
+		'Run the full chain and download a single result file.'
+	],
+	'watermark-pdf': [
+		'Upload a PDF and choose text or image/logo watermark.',
+		'Set position, opacity, and size.',
+		'Download the watermarked PDF — processing stays in your browser.'
+	],
+	'split-pdf': [
+		'Upload a PDF and choose pages, ranges, every N pages, or max file size.',
+		'For email limits, pick 4 / 10 / 25 MB — pages are grouped under that size.',
+		'Download individual files or a ZIP of all parts.'
 	],
 	'excel-to-pdf': [
 		'Upload an .xlsx or .xls spreadsheet.',

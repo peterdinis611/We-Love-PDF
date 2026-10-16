@@ -7,15 +7,25 @@
 	import ToolSuccess from '$lib/components/ToolSuccess.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { downloadBlob, ensurePdfFilename, formatFileSize, getPageCount, parsePageRanges } from '$lib/pdf/operations';
+	import {
+		downloadBlob,
+		ensurePdfFilename,
+		formatFileSize,
+		getPageCount,
+		parsePageRanges,
+		splitPdfByMaxSize
+	} from '$lib/pdf/operations';
 	import { splitPdf } from '$lib/pdf/heavy';
+	import { downloadZip } from '$lib/pdf/zip';
 
 	let file = $state<File | null>(null);
 	let pageCount = $state(0);
-	let mode = $state<'all' | 'range' | 'every'>('all');
+	let mode = $state<'all' | 'range' | 'every' | 'size'>('all');
 	let rangeInput = $state('1-3, 5');
 	let everyN = $state(1);
+	let maxMb = $state<4 | 10 | 25>(10);
 	let filePrefix = $state('split');
+	let asZip = $state(true);
 	let processing = $state(false);
 	let error = $state('');
 	let success = $state('');
@@ -39,35 +49,50 @@
 		success = '';
 
 		try {
-			let ranges: number[][];
+			let results: Uint8Array[];
 
-			if (mode === 'all') {
-				ranges = Array.from({ length: pageCount }, (_, i) => [i]);
-			} else if (mode === 'every') {
-				ranges = [];
-				for (let i = 0; i < pageCount; i += everyN) {
-					const end = Math.min(i + everyN, pageCount);
-					ranges.push(Array.from({ length: end - i }, (_, j) => i + j));
-				}
+			if (mode === 'size') {
+				results = await splitPdfByMaxSize(file, maxMb * 1024 * 1024);
 			} else {
-				ranges = parsePageRanges(rangeInput, pageCount);
-				if (!ranges.length) {
-					error = 'Invalid page range. Use format like "1-3, 5, 7-9".';
-					return;
+				let ranges: number[][];
+				if (mode === 'all') {
+					ranges = Array.from({ length: pageCount }, (_, i) => [i]);
+				} else if (mode === 'every') {
+					ranges = [];
+					for (let i = 0; i < pageCount; i += everyN) {
+						const end = Math.min(i + everyN, pageCount);
+						ranges.push(Array.from({ length: end - i }, (_, j) => i + j));
+					}
+				} else {
+					ranges = parsePageRanges(rangeInput, pageCount);
+					if (!ranges.length) {
+						error = 'Invalid page range. Use format like "1-3, 5, 7-9".';
+						return;
+					}
 				}
+				results = await splitPdf(file, ranges);
 			}
 
-			const results = await splitPdf(file, ranges);
 			if (!results.length) {
 				error = 'No pages matched your selection.';
 				return;
 			}
+
 			let totalSize = 0;
-			results.forEach((bytes, i) => {
-				totalSize += bytes.length;
-				downloadBlob(bytes, ensurePdfFilename(`${filePrefix}-${i + 1}`));
-			});
-			success = `Downloaded ${results.length} file${results.length === 1 ? '' : 's'} (${formatFileSize(totalSize)} total)`;
+			if (asZip || results.length > 5) {
+				const entries = results.map((bytes, i) => {
+					totalSize += bytes.length;
+					return { name: ensurePdfFilename(`${filePrefix}-${i + 1}`), data: bytes };
+				});
+				const zipBytes = await downloadZip(entries, `${filePrefix}-parts.zip`);
+				success = `Downloaded ZIP with ${results.length} part${results.length === 1 ? '' : 's'} (${formatFileSize(zipBytes)} compressed archive, ${formatFileSize(totalSize)} PDF total)`;
+			} else {
+				results.forEach((bytes, i) => {
+					totalSize += bytes.length;
+					downloadBlob(bytes, ensurePdfFilename(`${filePrefix}-${i + 1}`));
+				});
+				success = `Downloaded ${results.length} file${results.length === 1 ? '' : 's'} (${formatFileSize(totalSize)} total)`;
+			}
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to split PDF.';
 		} finally {
@@ -84,28 +109,68 @@
 
 		<ToolPanel>
 			<p class="mb-4 text-sm text-muted-foreground">
-				This PDF has <strong class="text-foreground">{pageCount}</strong> page{pageCount === 1 ? '' : 's'}.
+				This PDF has <strong class="text-foreground">{pageCount}</strong> page{pageCount === 1
+					? ''
+					: 's'} · {formatFileSize(file.size)}
 			</p>
 			<div class="space-y-2">
-				<label class="flex cursor-pointer items-center gap-3 rounded-lg border border-border p-3 transition hover:bg-muted/50">
+				<label
+					class="flex cursor-pointer items-center gap-3 rounded-sm border border-border p-3 transition hover:bg-muted/50"
+				>
 					<input type="radio" bind:group={mode} value="all" class="accent-primary" />
 					<span class="text-sm font-medium">Split into individual pages</span>
 				</label>
-				<label class="flex cursor-pointer items-center gap-3 rounded-lg border border-border p-3 transition hover:bg-muted/50">
+				<label
+					class="flex cursor-pointer items-center gap-3 rounded-sm border border-border p-3 transition hover:bg-muted/50"
+				>
 					<input type="radio" bind:group={mode} value="every" class="accent-primary" />
 					<span class="text-sm font-medium">Split every</span>
 					<Input type="number" bind:value={everyN} min={1} max={pageCount} class="h-8 w-16" />
 					<span class="text-sm text-muted-foreground">pages</span>
 				</label>
-				<label class="flex cursor-pointer items-start gap-3 rounded-lg border border-border p-3 transition hover:bg-muted/50">
+				<label
+					class="flex cursor-pointer items-start gap-3 rounded-sm border border-border p-3 transition hover:bg-muted/50"
+				>
 					<input type="radio" bind:group={mode} value="range" class="mt-1 accent-primary" />
 					<div class="flex-1 space-y-2">
 						<span class="text-sm font-medium">Custom ranges</span>
 						<Input bind:value={rangeInput} placeholder="e.g. 1-3, 5, 7-9" />
 					</div>
 				</label>
+				<label
+					class="flex cursor-pointer items-start gap-3 rounded-sm border border-border p-3 transition hover:bg-muted/50"
+				>
+					<input type="radio" bind:group={mode} value="size" class="mt-1 accent-primary" />
+					<div class="flex-1 space-y-2">
+						<span class="text-sm font-medium">Split by max file size</span>
+						<p class="text-xs text-muted-foreground">
+							For email and upload limits — groups pages until each part stays under the limit.
+						</p>
+						<div class="flex flex-wrap gap-2">
+							{#each [4, 10, 25] as mb}
+								<button
+									type="button"
+									class="rounded-sm px-3 py-1.5 text-xs font-medium transition {maxMb === mb
+										? 'bg-primary text-primary-foreground'
+										: 'bg-secondary text-secondary-foreground'}"
+									onclick={(e) => {
+										e.preventDefault();
+										mode = 'size';
+										maxMb = mb as 4 | 10 | 25;
+									}}
+								>
+									{mb} MB
+								</button>
+							{/each}
+						</div>
+					</div>
+				</label>
 			</div>
-			<div class="mt-4">
+			<div class="mt-4 space-y-3">
+				<label class="flex cursor-pointer items-center gap-2 text-sm">
+					<input type="checkbox" bind:checked={asZip} class="accent-primary" />
+					Download as ZIP (recommended for many parts)
+				</label>
 				<OutputFilename bind:value={filePrefix} label="Output file prefix" placeholder="split" />
 			</div>
 		</ToolPanel>

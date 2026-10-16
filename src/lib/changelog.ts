@@ -5,6 +5,8 @@ import { getTool, tools, type PdfTool } from '$lib/tools';
 
 /** Tools marked as new in the UI (badge + changelog featured). */
 export const NEW_TOOL_SLUGS = [
+	'edit-pdf',
+	'batch-chain',
 	'drawn-sign-pdf',
 	'bates-pdf',
 	'page-labels-pdf',

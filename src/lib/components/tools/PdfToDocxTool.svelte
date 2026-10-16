@@ -81,7 +81,8 @@
 		<ToolPanel>
 			<div class="space-y-4">
 				<p class="text-sm text-muted-foreground">
-					Extract text from <strong class="text-foreground">{pageCount}</strong> page{pageCount === 1 ? '' : 's'} into a Word document. Images and exact layout are not preserved.
+					Convert <strong class="text-foreground">{pageCount}</strong> page{pageCount === 1 ? '' : 's'} into Word.
+					Detects tables (tab / column gaps) and simple headings. Pixel-perfect layout and embedded images are not preserved.
 				</p>
 				<div>
 					<label for="docx-range" class="mb-1 block text-sm font-medium">Pages (optional)</label>

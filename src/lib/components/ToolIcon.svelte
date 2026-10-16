@@ -193,6 +193,18 @@
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path d="M18.5 1.15l-4 4L17 7.65l4-4-2.5-2.5zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
 	</svg>
+{:else if icon === 'edit'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path
+			d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+		/>
+	</svg>
+{:else if icon === 'chain'}
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+		<path
+			d="M3.9 12a5 5 0 0 1 5-5h4v2h-4a3 3 0 0 0 0 6h4v2h-4a5 5 0 0 1-5-5zm7-1h4a3 3 0 0 1 0 6h-4v2h4a5 5 0 0 0 0-10h-4v2z"
+		/>
+	</svg>
 {:else if icon === 'ocr'}
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
 		<path d="M4 4h4V2H2v6h2V4zm14 0v4h2V2h-6v2h4zM4 20v-4H2v6h6v-2H4zm16-4v4h-4v2h6v-6h-2zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />

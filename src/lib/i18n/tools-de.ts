@@ -28,7 +28,18 @@ export const toolsDe: Record<string, { name: string; description: string }> = {
 	'html-to-pdf': { name: 'HTML zu PDF', description: 'HTML-Seite in PDF umwandeln.' },
 	'markdown-to-pdf': { name: 'Markdown zu PDF', description: 'Markdown-Datei als gestyltes PDF.' },
 	'rotate-pdf': { name: 'PDF drehen', description: 'PDF-Seiten nach Bedarf drehen.' },
-	'watermark-pdf': { name: 'Wasserzeichen', description: 'Textwasserzeichen auf jede Seite setzen.' },
+	'watermark-pdf': {
+		name: 'Wasserzeichen',
+		description: 'Text- oder Bild-/Logo-Wasserzeichen auf jede Seite setzen.'
+	},
+	'edit-pdf': {
+		name: 'PDF bearbeiten',
+		description: 'Text, Bilder, Rechtecke und Linien direkt auf PDF-Seiten platzieren.'
+	},
+	'batch-chain': {
+		name: 'Batch-Kette',
+		description: 'Mehrstufige Pipeline (Komprimieren → Schützen u. a.) in einem Lauf.'
+	},
 	'page-numbers': { name: 'Seitenzahlen', description: 'Seitenzahlen hinzufügen.' },
 	'sign-pdf': { name: 'PDF signieren', description: 'Sichtbare Textsignatur (kein Zertifikat).' },
 	'flatten-pdf': { name: 'PDF flachmachen', description: 'Formulare und Anmerkungen einbetten.' },

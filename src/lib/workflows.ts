@@ -67,25 +67,25 @@ export const BATCH_CHAINS: { id: string; title: string; subtitle: string; slugs:
 	{
 		id: 'batch-secure',
 		title: 'Batch: compress → protect',
-		subtitle: 'Open compress, then continue to protect',
+		subtitle: 'Run both steps, one download',
 		slugs: ['compress-pdf', 'protect-pdf']
 	},
 	{
 		id: 'batch-sign',
 		title: 'Batch: page numbers → sign → protect',
-		subtitle: 'Contract-style chain',
+		subtitle: 'Contract-style chain, one download',
 		slugs: ['page-numbers', 'sign-pdf', 'protect-pdf']
 	},
 	{
 		id: 'batch-share',
 		title: 'Batch: sanitize → watermark',
-		subtitle: 'Prep a file for sharing',
+		subtitle: 'Prep a file for sharing, one download',
 		slugs: ['sanitize-pdf', 'watermark-pdf']
 	},
 	{
 		id: 'batch-legal',
 		title: 'Batch: Bates → stamp → flatten',
-		subtitle: 'Legal bind chain',
+		subtitle: 'Legal bind chain, one download',
 		slugs: ['bates-pdf', 'stamp-pdf', 'flatten-pdf']
 	}
 ];

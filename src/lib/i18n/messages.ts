@@ -720,7 +720,6 @@ const sk: Messages = {
 	},
 	tools: {
 		'merge-pdf': { name: 'Spojiť PDF', description: 'Spojte PDF súbory v ľubovoľnom poradí.' },
-		'split-pdf': { name: 'Rozdeliť PDF', description: 'Rozdeľte PDF na samostatné súbory.' },
 		'extract-pages': { name: 'Extrahovať strany', description: 'Vyberte a extrahujte konkrétne strany.' },
 		'delete-pages': { name: 'Zmazať strany', description: 'Odstráňte nechcené strany z PDF.' },
 		'organize-pdf': { name: 'Organizovať PDF', description: 'Zoraďte, presuňte alebo odstráňte strany.' },
@@ -749,14 +748,32 @@ const sk: Messages = {
 		'excel-to-pdf': { name: 'Excel do PDF', description: 'Prvý hárok Excelu ako PDF tabuľka.' },
 		'word-to-pdf': { name: 'Word do PDF', description: 'Konvertujte .docx dokument do PDF.' },
 		'powerpoint-to-pdf': { name: 'PowerPoint do PDF', description: 'Text snímok z .pptx do PDF.' },
-		'pdf-to-docx': { name: 'PDF do Word', description: 'Extrahujte text z PDF do .docx.' },
 		'pdf-to-text': { name: 'PDF do textu', description: 'Extrahujte čitateľný text z PDF.' },
 		'pdf-to-html': { name: 'PDF do HTML', description: 'Konvertujte text PDF do HTML.' },
 		'txt-to-pdf': { name: 'Text do PDF', description: 'Obyčajný text ako formátované PDF.' },
 		'html-to-pdf': { name: 'HTML do PDF', description: 'HTML stránku preveďte do PDF.' },
 		'markdown-to-pdf': { name: 'Markdown do PDF', description: 'Markdown súbor ako štýlované PDF.' },
 		'rotate-pdf': { name: 'Otočiť PDF', description: 'Otočte strany PDF podľa potreby.' },
-		'watermark-pdf': { name: 'Vodoznak PDF', description: 'Pridajte textový vodoznak na každú stranu.' },
+		'watermark-pdf': {
+			name: 'Vodoznak PDF',
+			description: 'Pridajte textový alebo obrázkový vodoznak na každú stranu.'
+		},
+		'edit-pdf': {
+			name: 'Upraviť PDF',
+			description: 'Pridajte text, obrázky, obdĺžniky a čiary priamo na stránky PDF.'
+		},
+		'batch-chain': {
+			name: 'Batch reťaz',
+			description: 'Spustite viackrokový pipeline (kompresia → ochrana a ďalšie) naraz.'
+		},
+		'split-pdf': {
+			name: 'Rozdeliť PDF',
+			description: 'Rozdeľte podľa strán, rozsahov alebo max. veľkosti (4 / 10 / 25 MB).'
+		},
+		'pdf-to-docx': {
+			name: 'PDF do Wordu',
+			description: 'Konvertujte text PDF do Wordu s detekciou tabuliek a nadpisov.'
+		},
 		'page-numbers': { name: 'Čísla strán', description: 'Pridajte číslovanie strán.' },
 		'sign-pdf': { name: 'Podpísať PDF', description: 'Viditeľný textový podpis (nie certifikát).' },
 		'flatten-pdf': { name: 'Zploštiť PDF', description: 'Zplošťte formuláre a anotácie.' },

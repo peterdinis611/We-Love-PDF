@@ -274,6 +274,108 @@ export async function addWatermark(
 	return doc.save();
 }
 
+/** Place a PNG/JPEG/WebP image as a watermark on every page. */
+export async function addImageWatermark(
+	file: File,
+	imageBytes: Uint8Array,
+	options: {
+		mime?: string;
+		opacity?: number;
+		scale?: number;
+		rotation?: number;
+		position?: WatermarkPosition;
+	} = {}
+): Promise<Uint8Array> {
+	const doc = await loadPdf(file);
+	const mime = options.mime ?? 'image/png';
+	let bytes = imageBytes;
+	let embedAsPng = !(mime.includes('jpeg') || mime.includes('jpg'));
+	if (mime.includes('webp')) {
+		const blob = new Blob([imageBytes.buffer as ArrayBuffer], { type: 'image/webp' });
+		bytes = await webpToPngBytes(new File([blob], 'wm.webp', { type: 'image/webp' }));
+		embedAsPng = true;
+	}
+	const image = embedAsPng ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+	const { opacity = 0.25, scale = 0.35, rotation = -45, position = 'diagonal' } = options;
+
+	for (const page of doc.getPages()) {
+		const { width, height } = page.getSize();
+		const maxW = width * scale;
+		const maxH = height * scale;
+		const fit = Math.min(maxW / image.width, maxH / image.height, 1);
+		const w = image.width * fit;
+		const h = image.height * fit;
+		let x = (width - w) / 2;
+		let y = (height - h) / 2;
+		let rotate = rotation;
+
+		if (position === 'top') {
+			y = height - h - 48;
+			rotate = 0;
+		} else if (position === 'bottom') {
+			y = 48;
+			rotate = 0;
+		} else if (position === 'center') {
+			rotate = 0;
+		}
+
+		page.drawImage(image, {
+			x,
+			y,
+			width: w,
+			height: h,
+			opacity,
+			rotate: degrees(rotate)
+		});
+	}
+
+	return doc.save();
+}
+
+/**
+ * Greedy split into parts that stay under `maxBytes` (after save).
+ * Always returns at least one part; a single oversized page becomes its own part.
+ */
+export async function splitPdfByMaxSize(file: File, maxBytes: number): Promise<Uint8Array[]> {
+	if (maxBytes < 10_000) throw new Error('Max size must be at least 10 KB.');
+	const source = await loadPdf(file);
+	const pageCount = source.getPageCount();
+	if (!pageCount) throw new Error('PDF has no pages.');
+
+	const parts: Uint8Array[] = [];
+	let start = 0;
+
+	while (start < pageCount) {
+		let lo = start;
+		let hi = pageCount - 1;
+		let best = start;
+
+		while (lo <= hi) {
+			const mid = Math.floor((lo + hi) / 2);
+			const indices = Array.from({ length: mid - start + 1 }, (_, i) => start + i);
+			const doc = await PDFDocument.create();
+			const pages = await doc.copyPages(source, indices);
+			pages.forEach((p) => doc.addPage(p));
+			const bytes = await doc.save();
+			if (bytes.length <= maxBytes || indices.length === 1) {
+				best = mid;
+				lo = mid + 1;
+			} else {
+				hi = mid - 1;
+			}
+		}
+
+		const indices = Array.from({ length: best - start + 1 }, (_, i) => start + i);
+		const doc = await PDFDocument.create();
+		const pages = await doc.copyPages(source, indices);
+		pages.forEach((p) => doc.addPage(p));
+		parts.push(await doc.save());
+		start = best + 1;
+	}
+
+	return parts;
+}
+
 export type PageNumberPosition =
 	| 'bottom-center'
 	| 'bottom-right'

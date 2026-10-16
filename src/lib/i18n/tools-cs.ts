@@ -28,7 +28,18 @@ export const toolsCs: Record<string, { name: string; description: string }> = {
 	'html-to-pdf': { name: 'HTML do PDF', description: 'HTML stránku převeďte do PDF.' },
 	'markdown-to-pdf': { name: 'Markdown do PDF', description: 'Markdown soubor jako stylované PDF.' },
 	'rotate-pdf': { name: 'Otočit PDF', description: 'Otočte strany PDF podle potřeby.' },
-	'watermark-pdf': { name: 'Vodoznak PDF', description: 'Přidejte textový vodoznak na každou stranu.' },
+	'watermark-pdf': {
+		name: 'Vodoznak PDF',
+		description: 'Přidejte textový nebo obrázkový vodoznak na každou stranu.'
+	},
+	'edit-pdf': {
+		name: 'Upravit PDF',
+		description: 'Přidejte text, obrázky, obdélníky a čáry přímo na stránky PDF.'
+	},
+	'batch-chain': {
+		name: 'Batch řetěz',
+		description: 'Spusťte vícekrokový pipeline (komprese → ochrana a další) najednou.'
+	},
 	'page-numbers': { name: 'Čísla stran', description: 'Přidejte číslování stran.' },
 	'sign-pdf': { name: 'Podepsat PDF', description: 'Viditelný textový podpis (ne certifikát).' },
 	'flatten-pdf': { name: 'Zploštit PDF', description: 'Zploštěte formuláře a anotace.' },

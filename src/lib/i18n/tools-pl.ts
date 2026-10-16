@@ -28,7 +28,18 @@ export const toolsPl: Record<string, { name: string; description: string }> = {
 	'html-to-pdf': { name: 'HTML do PDF', description: 'Stronę HTML przekonwertuj do PDF.' },
 	'markdown-to-pdf': { name: 'Markdown do PDF', description: 'Plik Markdown jako stylowane PDF.' },
 	'rotate-pdf': { name: 'Obróć PDF', description: 'Obróć strony PDF według potrzeb.' },
-	'watermark-pdf': { name: 'Znak wodny PDF', description: 'Dodaj tekstowy znak wodny na każdą stronę.' },
+	'watermark-pdf': {
+		name: 'Znak wodny PDF',
+		description: 'Dodaj tekstowy lub obrazkowy znak wodny na każdą stronę.'
+	},
+	'edit-pdf': {
+		name: 'Edytuj PDF',
+		description: 'Dodaj tekst, obrazy, prostokąty i linie bezpośrednio na strony PDF.'
+	},
+	'batch-chain': {
+		name: 'Łańcuch batch',
+		description: 'Uruchom wieloetapowy pipeline (kompresja → ochrona i inne) naraz.'
+	},
 	'page-numbers': { name: 'Numery stron', description: 'Dodaj numerację stron.' },
 	'sign-pdf': { name: 'Podpisz PDF', description: 'Widoczny podpis tekstowy (bez certyfikatu).' },
 	'flatten-pdf': { name: 'Spłaszcz PDF', description: 'Spłaszcz formularze i adnotacje.' },
